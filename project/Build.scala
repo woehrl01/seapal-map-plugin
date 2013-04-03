@@ -22,8 +22,11 @@ object ApplicationBuild extends Build {
   val main = play.Project(appName, appVersion, appDependencies).settings(
     // Add your own project settings here  
 
-	// know as group id...
+	// known as group id...
 	organization := "de.htwg.seapal",
+	
+	// disable using the Scala version in output paths and artifacts
+	crossPaths := false,
 	
     resolvers += "HTWG Resolver" at "http://lenny2.in.htwg-konstanz.de:8081/artifactory/libs-snapshot-local",
 
