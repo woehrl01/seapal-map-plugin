@@ -16,9 +16,10 @@ object ApplicationBuild extends Build {
     "com.google.inject.extensions" % "guice-multibindings" % "3.0",
     "util" % "util_2.10" % "1.0-SNAPSHOT",
     "boatdemo" % "boatdemo_2.10" % "1.3-SNAPSHOT" ,
-    "persondemo" % "persondemo_2.10" % "1.1-SNAPSHOT" 
+    "persondemo" % "persondemo_2.10" % "1.1-SNAPSHOT",
+	"eu.henkelmann" % "junit_xml_listener" % "0.2"
   )
-
+  
   val main = play.Project(appName, appVersion, appDependencies).settings(
     // Add your own project settings here  
 
@@ -29,6 +30,9 @@ object ApplicationBuild extends Build {
 	crossPaths := false,
 	
     resolvers += "HTWG Resolver" at "http://lenny2.in.htwg-konstanz.de:8081/artifactory/libs-snapshot-local",
+	resolvers += "Christoph's Maven Repo" at "http://maven.henkelmann.eu/",
+	
+	testListeners <<= (target, streams).map((t, s) => Seq(new eu.henkelmann.sbt.JUnitXmlTestsListener(t.getAbsolutePath, s.log))),
 
     publishTo := Some("HTWG Publish To" at "http://lenny2.in.htwg-konstanz.de:8081/artifactory/libs-snapshot-local;build.timestamp=" + new java.util.Date().getTime()) 
   
