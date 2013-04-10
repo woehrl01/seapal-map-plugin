@@ -14,6 +14,7 @@ public class MapsTUI implements IObserver {
 
 	Set<Plugin> plugins;
 	Scanner scanner = new Scanner(System.in);
+	Plugin currentPlugin = null;
 
 	@Inject
 	public MapsTUI(Set<Plugin> plugins) {
@@ -25,19 +26,25 @@ public class MapsTUI implements IObserver {
 	}
 
 	public boolean processInputLine(String line) {
-		boolean active = true;
 		if (line.equalsIgnoreCase("q")) {
-			active = false;
-		}
-		Iterator<Plugin> itr = plugins.iterator();
-		while (itr.hasNext()) {
-			Plugin plugin = itr.next();
-			if (line.toLowerCase().charAt(0) == plugin.getMenuKey()) {
-				plugin.printTUI();
-				plugin.processInputLine(scanner.next());
+			if(currentPlugin == null){
+				return false;
+			}else{
+				currentPlugin = null;
+				this.printTUI();
 			}
+		}else if(currentPlugin == null){
+			for (Plugin plugin : plugins) {
+				if (line.toLowerCase().charAt(0) == plugin.getMenuKey()) {
+					currentPlugin = plugin;
+					currentPlugin.printTUI();
+					break;
+				}
+			}
+		}else{
+			currentPlugin.processInputLine(line);
 		}
-		return active;
+		return true;
 	}
 
 	public void printTUI() {
