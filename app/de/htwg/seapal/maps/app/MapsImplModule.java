@@ -2,12 +2,16 @@ package de.htwg.seapal.maps.app;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.multibindings.Multibinder;
-import de.htwg.seapal.boatdemo.controllers.IBoatController;
-import de.htwg.seapal.boatdemo.models.IBoat;
-import de.htwg.seapal.boatdemo.views.tui.BoatTUI;
-import de.htwg.seapal.persondemo.views.tui.PersonTUI;
+import de.htwg.seapal.boat.controllers.IBoatController;
+import de.htwg.seapal.boat.models.IBoat;
+import de.htwg.seapal.boat.views.tui.BoatTUI;
+import de.htwg.seapal.person.views.tui.PersonTUI;
 import de.htwg.util.plugin.Plugin;
 
+/**
+ * Final Google Guice module description of the maps module.
+ * @author Benjamin
+ */
 public class MapsImplModule extends AbstractModule {
 
 	@Override
@@ -18,7 +22,7 @@ public class MapsImplModule extends AbstractModule {
 	    plugins.addBinding().to(PersonTUI.class);
 	    
 	    // bindings to dependent plugins
-	    bind(IBoat.class).to(de.htwg.seapal.boatdemo.models.impl.Boat.class);
-		bind(IBoatController.class).to(de.htwg.seapal.boatdemo.controllers.impl.BoatController.class);	
+	    bind(IBoat.class).to(de.htwg.seapal.boat.models.impl.Boat.class);
+		bind(IBoatController.class).to(de.htwg.seapal.boat.controllers.impl.BoatController.class);	
 	}
 }

@@ -1,4 +1,4 @@
-package de.htwg.seapal.maps.app;
+package de.htwg.seapal.maps.play;
 
 import java.util.ArrayList;
 import java.util.HashMap;

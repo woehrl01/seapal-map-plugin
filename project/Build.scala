@@ -19,15 +19,15 @@ object ApplicationBuild extends Build {
     javaEbean,
     "com.google.inject" % "guice" % "3.0",
     "com.google.inject.extensions" % "guice-multibindings" % "3.0",
-    "util" % "util_2.10" % "1.0-SNAPSHOT",
+    "de.htwg" % "util" % "1.0-SNAPSHOT",
     "com.db4o" % "db4o-full-java5" % "8.1-SNAPSHOT"
   )
   
   // team component dependencies
   val teamDependencies = Seq(
   	// your project dependencies here...
-    "boatdemo" % "boatdemo_2.10" % "1.3-SNAPSHOT" ,
-    "persondemo" % "persondemo_2.10" % "1.1-SNAPSHOT"
+    "de.htwg.seapal" % "boat" % "1.0-SNAPSHOT" ,
+    "de.htwg.seapal" % "person" % "1.0-SNAPSHOT"
   )
   
   // all project dependencies

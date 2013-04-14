@@ -10,6 +10,9 @@ import de.htwg.util.observer.Event;
 import de.htwg.util.observer.IObserver;
 import de.htwg.util.plugin.Plugin;
 
+/**
+ * The text user interface of the maps component.
+ */
 public class MapsTUI implements IObserver {
 
 	Set<Plugin> plugins;
