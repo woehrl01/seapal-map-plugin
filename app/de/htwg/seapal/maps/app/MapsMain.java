@@ -12,7 +12,7 @@ import de.htwg.seapal.boat.app.AppMockModule;
 /**
  * The maps startup class.
  */
-public class Maps {
+public class MapsMain {
 
 	/**
 	 * The programs main.

@@ -6,6 +6,7 @@ import java.util.Set;
 
 import com.google.inject.Inject;
 
+import de.htwg.seapal.maps.controllers.IMapsController;
 import de.htwg.util.observer.Event;
 import de.htwg.util.observer.IObserver;
 import de.htwg.util.plugin.Plugin;
@@ -15,12 +16,14 @@ import de.htwg.util.plugin.Plugin;
  */
 public class MapsTUI implements IObserver {
 
+	IMapsController mapsController;
 	Set<Plugin> plugins;
 	Scanner scanner = new Scanner(System.in);
 	Plugin currentPlugin = null;
 
 	@Inject
-	public MapsTUI(Set<Plugin> plugins) {
+	public MapsTUI(IMapsController mapsController, Set<Plugin> plugins) {
+		this.mapsController = mapsController;
 		this.plugins = plugins;
 	}
 
