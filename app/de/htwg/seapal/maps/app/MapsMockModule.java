@@ -8,6 +8,9 @@ import de.htwg.seapal.boat.controllers.mock.BoatController;
 import de.htwg.seapal.boat.models.IBoat;
 import de.htwg.seapal.boat.models.mock.Boat;
 import de.htwg.seapal.boat.views.tui.BoatTUI;
+import de.htwg.seapal.maps.controllers.IMapsController;
+import de.htwg.seapal.maps.models.IMaps;
+import de.htwg.seapal.maps.views.tui.PersonTextUI;
 import de.htwg.seapal.person.views.tui.PersonTUI;
 import de.htwg.util.plugin.Plugin;
 
@@ -21,10 +24,14 @@ public class MapsMockModule extends AbstractModule {
 		// TUI multibindings
 		Multibinder<Plugin> plugins = Multibinder.newSetBinder(binder(), Plugin.class);
 		plugins.addBinding().to(BoatTUI.class);
-	    plugins.addBinding().to(PersonTUI.class);
+	    plugins.addBinding().to(PersonTextUI.class);
+	    
+	    // component bindings
+	    bind(IMaps.class).to(de.htwg.seapal.maps.models.mock.Maps.class);
+	    bind(IMapsController.class).to(de.htwg.seapal.maps.controllers.mock.MapsController.class);
 	    
 	    // bindings to dependent plugins
-	    bind(IBoat.class).to(Boat.class);
-		bind(IBoatController.class).to(BoatController.class);	
+	    bind(IBoat.class).to(de.htwg.seapal.boat.models.mock.Boat.class);
+		bind(IBoatController.class).to(de.htwg.seapal.boat.controllers.mock.BoatController.class);
 	}
 }

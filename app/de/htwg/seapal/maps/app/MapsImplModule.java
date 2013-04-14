@@ -24,8 +24,8 @@ public class MapsImplModule extends AbstractModule {
 	    plugins.addBinding().to(PersonTUI.class);
 	    
 	    // component bindings
-	    bind(IMaps.class).to(de.htwg.seapal.maps.models.mock.Maps.class);
-	    bind(IMapsController.class).to(de.htwg.seapal.maps.controllers.mock.MapsController.class);
+	    bind(IMaps.class).to(de.htwg.seapal.maps.models.impl.Maps.class);
+	    bind(IMapsController.class).to(de.htwg.seapal.maps.controllers.impl.MapsController.class);
 	    
 	    // bindings to dependent plugins
 	    bind(IBoat.class).to(de.htwg.seapal.boat.models.impl.Boat.class);
