@@ -29,7 +29,7 @@ public class MapsMockModule extends AbstractModule {
 	    
 	    // component bindings
 	    bind(IMaps.class).to(de.htwg.seapal.maps.models.mock.Maps.class);
-	    bind(IMapsController.class).to(de.htwg.seapal.maps.controllers.mock.MapsController.class);
+	    bind(IMapsController.class).to(de.htwg.seapal.maps.controllers.MapsController.class);
 	    bind(IMapsDatabase.class).to(de.htwg.seapal.maps.database.mock.MapsDatabase.class);	
 	}
 }
