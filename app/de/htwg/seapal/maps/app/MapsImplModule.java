@@ -6,6 +6,7 @@ import de.htwg.seapal.boat.controllers.IBoatController;
 import de.htwg.seapal.boat.models.IBoat;
 import de.htwg.seapal.boat.views.tui.BoatTUI;
 import de.htwg.seapal.maps.controllers.IMapsController;
+import de.htwg.seapal.maps.database.IMapsDatabase;
 import de.htwg.seapal.maps.models.IMaps;
 import de.htwg.seapal.person.views.tui.PersonTUI;
 import de.htwg.util.plugin.Plugin;
@@ -26,9 +27,6 @@ public class MapsImplModule extends AbstractModule {
 	    // component bindings
 	    bind(IMaps.class).to(de.htwg.seapal.maps.models.impl.Maps.class);
 	    bind(IMapsController.class).to(de.htwg.seapal.maps.controllers.impl.MapsController.class);
-	    
-	    // bindings to dependent plugins
-	    bind(IBoat.class).to(de.htwg.seapal.boat.models.impl.Boat.class);
-		bind(IBoatController.class).to(de.htwg.seapal.boat.controllers.impl.BoatController.class);	
+	    bind(IMapsDatabase.class).to(de.htwg.seapal.maps.database.impl.MapsDb4oDatabase.class);	
 	}
 }

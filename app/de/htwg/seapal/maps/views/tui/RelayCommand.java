@@ -2,9 +2,21 @@ package de.htwg.seapal.maps.views.tui;
 
 public abstract class RelayCommand implements ICommand {
 
+	/**
+	 * The command key.
+	 */
 	protected char key;
+	
+	/**
+	 * The command title.
+	 */
 	protected String title;
 	
+	/**
+	 * Instantiates a new command.
+	 * @param key The command key
+	 * @param title The command title/description.
+	 */
 	public RelayCommand(char key, String title) {
 		this.key = key;
 		this.title = title;

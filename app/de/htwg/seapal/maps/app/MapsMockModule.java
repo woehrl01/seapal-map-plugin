@@ -9,6 +9,7 @@ import de.htwg.seapal.boat.models.IBoat;
 import de.htwg.seapal.boat.models.mock.Boat;
 import de.htwg.seapal.boat.views.tui.BoatTUI;
 import de.htwg.seapal.maps.controllers.IMapsController;
+import de.htwg.seapal.maps.database.IMapsDatabase;
 import de.htwg.seapal.maps.models.IMaps;
 import de.htwg.seapal.maps.views.tui.PersonTextUI;
 import de.htwg.seapal.person.views.tui.PersonTUI;
@@ -29,9 +30,6 @@ public class MapsMockModule extends AbstractModule {
 	    // component bindings
 	    bind(IMaps.class).to(de.htwg.seapal.maps.models.mock.Maps.class);
 	    bind(IMapsController.class).to(de.htwg.seapal.maps.controllers.mock.MapsController.class);
-	    
-	    // bindings to dependent plugins
-	    bind(IBoat.class).to(de.htwg.seapal.boat.models.mock.Boat.class);
-		bind(IBoatController.class).to(de.htwg.seapal.boat.controllers.mock.BoatController.class);
+	    bind(IMapsDatabase.class).to(de.htwg.seapal.maps.database.mock.MapsDatabase.class);	
 	}
 }
