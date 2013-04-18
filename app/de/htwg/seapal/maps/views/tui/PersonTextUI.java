@@ -3,15 +3,9 @@ package de.htwg.seapal.maps.views.tui;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Scanner;
 
 import com.google.inject.Inject;
-
 import de.htwg.seapal.person.controllers.IPersonController;
-import de.htwg.seapal.person.util.observer.IObservable;
-import de.htwg.seapal.person.util.observer.IObserver;
-import de.htwg.util.observer.Event;
-import de.htwg.util.plugin.Plugin;
 
 public class PersonTextUI extends PluginTextUI {
 

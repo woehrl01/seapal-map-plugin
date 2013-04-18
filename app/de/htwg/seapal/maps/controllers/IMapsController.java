@@ -1,7 +1,7 @@
 package de.htwg.seapal.maps.controllers;
 
 import java.awt.Point;
-import de.htwg.util.observer.IObservable;
+import de.htwg.seapal.common.observer.IObservable;
 
 public interface IMapsController extends IObservable {
 	/**

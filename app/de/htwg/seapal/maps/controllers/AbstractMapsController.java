@@ -6,10 +6,9 @@ import de.htwg.seapal.boat.controllers.IBoatController;
 import de.htwg.seapal.maps.database.IMapsDatabase;
 import de.htwg.seapal.maps.models.IMaps;
 import de.htwg.seapal.person.controllers.IPersonController;
-import de.htwg.util.observer.Observable;
+import de.htwg.seapal.common.observer.Observable;
 
-public class AbstractMapsController extends Observable implements
-		IMapsController {
+public class AbstractMapsController extends Observable implements IMapsController {
 
 	protected IMaps maps;
 	protected IBoatController boatController;

@@ -1,11 +1,10 @@
 package de.htwg.seapal.maps.views.tui;
 
 import java.util.ArrayList;
-import java.util.Dictionary;
 import java.util.List;
 import java.util.Scanner;
 
-import de.htwg.util.plugin.Plugin;
+import de.htwg.seapal.common.plugin.Plugin;
 
 public abstract class PluginTextUI implements Plugin, de.htwg.seapal.person.util.observer.IObserver {
 
