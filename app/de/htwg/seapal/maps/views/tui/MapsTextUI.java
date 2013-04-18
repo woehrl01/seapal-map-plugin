@@ -7,9 +7,9 @@ import java.util.Set;
 import com.google.inject.Inject;
 
 import de.htwg.seapal.maps.controllers.IMapsController;
-import de.htwg.util.observer.Event;
-import de.htwg.util.observer.IObserver;
-import de.htwg.util.plugin.Plugin;
+import de.htwg.seapal.common.observer.Event;
+import de.htwg.seapal.common.observer.IObserver;
+import de.htwg.seapal.common.plugin.Plugin;
 
 /**
  * The text user interface of the maps component.

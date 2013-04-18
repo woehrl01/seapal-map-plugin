@@ -4,6 +4,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import de.htwg.seapal.common.command.RelayCommand;
+import de.htwg.seapal.common.views.tui.PluginTextUI;
 import com.google.inject.Inject;
 import de.htwg.seapal.person.controllers.IPersonController;
 
@@ -16,7 +18,7 @@ public class PersonTextUI extends PluginTextUI {
 	public PersonTextUI(IPersonController controller) {
 		super('p', "Person");
 		this.controller = controller;
-		controller.addObserver(this);
+		//controller.addObserver(this); TODO uncomment this (this is not worken because PersonController is still using de.htwg.util)
 	}
 	
 	@Override
