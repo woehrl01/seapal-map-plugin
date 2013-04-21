@@ -1,6 +1,5 @@
 package de.htwg.seapal.maps.views.tui.states;
 
-import java.util.Iterator;
 import java.util.Set;
 
 import com.google.inject.Inject;

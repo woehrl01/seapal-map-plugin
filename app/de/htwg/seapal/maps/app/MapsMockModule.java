@@ -9,7 +9,6 @@ import de.htwg.seapal.maps.models.IMaps;
 import de.htwg.seapal.boat.views.tui.BoatTUI;
 import de.htwg.seapal.person.views.tui.PersonTUI;
 import de.htwg.seapal.common.plugin.Plugin;
-import de.htwg.seapal.maps.views.tui.PersonTextUI;
 
 /**
  * Mock Google Guice module description of the maps module.
@@ -21,8 +20,8 @@ public class MapsMockModule extends AbstractModule {
 		// TUI multibindings
 		Multibinder<Plugin> plugins = Multibinder.newSetBinder(binder(), Plugin.class);
 		//plugins.addBinding().to(BoatTUI.class);
-		//plugins.addBinding().to(PersonTUI.class);
-	    plugins.addBinding().to(PersonTextUI.class); // TODO remove this with the real TUIs of the other team (when they use de.htwg.seapal.common)
+		plugins.addBinding().to(PersonTUI.class);
+
 	    
 	    // component bindings
 	    bind(IMaps.class).to(de.htwg.seapal.maps.models.mock.Maps.class);
