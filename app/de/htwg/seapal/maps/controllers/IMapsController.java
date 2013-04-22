@@ -15,4 +15,6 @@ public interface IMapsController extends IObservable {
 	 * @param position The boat position.
 	 */
 	void setBoatPosition(Point position);
+	
+	String getTestString();
 }

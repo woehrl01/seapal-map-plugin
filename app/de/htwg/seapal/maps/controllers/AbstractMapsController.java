@@ -24,4 +24,9 @@ public class AbstractMapsController extends Observable implements IMapsControlle
 	public void setBoatPosition(Point position) {
 		// TODO Auto-generated method stub
 	}
+
+	@Override
+	public String getTestString() {
+		return "Yeeehaaaw!";
+	}
 }

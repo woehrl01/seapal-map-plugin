@@ -20,7 +20,7 @@ public class MapsMain {
 	 */
 	public static void main(String[] args) {
 		// Set up Google Guice Dependency Injector
-		Injector injector = Guice.createInjector(new MapsMockModule(), new PersonDemoMockModule(), new AppMockModule());
+		Injector injector = MapsGlobal.createInjector();
 		
 		// Build up the application, resolving dependencies automatically by Guice
 		MapsTUI tui = injector.getInstance( MapsTUI.class);
