@@ -1,30 +1,23 @@
 package de.htwg.seapal.maps.views.tui;
 
-import java.util.Iterator;
-import java.util.Scanner;
-import java.util.Set;
-
 import com.google.inject.Inject;
 
-import de.htwg.seapal.maps.controllers.IMapsController;
 import de.htwg.seapal.common.observer.Event;
 import de.htwg.seapal.common.observer.IObserver;
-import de.htwg.seapal.common.plugin.Plugin;
+import de.htwg.seapal.common.views.tui.StateContext;
+import de.htwg.seapal.common.views.tui.TuiState;
+import de.htwg.seapal.maps.views.tui.states.InMenuState;
 
 /**
  * The text user interface of the maps component.
  */
-public class MapsTUI implements IObserver {
+public class MapsTUI implements IObserver, StateContext {
 
-	IMapsController mapsController;
-	Set<Plugin> plugins;
-	Scanner scanner = new Scanner(System.in);
-	Plugin currentPlugin = null;
+	private TuiState currentState = null;
 
 	@Inject
-	public MapsTUI(IMapsController mapsController, Set<Plugin> plugins) {
-		this.mapsController = mapsController;
-		this.plugins = plugins;
+	public MapsTUI(InMenuState firstState) {
+		this.currentState = firstState;
 	}
 
 	public void update(Event e) {
@@ -32,38 +25,20 @@ public class MapsTUI implements IObserver {
 	}
 
 	public boolean processInputLine(String line) {
-		if (line.equalsIgnoreCase("q")) {
-			if(currentPlugin == null){
-				return false;
-			}else{
-				currentPlugin = null;
-				this.printTUI();
-			}
-		}else if(currentPlugin == null){
-			for (Plugin plugin : plugins) {
-				if (line.toLowerCase().charAt(0) == plugin.getMenuKey()) {
-					currentPlugin = plugin;
-					currentPlugin.printTUI();
-					break;
-				}
-			}
-		}else{
-			currentPlugin.processInputLine(line);
+		boolean hasHandled = currentState.process(this, line);
+		if(hasHandled){
+			currentState.print();
 		}
-		return true;
+		return hasHandled;
 	}
 
 	public void printTUI() {
-		System.out.println("Maps: ");
-		System.out.println("q - Quit");
+		currentState.print();
+	}
 
-		Iterator<Plugin> itr = plugins.iterator();
-		while (itr.hasNext()) {
-			Plugin plugin = itr.next();
-			System.out.print(plugin.getMenuKey() + " - ");
-			System.out.println(plugin.getMenuEntry());
-		}
-
+	@Override
+	public void setState(TuiState state) {
+		this.currentState = state;
 	}
 
 }
