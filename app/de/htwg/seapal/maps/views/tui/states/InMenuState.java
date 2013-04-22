@@ -1,5 +1,7 @@
 package de.htwg.seapal.maps.views.tui.states;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Set;
 
 import com.google.inject.Inject;
@@ -7,7 +9,7 @@ import com.google.inject.Inject;
 import de.htwg.seapal.common.plugin.Plugin;
 import de.htwg.seapal.common.views.tui.StateContext;
 import de.htwg.seapal.common.views.tui.TuiState;
-import de.htwg.seapal.maps.views.tui.MainMenuHook;
+import de.htwg.seapal.maps.views.tui.hooks.MainMenuHook;
 
 
 public class InMenuState implements TuiState {
@@ -26,29 +28,28 @@ public class InMenuState implements TuiState {
 
 	@Override
 	public void print() {
-		System.out.println("Maps: ");
-		System.out.print("q - Quit");
-
-		for(MainMenuHook hook : hooks){
-			hook.print("Quit");
-		}
-		
-		System.out.println("");
+		Map<Character, String> menuMap = new LinkedHashMap<Character, String>();
+		menuMap.put('q', "Quit");
 		
 		for (Plugin plugin : plugins) {
-			System.out.print(plugin.getMenuKey() + " - ");
-			System.out.print(plugin.getMenuEntry());
+			menuMap.put(plugin.getMenuKey(), plugin.getMenuEntry());
+		}
+
+		for(Map.Entry<Character, String> entry : menuMap.entrySet()){
+			System.out.print(entry.getKey() + " - ");
+			System.out.print(entry.getValue());
 			for(MainMenuHook hook : hooks){
-				hook.print(plugin.getMenuEntry());
+				System.out.print("\t| ");
+				hook.print(entry.getValue());
 			}
 			System.out.println("");
 		}
+
 	}
 
 	@Override
 	public boolean process(StateContext context, String input) {
 		if(input.equalsIgnoreCase("q")){
-			System.out.println("Shuting down...");
 			return false;
 		}else{
 			for (Plugin plugin : plugins) {
