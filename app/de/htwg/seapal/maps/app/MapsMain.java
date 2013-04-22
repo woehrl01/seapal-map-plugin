@@ -43,6 +43,8 @@ import de.htwg.seapal.person.app.PersonDemoMockModule;
 		// Set up Google Guice Dependency Injector
 		Injector injector = MapsGlobal.createInjector();
 		
+		MapsTUI tui = injector.getInstance(MapsTUI.class);
+		
 		tui.printTUI();
 
 		// continue to read user input on the tui until the user decides to quit	

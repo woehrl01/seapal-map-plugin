@@ -20,7 +20,7 @@ public class MapsMockModule extends AbstractModule {
 		// TUI multibindings
 		Multibinder<Plugin> plugins = Multibinder.newSetBinder(binder(), Plugin.class);
 		//plugins.addBinding().to(BoatTUI.class);
-		plugins.addBinding().to(PersonTUI.class);
+		//plugins.addBinding().to(PersonTUI.class);
 
 	    
 	    // component bindings

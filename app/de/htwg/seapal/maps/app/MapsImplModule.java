@@ -21,7 +21,7 @@ public class MapsImplModule extends AbstractModule {
 		// TUI multibindings
 		Multibinder<Plugin> plugins = Multibinder.newSetBinder(binder(), Plugin.class);
 		//plugins.addBinding().to(BoatTUI.class);
-		plugins.addBinding().to(PersonTUI.class);
+		//plugins.addBinding().to(PersonTUI.class);
 	    
 	    // component bindings
 	    bind(IMaps.class).to(de.htwg.seapal.maps.models.impl.Maps.class);
