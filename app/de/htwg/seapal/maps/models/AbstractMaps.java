@@ -2,24 +2,33 @@ package de.htwg.seapal.maps.models;
 
 import java.awt.Point;
 
+import javax.persistence.Entity;
+
 /**
  * Abstract class of the maps component.
+ * 
  * @author Benjamin
- *
+ * 
  */
+@Entity
 public abstract class AbstractMaps implements IMaps {
 
 	private boolean isMenuVisible = true;
 	private MapsMenuPositionState menuPositionState = MapsMenuPositionState.LEFT;
 	private MapsPositionState positionState = MapsPositionState.FIXED;
 	private Point position = new Point();
-	private MapsType mapsType = MapsType.CARD;
-	
+	private MapsType type = MapsType.CARD;
+
 	@Override
 	public boolean isMenuVisible() {
 		return this.isMenuVisible;
 	}
 	
+	@Override
+	public void setMenuVisible( boolean visible ) {
+		this.isMenuVisible = visible;
+	}
+
 	@Override
 	public void hideMenu() {
 		this.isMenuVisible = false;
@@ -59,20 +68,20 @@ public abstract class AbstractMaps implements IMaps {
 	public void setPosition(Point position) throws IllegalStateException {
 		if (getPositionState() != MapsPositionState.FIXED) {
 			throw new IllegalStateException(
-					"It is not allowed to set the maps position" +
-					"when the maps position state is not FIXED.");
+					"It is not allowed to set the maps position"
+							+ "when the maps position state is not FIXED.");
 		}
-		
+
 		this.position = position;
 	}
 
 	@Override
 	public MapsType getType() {
-		return this.mapsType;
+		return this.type;
 	}
 
 	@Override
 	public void setType(MapsType type) {
-		this.mapsType = type;
+		this.type = type;
 	}
 }

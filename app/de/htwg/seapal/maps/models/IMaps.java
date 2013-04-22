@@ -11,7 +11,12 @@ public interface IMaps {
 	boolean isMenuVisible();
 	
 	/**
-	 * Hides the maps menu
+	 * Sets the Menu to visible.
+	 */
+	void setMenuVisible( boolean visible );
+	
+	/**
+	 * Hides the maps menu.
 	 */
 	void hideMenu();
 	
