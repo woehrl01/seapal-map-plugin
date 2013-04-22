@@ -1,5 +1,7 @@
 package de.htwg.seapal.maps.controllers;
 
+import com.google.inject.Inject;
+
 import play.*;
 import play.mvc.*;
 
@@ -7,8 +9,15 @@ import de.htwg.seapal.maps.views.html.*;
 
 public class Application extends Controller {
   
-    public static Result index() {
-        return ok(index.render("Index page of MAPS"));
+	@Inject
+	private IMapsController mapsController;
+	
+    public Result index() {
+        //return ok(index.render("Index page of MAPS"));
+    	return ok(index.render(mapsController.getTestString()));
     }
   
+    public Result test() {
+        return ok(index.render("HELP PAGE"));
+    }
 }

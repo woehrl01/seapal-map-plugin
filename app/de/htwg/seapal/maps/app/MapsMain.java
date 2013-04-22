@@ -50,9 +50,7 @@ import de.devsurf.injection.guice.scanner.reflections.ReflectionsScanner;
 		// Set up Google Guice Dependency Injector
 		Injector injector = Guice.createInjector(new MapsMockModule(),
 				new PersonDemoImplModule(), new AppMockModule(), new ReflectionModule(ReflectionsScanner.class, PackageFilter.create("de.htwg.seapal")));
-
-		// Build up the application, resolving dependencies 
-		// automatically by Guice
+		
 		MapsTUI tui = injector.getInstance(MapsTUI.class);
 		
 		tui.printTUI();
