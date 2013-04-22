@@ -10,10 +10,12 @@ import play.api.DefaultApplication;
 import play.api.Mode;
 import play.api.Play;
 
+import com.avaje.ebean.Ebean;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import de.htwg.seapal.boat.app.AppMockModule;
+import de.htwg.seapal.maps.models.ebean.Maps;
 import de.htwg.seapal.maps.views.tui.MapsTUI;
 import de.htwg.seapal.person.app.PersonDemoImplModule;
 import de.htwg.seapal.person.app.PersonDemoMockModule;
@@ -35,9 +37,12 @@ import de.htwg.seapal.person.app.PersonDemoMockModule;
 				MapsMain.class.getClassLoader(), null, Mode.Dev());
 		Play.start(play);
 
+		Maps map = new Maps();
+		Ebean.save(map);
+		
 		// Set up Google Guice Dependency Injector
 		Injector injector = Guice.createInjector(new MapsMockModule(),
-				new PersonDemoMockModule(), new AppMockModule());
+				new PersonDemoImplModule(), new AppMockModule());
 
 		// Build up the application, resolving dependencies 
 		// automatically by Guice
@@ -51,9 +56,7 @@ import de.htwg.seapal.person.app.PersonDemoMockModule;
 
 		while (tui.processInputLine(br.readLine()));
 		
-	}
-
-
 		Play.stop();
+	}
 
 }
