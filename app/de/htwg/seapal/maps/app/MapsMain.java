@@ -14,11 +14,17 @@ import com.avaje.ebean.Ebean;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
+import de.devsurf.injection.guice.scanner.PackageFilter;
 import de.htwg.seapal.boat.app.AppMockModule;
 import de.htwg.seapal.maps.models.ebean.Maps;
 import de.htwg.seapal.maps.views.tui.MapsTUI;
 import de.htwg.seapal.person.app.PersonDemoImplModule;
 import de.htwg.seapal.person.app.PersonDemoMockModule;
+
+import de.devsurf.injection.guice.scanner.PackageFilter;
+import de.devsurf.injection.guice.scanner.ClasspathScanner;
+
+import de.devsurf.injection.guice.scanner.reflections.ReflectionsScanner;
 
 /**
  * The maps startup class.
@@ -35,6 +41,7 @@ import de.htwg.seapal.person.app.PersonDemoMockModule;
 		// Initialize Play Application to use the play environment functions...
 		Application play = new DefaultApplication(new File("."),
 				MapsMain.class.getClassLoader(), null, Mode.Dev());
+		
 		Play.start(play);
 
 		Maps map = new Maps();
@@ -42,7 +49,7 @@ import de.htwg.seapal.person.app.PersonDemoMockModule;
 		
 		// Set up Google Guice Dependency Injector
 		Injector injector = Guice.createInjector(new MapsMockModule(),
-				new PersonDemoImplModule(), new AppMockModule());
+				new PersonDemoImplModule(), new AppMockModule(), new ReflectionModule(ReflectionsScanner.class, PackageFilter.create("de.htwg.seapal")));
 
 		// Build up the application, resolving dependencies 
 		// automatically by Guice
