@@ -4,6 +4,10 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import play.api.Application;
 import play.api.DefaultApplication;
@@ -20,8 +24,9 @@ import de.htwg.seapal.maps.views.tui.states.InMenuState;
 
 /**
  * The maps startup class.
- */ class MapsMain {
-
+ */ 
+class MapsMain {
+	
 	/**
 	 * The programs main.
 	 * 
@@ -32,7 +37,9 @@ import de.htwg.seapal.maps.views.tui.states.InMenuState;
 	public static void main(String[] args) throws IOException {
 		// Initialize Play Application to use the play environment functions...
 		
+				
 		Application play = new DefaultApplication(new File("."), MapsMain.class.getClassLoader(), null, Mode.Dev());
+		
 		
 		Play.start(play);
 
