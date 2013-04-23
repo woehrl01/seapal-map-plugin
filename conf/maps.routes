@@ -3,8 +3,8 @@
 # ~~~~
 
 # Home page
-GET     /                          @de.htwg.seapal.maps.controllers.Application.index()
-GET     /test                      @de.htwg.seapal.maps.controllers.Application.test()
+GET     /                          @de.htwg.seapal.maps.controllers.PlayMapsController.index()
+GET     /test                      @de.htwg.seapal.maps.controllers.PlayMapsController.test()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

@@ -11,8 +11,12 @@ import play.api.Mode;
 import play.api.Play;
 
 import com.google.inject.Injector;
+import com.google.inject.name.Names;
 
+import de.htwg.seapal.common.views.tui.TuiState;
+import de.htwg.seapal.maps.app.module.MapsTuiModule;
 import de.htwg.seapal.maps.views.tui.MapsTUI;
+import de.htwg.seapal.maps.views.tui.states.InMenuState;
 
 /**
  * The maps startup class.
@@ -28,13 +32,13 @@ import de.htwg.seapal.maps.views.tui.MapsTUI;
 	public static void main(String[] args) throws IOException {
 		// Initialize Play Application to use the play environment functions...
 		
-		Application play = new DefaultApplication(new File("."), MapsMain.class.getClassLoader(), null, Mode.Prod());
+		Application play = new DefaultApplication(new File("."), MapsMain.class.getClassLoader(), null, Mode.Dev());
 		
 		Play.start(play);
 
 		try{
 			
-			Injector injector = MapsGlobal.createInjector();
+			Injector injector = MapsGlobal.createInjector().createChildInjector(new MapsTuiModule());
 			
 			MapsTUI tui = injector.getInstance(MapsTUI.class);
 			

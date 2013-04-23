@@ -4,6 +4,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import de.htwg.seapal.boat.app.AppMockModule;
+import de.htwg.seapal.maps.app.module.MapsBaseModule;
 import de.htwg.seapal.maps.app.module.MapsImplModule;
 import de.htwg.seapal.maps.app.module.MapsMockModule;
 import de.htwg.seapal.maps.app.module.ReflectionModule;
@@ -17,7 +18,7 @@ public class MapsGlobal extends GlobalSettings {
 	  private static final Injector INJECTOR = createInjector(); 
 
 	  public static Injector createInjector() {
-		  return Guice.createInjector(new ReflectionModule(), new MapsImplModule(), new PersonDemoImplModule(), new AppMockModule());
+		  return Guice.createInjector(new ReflectionModule(), new MapsBaseModule(), new MapsImplModule(), new PersonDemoImplModule(), new AppMockModule());
       }
 	  
       @Override

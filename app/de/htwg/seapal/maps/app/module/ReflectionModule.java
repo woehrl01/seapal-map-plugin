@@ -21,7 +21,7 @@ public class ReflectionModule extends StartupModule {
 	}
 	
 	public ReflectionModule(){
-		this(ASMClasspathScanner.class, PackageFilter.create("de.htwg.seapal"));
+		this(ASMClasspathScanner.class, PackageFilter.create("de.htwg.seapal", true));
 		
 	}
 

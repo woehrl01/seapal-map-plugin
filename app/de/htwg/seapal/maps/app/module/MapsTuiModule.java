@@ -20,9 +20,22 @@ import de.htwg.seapal.common.views.tui.TuiState;
  * Mock Google Guice module description of the maps module.
  * @author Benjamin
  */
-public class MapsBaseModule extends AbstractModule {
+public class MapsTuiModule extends AbstractModule {
 	@Override
-	protected void configure() {	    
-	    bind(IMapsController.class).to(de.htwg.seapal.maps.controllers.MapsController.class);
+	protected void configure() {
+		// TUI multibindings
+		Multibinder<Plugin> plugins = Multibinder.newSetBinder(binder(), Plugin.class);
+		//plugins.addBinding().to(BoatTUI.class);
+		plugins.addBinding().to(PersonTUI.class);
+	    	
+		bind(TuiState.class).annotatedWith(Names.named("Initial")).to(InMenuState.class);
+		
+	    install(new FactoryModuleBuilder()
+	    	.implement(TuiState.class, InMenuState.class)
+	    	.build(InMenuStateFactory.class));
+	    
+	    install(new FactoryModuleBuilder()
+	    	.implement(TuiState.class, InPluginState.class)
+	    	.build(InPluginStateFactory.class));   
 	}
 }

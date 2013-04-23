@@ -7,7 +7,7 @@ import play.mvc.*;
 
 import de.htwg.seapal.maps.views.html.*;
 
-public class Application extends Controller {
+public class PlayMapsController extends Controller {
   
 	@Inject
 	private IMapsController mapsController;
