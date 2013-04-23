@@ -11,9 +11,10 @@ import de.htwg.seapal.maps.models.MapsFactory;
  * Mock Google Guice module description of the maps module.
  * @author Benjamin
  */
-public class MapsMockModule extends AbstractModule {
+public class MapsMockModule extends MapsBaseModule {
 	@Override
 	protected void configure() {
+		super.configure();
 
 	    install(new FactoryModuleBuilder()
 			.implement(IMaps.class, de.htwg.seapal.maps.models.mock.Maps.class)
