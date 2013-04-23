@@ -1,6 +1,7 @@
 package de.htwg.seapal.maps.views.tui;
 
 import com.google.inject.Inject;
+import com.google.inject.name.Named;
 
 import de.htwg.seapal.common.observer.Event;
 import de.htwg.seapal.common.observer.IObserver;
@@ -16,7 +17,7 @@ public class MapsTUI implements IObserver, StateContext {
 	private TuiState currentState = null;
 
 	@Inject
-	public MapsTUI(InMenuState firstState) {
+	public MapsTUI(@Named("InMenu") TuiState firstState) {
 		this.currentState = firstState;
 	}
 

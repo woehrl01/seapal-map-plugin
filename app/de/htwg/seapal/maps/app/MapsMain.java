@@ -36,7 +36,7 @@ import de.htwg.seapal.maps.views.tui.MapsTUI;
 		try{
 			
 			// Set up Google Guice Dependency Injector
-			Injector injector = MapsGlobal.createInjector().createChildInjector(new ReflectionModule());
+			Injector injector = MapsGlobal.createInjector();
 			
 			MapsTUI tui = injector.getInstance(MapsTUI.class);
 			
