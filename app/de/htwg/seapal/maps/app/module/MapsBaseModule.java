@@ -1,4 +1,4 @@
-package de.htwg.seapal.maps.app;
+package de.htwg.seapal.maps.app.module;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
@@ -35,8 +35,6 @@ public class MapsBaseModule extends AbstractModule {
 	    
 	    install(new FactoryModuleBuilder()
 	    	.implement(TuiState.class, InPluginState.class)
-	    	.build(InPluginStateFactory.class));
-	    
-	    
+	    	.build(InPluginStateFactory.class));   
 	}
 }

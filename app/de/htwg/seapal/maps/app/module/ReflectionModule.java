@@ -1,4 +1,4 @@
-package de.htwg.seapal.maps.app;
+package de.htwg.seapal.maps.app.module;
 
 
 import java.util.logging.Level;

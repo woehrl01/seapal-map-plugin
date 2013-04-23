@@ -10,15 +10,13 @@ import de.htwg.seapal.common.views.tui.TuiState;
 public class InPluginState implements TuiState {
 
 	private Plugin plugin;
-	
-	@Inject
 	private InMenuStateFactory menuStateFactory;
 	
 	@Inject
-	public InPluginState(@Assisted Plugin plugin){
+	public InPluginState(InMenuStateFactory menuStateFactory, @Assisted Plugin plugin){
 		this.plugin = plugin;
+		this.menuStateFactory = menuStateFactory;
 	}
-
 	
 	@Override
 	public void print() {

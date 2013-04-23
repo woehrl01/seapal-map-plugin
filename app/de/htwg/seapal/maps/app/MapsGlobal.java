@@ -4,6 +4,8 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import de.htwg.seapal.boat.app.AppMockModule;
+import de.htwg.seapal.maps.app.module.MapsMockModule;
+import de.htwg.seapal.maps.app.module.ReflectionModule;
 import de.htwg.seapal.person.app.PersonDemoImplModule;
 import de.htwg.seapal.person.app.PersonDemoMockModule;
 

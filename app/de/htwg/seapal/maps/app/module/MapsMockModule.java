@@ -1,4 +1,4 @@
-package de.htwg.seapal.maps.app;
+package de.htwg.seapal.maps.app.module;
 
 import de.htwg.seapal.maps.controllers.IMapsController;
 import de.htwg.seapal.maps.database.IMapsDatabase;

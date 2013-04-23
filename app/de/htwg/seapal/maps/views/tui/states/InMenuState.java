@@ -17,13 +17,13 @@ public class InMenuState implements TuiState {
 	private Set<Plugin> plugins;
 	private Set<MainMenuHook> hooks;
 	
-	@Inject
 	private InPluginStateFactory pluginStateFactory;
 	
 	@Inject
-	public InMenuState(Set<Plugin> plugins, Set<MainMenuHook> hooks){
+	public InMenuState(InPluginStateFactory pluginStateFactory, Set<Plugin> plugins, Set<MainMenuHook> hooks){
 		this.plugins = plugins;
 		this.hooks = hooks;
+		this.pluginStateFactory = pluginStateFactory;
 	}
 
 	@Override
