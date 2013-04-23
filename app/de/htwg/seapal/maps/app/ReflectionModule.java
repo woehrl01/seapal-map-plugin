@@ -1,5 +1,8 @@
 package de.htwg.seapal.maps.app;
 
+
+import java.util.logging.Level;
+
 import com.google.inject.Binder;
 import com.google.inject.multibindings.Multibinder;
 
@@ -18,11 +21,12 @@ public class ReflectionModule extends StartupModule {
 	}
 	
 	public ReflectionModule(){
-		super(ASMClasspathScanner.class, PackageFilter.create("de.htwg.seapal"));
+		this(ASMClasspathScanner.class, PackageFilter.create("de.htwg.seapal"));
+		
 	}
 
 	@Override
-	protected Multibinder<ScannerFeature> bindFeatures(Binder binder) {
+	protected Multibinder<ScannerFeature> bindFeatures(Binder binder) {	
 		Multibinder<ScannerFeature> listeners = Multibinder.newSetBinder(binder, ScannerFeature.class);
 		listeners.addBinding().to(MultiBindingFeature.class);
 		return listeners;

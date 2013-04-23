@@ -25,7 +25,7 @@ public class MapsMockModule extends AbstractModule {
 		//plugins.addBinding().to(BoatTUI.class);
 		plugins.addBinding().to(PersonTUI.class);
 
-	    bind(TuiState.class).annotatedWith(Names.named("InMenu")).to(InMenuState.class);
+	    bind(TuiState.class).annotatedWith(Names.named("Initial")).to(InMenuState.class);
 		
 	    // component bindings
 	    bind(IMaps.class).to(de.htwg.seapal.maps.models.mock.Maps.class);

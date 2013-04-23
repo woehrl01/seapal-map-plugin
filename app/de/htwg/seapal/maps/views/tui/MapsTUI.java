@@ -17,7 +17,7 @@ public class MapsTUI implements IObserver, StateContext {
 	private TuiState currentState = null;
 
 	@Inject
-	public MapsTUI(@Named("InMenu") TuiState firstState) {
+	public MapsTUI(@Named("Initial") TuiState firstState) {
 		this.currentState = firstState;
 	}
 
