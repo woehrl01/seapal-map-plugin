@@ -1,8 +1,11 @@
 package de.htwg.seapal.maps.controllers;
 
+import java.awt.Point;
+
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import de.htwg.seapal.boat.controllers.IBoatController;
+import de.htwg.seapal.common.observer.Observable;
 import de.htwg.seapal.maps.database.IMapsDatabase;
 import de.htwg.seapal.maps.models.IMaps;
 import de.htwg.seapal.person.controllers.IPersonController;
@@ -12,13 +15,33 @@ import de.htwg.seapal.person.controllers.IPersonController;
  * @author Benjamin
  */
 @Singleton
-public class MapsController extends AbstractMapsController {
+public class MapsController extends Observable implements IMapsController {
 
+	private IMaps maps;
+	private IMapsDatabase mapsDatabase;
+	private IBoatController boatController;
+	private IPersonController personController;
+	
 	@Inject
-	public MapsController(IMaps maps, IMapsDatabase db, IBoatController boatController, IPersonController personController) {
-		this.maps = maps;
+	public MapsController(IMapsDatabase db, IBoatController boatController, IPersonController personController) {
 		this.mapsDatabase = db;
+		this.maps = db.load();
 		this.boatController = boatController;
 		this.personController = personController;
+	}
+	
+	@Override
+	public String getTestString() {
+		return "Yeeehaaaw!";
+	}
+	
+	@Override
+	public void addWaypoint(Point position) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void setBoatPosition(Point position) {
+		// TODO Auto-generated method stub
 	}
 }
