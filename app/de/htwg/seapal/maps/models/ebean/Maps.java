@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 import de.htwg.seapal.maps.models.AbstractMaps;
+import de.htwg.seapal.maps.models.IMaps;
 
 @Entity
 public class Maps extends AbstractMaps {
