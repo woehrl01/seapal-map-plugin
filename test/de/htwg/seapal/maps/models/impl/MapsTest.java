@@ -25,7 +25,7 @@ public class MapsTest {
 		maps.showMenu();
 		
 		boolean expected = true;
-		boolean actual = maps.isMenuVisible();
+		boolean actual = maps.getMenuVisible();
 		
 		assertEquals(expected, actual);
 	}
@@ -35,7 +35,7 @@ public class MapsTest {
 		maps.hideMenu();
 		
 		boolean expected = false;
-		boolean actual = maps.isMenuVisible();
+		boolean actual = maps.getMenuVisible();
 		
 		assertEquals(expected, actual);
 	}

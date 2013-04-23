@@ -5,10 +5,25 @@ import java.awt.Point;
 public interface IMaps {
 	
 	/**
+	 * Gets the ID.
+	 * @return The ID of the maps settings.
+	 */
+	Long getId();
+
+	/**
+	 * Sets the ID.
+	 * <p>
+	 * Note: Neccessary for Ebean.
+	 * </p>
+	 * @param id The new ID of the maps settings.
+	 */
+	void setId(Long id);
+	
+	/**
 	 * Indicates whether the menu of the maps menu is visible or not.
 	 * @return Returns true, if the maps menu is visible.
 	 */
-	boolean isMenuVisible();
+	boolean getMenuVisible();
 	
 	/**
 	 * Sets the Menu to visible.

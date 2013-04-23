@@ -25,22 +25,23 @@ public class Maps implements IMaps {
 	private Point position = new Point();
 	private MapsType type = MapsType.CARD;
 
-	
 	@Id
 	@GeneratedValue
 	private Long id;
 	
+	@Override
 	public Long getId() {
 		return id;
 	}
 
+	@Override
 	public void setId(Long id) {
 		this.id = id;
 	}
 	
 	
 	@Override
-	public boolean isMenuVisible() {
+	public boolean getMenuVisible() {
 		return this.isMenuVisible;
 	}
 	

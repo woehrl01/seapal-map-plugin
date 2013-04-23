@@ -6,7 +6,7 @@ import de.htwg.seapal.common.observer.IObservable;
 public interface IMapsController extends IObservable {
 	
 	/**
-	 * Simple test method just for testing
+	 * Simple test method just for verification that the controller is injected and works.
 	 * TODO: remove this method
 	 * @return Returns a test string.
 	 */
@@ -23,4 +23,10 @@ public interface IMapsController extends IObservable {
 	 * @param position The boat position.
 	 */
 	void setBoatPosition(Point position);
+	
+	boolean getMenuVisible();
+	
+	void showMenu();
+	
+	void hideMenu();
 }

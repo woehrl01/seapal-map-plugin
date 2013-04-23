@@ -32,6 +32,6 @@ public class MapsImplModule extends AbstractModule {
 	    // component bindings
 	    bind(IMaps.class).to(de.htwg.seapal.maps.models.impl.Maps.class);
 	    bind(IMapsController.class).to(de.htwg.seapal.maps.controllers.MapsController.class);
-	    bind(IMapsDatabase.class).to(de.htwg.seapal.maps.database.impl.MapsDb4oDatabase.class);	
+	    bind(IMapsDatabase.class).to(de.htwg.seapal.maps.database.impl.MapsEbeanDatabase.class);	
 	}
 }
