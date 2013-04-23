@@ -16,7 +16,7 @@ public class MapsGlobal extends GlobalSettings {
 	  private static final Injector INJECTOR = createInjector(); 
 
 	  public static Injector createInjector() {
-		  return Guice.createInjector(new MapsMockModule(), new PersonDemoMockModule(), new AppMockModule(), new ReflectionModule());
+		  return Guice.createInjector(new ReflectionModule(), new MapsMockModule(), new PersonDemoImplModule(), new AppMockModule());
       }
 	  
       @Override

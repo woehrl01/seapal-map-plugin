@@ -23,7 +23,7 @@ public class MapsTest {
 	@Test
 	public void testIsMenuVisible() {
 		boolean expected = true;
-		boolean actual = maps.isMenuVisible();
+		boolean actual = maps.getMenuVisible();
 		
 		assertEquals(expected, actual);
 	}

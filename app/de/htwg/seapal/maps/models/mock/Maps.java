@@ -14,7 +14,17 @@ import de.htwg.seapal.maps.models.MapsType;
 public class Maps implements IMaps {
 	
 	@Override
-	public boolean isMenuVisible() {
+	public Long getId() {
+		return 0L;
+	}
+
+	@Override
+	public void setId(Long id) {
+		
+	}
+	
+	@Override
+	public boolean getMenuVisible() {
 		return true;
 	}
 
@@ -40,43 +50,36 @@ public class Maps implements IMaps {
 
 	@Override
 	public void setMenuVisible(boolean visible) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void hideMenu() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void showMenu() {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void setMenuPositionState(MapsMenuPositionState menuPositionState) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void setPositionState(MapsPositionState positionState) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void setPosition(Point position) throws IllegalStateException {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void setType(MapsType type) {
-		// TODO Auto-generated method stub
 		
 	}
 }
