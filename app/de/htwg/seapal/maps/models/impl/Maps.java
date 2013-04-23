@@ -30,13 +30,26 @@ public class Maps implements IMaps {
 	@GeneratedValue
 	private Long id;
 	
+	//@JsonProperty("_id")
 	public Long getId() {
 		return id;
 	}
 
+	//@JsonProperty("_id")
 	public void setId(Long id) {
 		this.id = id;
 	}
+	
+	/*private String revision;
+	@JsonProperty("_rev")
+    public String getRevision() {
+            return revision;
+    }
+
+    @JsonProperty("_rev")
+    public void setRevision(String s) {
+            revision = s;
+    }*/
 	
 	
 	@Override
