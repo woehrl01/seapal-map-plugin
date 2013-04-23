@@ -1,6 +1,11 @@
-@(message: String)
+@(message: String, hooks: Set[de.htwg.seapal.maps.views.web.hooks.TableHook])
 
 @main("Welcome to Play 2.1") {
+    
+    @for(hook <- hooks) {
+  			<li>@(hook.print(1))</li>
+	} 
+    
     
     @play20.welcome(message, style = "Java")
     

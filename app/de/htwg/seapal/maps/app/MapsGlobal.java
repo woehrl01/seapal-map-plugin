@@ -15,7 +15,7 @@ import play.*;
 
 public class MapsGlobal extends GlobalSettings {
 	
-	  private static final Injector INJECTOR = createInjector(); 
+	  private static Injector INJECTOR; 
 
 	  public static Injector createInjector() {
 		  return Guice.createInjector(new ReflectionModule(), new MapsImplModule(), new PersonDemoImplModule(), new AppMockModule());
@@ -23,6 +23,10 @@ public class MapsGlobal extends GlobalSettings {
 	  
       @Override
       public <A> A getControllerInstance(Class<A> controllerClass) throws Exception {
+    	  if(INJECTOR == null){
+    		  INJECTOR = createInjector();
+    	  }
+    	  
     	  return INJECTOR.getInstance(controllerClass);
       }
       
