@@ -29,11 +29,7 @@ public class MapsTUI implements IObserver, StateContext {
 	}
 
 	public boolean processInputLine(String line) {
-		boolean hasHandled = currentState.process(this, line);
-		if(hasHandled){
-			currentState.print();
-		}
-		return hasHandled;
+		return currentState.process(this, line);
 	}
 
 	public void printTUI() {

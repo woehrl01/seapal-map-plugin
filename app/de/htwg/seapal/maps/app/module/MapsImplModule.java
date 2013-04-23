@@ -3,7 +3,6 @@ package de.htwg.seapal.maps.app.module;
 import com.google.inject.AbstractModule;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 
-import de.htwg.seapal.maps.controllers.IMapsController;
 import de.htwg.seapal.maps.database.IMapsDatabase;
 import de.htwg.seapal.maps.models.MapsFactory;
 import de.htwg.seapal.maps.models.IMaps;
