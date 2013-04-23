@@ -17,12 +17,12 @@ public class InMenuState implements TuiState {
 	private Set<Plugin> plugins;
 	private Set<MainMenuHook> hooks;
 	
-	private StateFactory stateFactory;
+	@Inject
+	private InPluginStateFactory pluginStateFactory;
 	
 	@Inject
-	public InMenuState(StateFactory stateFactory, Set<Plugin> plugins, Set<MainMenuHook> hooks){
+	public InMenuState(Set<Plugin> plugins, Set<MainMenuHook> hooks){
 		this.plugins = plugins;
-		this.stateFactory = stateFactory;
 		this.hooks = hooks;
 	}
 
@@ -54,7 +54,7 @@ public class InMenuState implements TuiState {
 		}else{
 			for (Plugin plugin : plugins) {
 				if (input.toLowerCase().charAt(0) == plugin.getMenuKey()) {
-					context.setState(stateFactory.createInPluginState(plugin));
+					context.setState(pluginStateFactory.create(plugin));
 					break;
 				}
 			}

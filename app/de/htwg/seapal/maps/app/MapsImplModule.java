@@ -18,17 +18,11 @@ import de.htwg.seapal.common.views.tui.TuiState;
  * Final Google Guice module description of the maps module.
  * @author Benjamin
  */
-public class MapsImplModule extends AbstractModule {
+public class MapsImplModule extends MapsBaseModule {
 
 	@Override
 	protected void configure() {
-		// TUI multibindings
-		Multibinder<Plugin> plugins = Multibinder.newSetBinder(binder(), Plugin.class);
-		//plugins.addBinding().to(BoatTUI.class);
-		plugins.addBinding().to(PersonTUI.class);
-	    
-		bind(TuiState.class).annotatedWith(Names.named("Initial")).to(InMenuState.class);
-		
+		super.configure();
 	    // component bindings
 	    bind(IMaps.class).to(de.htwg.seapal.maps.models.impl.Maps.class);
 	    bind(IMapsController.class).to(de.htwg.seapal.maps.controllers.MapsController.class);

@@ -1,6 +1,7 @@
 package de.htwg.seapal.maps.views.tui.states;
 
 import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 
 import de.htwg.seapal.common.plugin.Plugin;
 import de.htwg.seapal.common.views.tui.StateContext;
@@ -11,16 +12,13 @@ public class InPluginState implements TuiState {
 	private Plugin plugin;
 	
 	@Inject
-	private StateFactory stateFactory;
+	private InMenuStateFactory menuStateFactory;
 	
-	public InPluginState(Plugin plugin){
-		this(null, plugin);
-	}
-	
-	public InPluginState(StateFactory stateFactory, Plugin plugin){
+	@Inject
+	public InPluginState(@Assisted Plugin plugin){
 		this.plugin = plugin;
-		this.stateFactory = stateFactory;
 	}
+
 	
 	@Override
 	public void print() {
@@ -32,7 +30,7 @@ public class InPluginState implements TuiState {
 		if(plugin.processInputLine(input)){
 			return true;
 		}else if(input.equalsIgnoreCase("q")){
-			context.setState(stateFactory.createInMenuState());
+			context.setState(menuStateFactory.create());
 			return true;
 		}
 		
