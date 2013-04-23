@@ -4,7 +4,7 @@ import com.avaje.ebean.Ebean;
 
 import de.htwg.seapal.maps.database.IMapsDatabase;
 import de.htwg.seapal.maps.models.IMaps;
-import de.htwg.seapal.maps.models.ebean.Maps;
+import de.htwg.seapal.maps.models.impl.Maps;
 
 public class MapsEbeanDatabase implements IMapsDatabase {
 

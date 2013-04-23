@@ -33,7 +33,7 @@ import de.htwg.seapal.person.app.PersonDemoMockModule;
 	public static void main(String[] args) throws IOException {
 		// Initialize Play Application to use the play environment functions...
 		
-		Application play = new DefaultApplication(new File("."), MapsMain.class.getClassLoader(), null, Mode.Prod());
+		Application play = new DefaultApplication(new File("."), MapsMain.class.getClassLoader(), null, Mode.Dev());
 		
 		Play.start(play);
 
