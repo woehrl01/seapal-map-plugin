@@ -39,6 +39,17 @@ public class Maps implements IMaps {
 		this.id = id;
 	}
 	
+	/*private String revision;
+	@JsonProperty("_rev")
+    public String getRevision() {
+            return revision;
+    }
+
+    @JsonProperty("_rev")
+    public void setRevision(String s) {
+            revision = s;
+    }*/
+	
 	
 	@Override
 	public boolean getMenuVisible() {
