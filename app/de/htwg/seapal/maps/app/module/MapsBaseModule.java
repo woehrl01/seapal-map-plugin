@@ -6,6 +6,7 @@ import com.google.inject.assistedinject.FactoryProvider;
 import com.google.inject.multibindings.Multibinder;
 import com.google.inject.name.Names;
 
+import de.htwg.seapal.maps.controllers.IMapsController;
 import de.htwg.seapal.maps.views.tui.states.InMenuState;
 import de.htwg.seapal.maps.views.tui.states.InMenuStateFactory;
 import de.htwg.seapal.maps.views.tui.states.InPluginState;
@@ -36,5 +37,7 @@ public class MapsBaseModule extends AbstractModule {
 	    install(new FactoryModuleBuilder()
 	    	.implement(TuiState.class, InPluginState.class)
 	    	.build(InPluginStateFactory.class));   
+	    
+	    bind(IMapsController.class).to(de.htwg.seapal.maps.controllers.MapsController.class);
 	}
 }

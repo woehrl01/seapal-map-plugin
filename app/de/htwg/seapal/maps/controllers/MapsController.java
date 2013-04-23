@@ -11,6 +11,7 @@ import de.htwg.seapal.boat.controllers.IBoatController;
 import de.htwg.seapal.common.observer.Observable;
 import de.htwg.seapal.maps.database.IMapsDatabase;
 import de.htwg.seapal.maps.models.IMaps;
+import de.htwg.seapal.maps.models.MapsFactory;
 import de.htwg.seapal.person.controllers.IPersonController;
 
 /**
@@ -24,14 +25,16 @@ public class MapsController extends Observable implements IMapsController {
 	private IMapsDatabase database;
 	private IBoatController boatController;
 	private IPersonController personController;
+	private MapsFactory mapsFactory;
 	
 	@Inject
-	public MapsController(Injector injector, IMapsDatabase db, IBoatController boatController, IPersonController personController) {
+	public MapsController(MapsFactory mapsFactory, IMapsDatabase db, IBoatController boatController, IPersonController personController) {
 		this.database = db;
+		this.mapsFactory = mapsFactory;
 		this.maps = db.load();
 		
 		if (this.maps == null) {
-			this.maps = injector.getInstance(IMaps.class);
+			this.maps = this.mapsFactory.create();
 			Logger.info("New MapsModel injected.");
 		}
 		

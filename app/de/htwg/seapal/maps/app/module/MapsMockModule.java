@@ -1,8 +1,11 @@
 package de.htwg.seapal.maps.app.module;
 
+import com.google.inject.assistedinject.FactoryModuleBuilder;
+
 import de.htwg.seapal.maps.controllers.IMapsController;
 import de.htwg.seapal.maps.database.IMapsDatabase;
 import de.htwg.seapal.maps.models.IMaps;
+import de.htwg.seapal.maps.models.MapsFactory;
 
 /**
  * Mock Google Guice module description of the maps module.
@@ -12,9 +15,11 @@ public class MapsMockModule extends MapsBaseModule {
 	@Override
 	protected void configure() {
 	    super.configure();
-	    // component bindings
-	    bind(IMaps.class).to(de.htwg.seapal.maps.models.mock.Maps.class);
-	    bind(IMapsController.class).to(de.htwg.seapal.maps.controllers.MapsController.class);
+
+	    install(new FactoryModuleBuilder()
+			.implement(IMaps.class, de.htwg.seapal.maps.models.mock.Maps.class)
+			.build(MapsFactory.class));
+	    
 	    bind(IMapsDatabase.class).to(de.htwg.seapal.maps.database.mock.MapsDatabase.class);	
 	}
 }
