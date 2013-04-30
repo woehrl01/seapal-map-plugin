@@ -3,8 +3,13 @@
 # ~~~~
 
 # Home page
-GET     /                          @de.htwg.seapal.maps.controllers.PlayMapsController.index()
-GET     /test                      @de.htwg.seapal.maps.controllers.PlayMapsController.test()
+GET     /              			@de.htwg.seapal.maps.controllers.PlayMapsController.index()
+GET     /test              		@de.htwg.seapal.maps.controllers.PlayMapsController.test()
+
+# Socket Test Suite
+GET     /socket/             	de.htwg.seapal.maps.controllers.SocketController.index()
+GET     /socket/send/:data   	de.htwg.seapal.maps.controllers.SocketController.sendToClients(data: String)
+GET     /socket/open      		de.htwg.seapal.maps.controllers.SocketController.open()
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.at(path="/public", file)
+GET     /assets/*file     		controllers.Assets.at(path="/public", file)
