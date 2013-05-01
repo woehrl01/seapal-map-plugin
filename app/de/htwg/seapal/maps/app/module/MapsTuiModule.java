@@ -1,10 +1,17 @@
 package de.htwg.seapal.maps.app.module;
 
+import java.util.List;
+import java.util.ServiceLoader;
+
+import com.google.common.collect.Lists;
 import com.google.inject.AbstractModule;
+import com.google.inject.Module;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.google.inject.multibindings.Multibinder;
 import com.google.inject.name.Names;
+import com.google.inject.util.Modules;
 
+import de.devsurf.injection.guice.annotations.Bind;
 import de.htwg.seapal.maps.views.tui.states.InMenuState;
 import de.htwg.seapal.maps.views.tui.states.InMenuStateFactory;
 import de.htwg.seapal.maps.views.tui.states.InPluginState;
