@@ -1,3 +1,7 @@
+@main("") {
+    
+ 
+
 <script type="text/javascript">
 <!--
 
@@ -6,12 +10,12 @@ var WS = window['MozWebSocket'] ? MozWebSocket : WebSocket
 var mapSocket = new WS("@de.htwg.seapal.maps.controllers.routes.SocketController.open().webSocketURL(request)");
 
 mapSocket.onmessage = function(event) {
-	alert( " >>>> " + event.data );
+	$('#data').append(event.data + "\n");
 }
 
 // if errors on websocket
 var onalert = function(event) {
-	alert( " >>>> " + event.data );
+	$('#data').append("Error: " + event.data + "\n");
 }
 
 mapSocket.onerror = onalert;
@@ -19,3 +23,10 @@ mapSocket.onclose = onalert;
     
 -->
 </script>
+
+<pre id="data">
+
+</pre>
+
+   
+}
