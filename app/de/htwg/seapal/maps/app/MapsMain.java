@@ -29,17 +29,15 @@ class MapsMain {
 	 
 	public static void main(String[] args) throws IOException {
 		// Initialize Play Application to use the play environment functions...
-		
 		Application play = new DefaultApplication(new File("."), MapsMain.class.getClassLoader(), null, Mode.Dev());
 		
 		Play.start(play);
 
 		try{
-			
 			Injector injector = MapsGlobal.createInjector().createChildInjector(new MapsTuiModule());
 			
 			MapsTUI tui = injector.getInstance(MapsTUI.class);
-			
+
 			InputStreamReader isr = new InputStreamReader(System.in, "UTF-8");
 			BufferedReader br = new BufferedReader(isr);
 	

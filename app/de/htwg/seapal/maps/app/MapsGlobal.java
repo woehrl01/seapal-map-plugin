@@ -22,6 +22,7 @@ import de.htwg.seapal.common.modules.ReflectionModule;
 import de.htwg.seapal.maps.app.module.MapsImplModule;
 import de.htwg.seapal.maps.models.SeapalWebSockets;
 import de.htwg.seapal.person.app.PersonDemoImplModule;
+import de.htwg.seapal.trip.app.TripDemoImplModule;
 
 public class MapsGlobal extends GlobalSettings {
 
@@ -30,7 +31,7 @@ public class MapsGlobal extends GlobalSettings {
 	public static Injector createInjector() {
 		return Guice.createInjector(new ReflectionModule(),
 				new MapsImplModule(), new PersonDemoImplModule(),
-				new BoatMockModule());
+				new BoatMockModule(), new TripDemoImplModule());
 	}
 
 	@Override

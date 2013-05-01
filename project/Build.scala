@@ -26,7 +26,8 @@ object ApplicationBuild extends Build {
   val teamDependencies = Seq(
   	// your project dependencies here...
     "de.htwg.seapal" % "boat" % "1.0-SNAPSHOT" ,
-    "de.htwg.seapal" % "person" % "1.1-SNAPSHOT"
+    "de.htwg.seapal" % "person" % "1.1-SNAPSHOT",
+    "de.htwg.seapal" % "tripdemo" % "1.0-SNAPSHOT"
   )
   
   // all project dependencies

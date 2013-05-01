@@ -67,6 +67,21 @@ create table person (
   constraint pk_person primary key (id))
 ;
 
+create table trip (
+  id                        bigint not null,
+  name                      varchar(255),
+  start_location            varchar(255),
+  end_location              varchar(255),
+  skipper                   varchar(255),
+  start_time                timestamp,
+  end_time                  timestamp,
+  duration                  bigint,
+  motor                     integer,
+  fuel                      double,
+  notes                     varchar(255),
+  constraint pk_trip primary key (id))
+;
+
 create sequence boat_ebean_seq;
 
 create sequence id_container_seq;
@@ -74,6 +89,8 @@ create sequence id_container_seq;
 create sequence maps_seq;
 
 create sequence person_seq;
+
+create sequence trip_seq;
 
 
 
@@ -90,6 +107,8 @@ drop table if exists maps;
 
 drop table if exists person;
 
+drop table if exists trip;
+
 SET REFERENTIAL_INTEGRITY TRUE;
 
 drop sequence if exists boat_ebean_seq;
@@ -99,4 +118,6 @@ drop sequence if exists id_container_seq;
 drop sequence if exists maps_seq;
 
 drop sequence if exists person_seq;
+
+drop sequence if exists trip_seq;
 
