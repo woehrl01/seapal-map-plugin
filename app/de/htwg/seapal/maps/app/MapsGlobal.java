@@ -34,6 +34,7 @@ public class MapsGlobal extends GlobalSettings {
 		String message = "{\"message\": \"Hello this is a message. A little message. The message is made by MapsGlobal/onStart\"}";
 		
 		TestActor.startUp(message);
+		CouchDBActor.startUp();
 
 		Logger.info("Maps app has started");
 	}

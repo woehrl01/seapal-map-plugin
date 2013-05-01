@@ -18,6 +18,7 @@ object ApplicationBuild extends Build {
     javaJdbc,
     javaEbean,
     "com.google.inject" % "guice" % "3.0",
+    "org.ektorp" % "org.ektorp" % "1.3.0",
     "de.htwg.seapal" % "common" % "1.0-SNAPSHOT",
     "com.db4o" % "db4o-full-java5" % "8.1-SNAPSHOT"
   )
