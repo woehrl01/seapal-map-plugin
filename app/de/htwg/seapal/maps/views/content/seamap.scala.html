@@ -1,4 +1,4 @@
-@(message: String, hooks: Set[de.htwg.seapal.maps.views.web.hooks.TableHook])
+@import de.htwg.seapal.maps.views.html._
 
 @scripts = {
 	<script type="text/javascript" src="@de.htwg.seapal.maps.controllers.routes.PlayMapsController.javascriptRoutes"></script>
@@ -9,13 +9,10 @@
 	<link type="text/css" rel="stylesheet" href="@routes.Assets.at("stylesheets/seamap.css")" />
 }
 
-@main("Welcome to Play 2.1") {
-    
-    @for(hook <- hooks) {
-  			<li>@(hook.print(1))</li>
-	} 
-    
-    
-    @play20.welcome(message, style = "Java")
-    
+@main("SeaPal - Seamap", scripts, bodyClass = "withsubnavi googlemaps", contentClass = "container-fluid") {
+		<div class="row-fluid" style="width:100%;">
+			<div class="span12" style="width:100%;">
+				<div id="map_canvas" class="span12" style="width:100%;"></div>
+			</div>
+		</div>
 }

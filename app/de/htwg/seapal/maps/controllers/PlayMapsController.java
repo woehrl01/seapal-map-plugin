@@ -9,6 +9,7 @@ import play.*;
 import play.mvc.*;
 
 import de.htwg.seapal.maps.views.html.*;
+import de.htwg.seapal.maps.views.html.content.*;
 import de.htwg.seapal.maps.views.web.hooks.TableHook;
 
 public class PlayMapsController extends Controller {
@@ -28,8 +29,6 @@ public class PlayMapsController extends Controller {
 	}*/
 	
     public Result index() {
-        //return ok(index.render("Index page of MAPS"));
-    	
     	return ok(index.render(mapsController.getTestString(), tableHooks));
     }
   
@@ -37,4 +36,20 @@ public class PlayMapsController extends Controller {
     	
         return ok(index.render("HELP PAGE", tableHooks));
     }
+    
+    public Result seamap(){
+		return ok(seamap.render());
+	}
+    
+    public static Result javascriptRoutes() {
+	    response().setContentType("text/javascript");
+	    return ok(
+	      Routes.javascriptRouter("jsRoutes",
+	        // Routes
+	    	// Application
+	    	de.htwg.seapal.maps.controllers.routes.javascript.PlayMapsController.index(),
+	    	de.htwg.seapal.maps.controllers.routes.javascript.PlayMapsController.test()
+	      )
+	    );
+	  }
 }

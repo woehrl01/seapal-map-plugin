@@ -1,15 +1,36 @@
-@(title: String)(content: Html)
+@(title: String, moreScripts: Html = Html(""), bodyClass: String = "", contentClass: String = "content-wrapper")(content: Html)
 
-<!DOCTYPE html>
-
+<!DOCTYPE HTML>
 <html>
-    <head>
-        <title>@title</title>
-        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
-        <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
-        <script src="@routes.Assets.at("javascripts/jquery-1.9.0.min.js")" type="text/javascript"></script>
-    </head>
-    <body>
-        @content
-    </body>
+	<head>
+		<title>@title</title>
+		<!-- CSS -->
+		<link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700|Droid+Serif:400,700' rel='stylesheet' type='text/css'>
+		<link type="text/css" rel="stylesheet" href="@routes.Assets.at("lib/bootstrap-blue/css/bootstrap.min.css")" />
+		<link type="text/css" rel="stylesheet" href="@routes.Assets.at("css/style.css")" />
+
+		<!-- JS -->
+		<script src="http://code.jquery.com/jquery-latest.js"></script>
+		<script src="@routes.Assets.at("lib/bootstrap-blue/js/bootstrap.min.js")"></script>
+		@moreScripts
+
+		<!--[if lt IE 9]>
+		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+
+		<!-- META -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta charset="utf-8">
+	</head>
+	<body @if(!bodyClass.isEmpty) {class="@bodyClass"}>
+		<div class="header-wrapper">
+			@navbar()
+		</div>
+		<div class="@contentClass">
+			@content
+		</div>
+		<div class="footer-wrapper">
+			@footer()
+		</div>
+	</body>
 </html>

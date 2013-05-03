@@ -13,6 +13,7 @@ import org.ektorp.http.HttpClient;
 import org.ektorp.http.StdHttpClient;
 import org.ektorp.impl.StdCouchDbInstance;
 
+import play.Logger;
 import play.libs.Akka;
 import play.libs.Json;
 import scala.concurrent.duration.Duration;
@@ -32,13 +33,13 @@ public class CouchDBActor extends UntypedActor {
 		
 		CouchDbConnector db = dbInstance.createConnector("positions", true);
 
-		ChangesCommand cmd = new ChangesCommand.Builder().build();
+		ChangesCommand cmd = new ChangesCommand.Builder().includeDocs(true).build();
 
 		ChangesFeed feed = db.changesFeed(cmd);
-
-		while (!instance.isCancelled() && feed.isAlive()) {
+		// !instance.isCancelled() && 
+		while (feed.isAlive()) {
 		    DocumentChange change = feed.next();
-		    
+		    Logger.info(change.getDocAsNode().toString());
 		    SeapalWebSockets.sendJsonObjectToClient( change.getDocAsNode() );
 		}
 	}
