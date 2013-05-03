@@ -1,9 +1,9 @@
-@(message: String, hooks: Set[de.htwg.seapal.maps.views.web.hooks.TableHook])
+@(message: String, hooks: Set[de.htwg.seapal.maps.views.web.hooks.MenuBarHook])
 
 @main("Welcome to Play 2.1") {
     
     @for(hook <- hooks) {
-  			<li>@(hook.print(1))</li>
+  			<li>@(hook.print())</li>
 	} 
     
     

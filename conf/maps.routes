@@ -11,11 +11,7 @@ GET     /socket/             	de.htwg.seapal.maps.controllers.SocketController.i
 GET     /socket/send/:data   	de.htwg.seapal.maps.controllers.SocketController.sendToClients(data: String)
 GET     /socket/open      		de.htwg.seapal.maps.controllers.SocketController.open()
 
-# this works, but there are no trips (there should be 3 trips!)
-GET     /trips                          @de.htwg.seapal.trip.controllers.PlayTripController.trips()
-POST    /trips                          @de.htwg.seapal.trip.controllers.PlayTripController.create()
-# this does not work!
-#-> /trip trip.Routes
+->      /trip                   trip.Routes 
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file     		controllers.Assets.at(path="/public", file)
