@@ -9,11 +9,12 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.WebSocket;
 import de.htwg.seapal.maps.models.SeapalWebSockets;
+import de.htwg.seapal.maps.views.html.web.*;
 
 public class SocketController extends Controller {
 	
 	public static Result index() {
-		return ok(de.htwg.seapal.maps.views.html.websockets.render());
+		return ok(websockets.render());
 	}
 	
 	/**

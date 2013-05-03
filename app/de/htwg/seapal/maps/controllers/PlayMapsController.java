@@ -1,12 +1,14 @@
 package de.htwg.seapal.maps.controllers;
 
-import java.util.HashSet;
 import java.util.Set;
+
+import play.mvc.Controller;
+import play.mvc.Result;
 
 import com.google.inject.Inject;
 
-import play.*;
-import play.mvc.*;
+import de.htwg.seapal.maps.views.web.hooks.MenuBarHook;
+import de.htwg.seapal.maps.views.html.web.*;
 
 import de.htwg.seapal.maps.views.html.*;
 import de.htwg.seapal.maps.views.html.content.*;
@@ -18,23 +20,15 @@ public class PlayMapsController extends Controller {
 	private IMapsController mapsController;
 	
 	@Inject
-	private Set<TableHook> tableHooks;
-	
-	
-	/*@Inject(optional=true)
-	public void setTableHooks(Set<TableHook> tableHooks){
-		if(tableHooks != null){
-			this.tableHooks = tableHooks;
-		}
-	}*/
+	private Set<MenuBarHook> tableHooks;
 	
     public Result index() {
     	return ok(index.render(mapsController.getTestString(), tableHooks));
     }
   
     public Result test() {
-    	
-        return ok(index.render("HELP PAGE", tableHooks));
+    	//web.index.render("HELP PAGE", tableHooks)
+        return ok();
     }
     
     public Result seamap(){
