@@ -16,6 +16,9 @@ import de.htwg.seapal.maps.views.tui.states.InMenuState;
 import de.htwg.seapal.maps.views.tui.states.InMenuStateFactory;
 import de.htwg.seapal.maps.views.tui.states.InPluginState;
 import de.htwg.seapal.maps.views.tui.states.InPluginStateFactory;
+import de.htwg.seapal.maps.views.web.hooks.MenuBarHook;
+import de.htwg.seapal.maps.views.web.hooks.impl.AnotherConcreteTableHook;
+import de.htwg.seapal.maps.views.web.hooks.impl.ConcreteTableHook;
 import de.htwg.seapal.person.views.tui.PersonTUI;
 import de.htwg.seapal.trip.views.tui.TripTUI;
 import de.htwg.seapal.boat.views.tui.BoatTUI;
@@ -29,13 +32,18 @@ import de.htwg.seapal.common.views.tui.TuiState;
 public class MapsTuiModule extends AbstractModule {
 	@Override
 	protected void configure() {
-		// TUI multibindings
+		configureTUI();
+		configureStates();  
+	}
+	
+	private void configureTUI() {
 		Multibinder<Plugin> plugins = Multibinder.newSetBinder(binder(), Plugin.class);
 		//plugins.addBinding().to(TripTUI.class);
 		plugins.addBinding().to(BoatTUI.class);
 		plugins.addBinding().to(PersonTUI.class);
-		
-	    	
+	}
+	
+	private void configureStates() {
 		bind(TuiState.class).annotatedWith(Names.named("Initial")).to(InMenuState.class);
 		
 	    install(new FactoryModuleBuilder()
@@ -44,6 +52,6 @@ public class MapsTuiModule extends AbstractModule {
 	    
 	    install(new FactoryModuleBuilder()
 	    	.implement(InPluginState.class, InPluginState.class)
-	    	.build(InPluginStateFactory.class));   
+	    	.build(InPluginStateFactory.class)); 
 	}
 }

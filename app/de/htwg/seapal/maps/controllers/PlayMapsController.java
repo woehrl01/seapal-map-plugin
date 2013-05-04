@@ -2,6 +2,7 @@ package de.htwg.seapal.maps.controllers;
 
 import java.util.Set;
 
+import play.Routes;
 import play.mvc.Controller;
 import play.mvc.Result;
 
@@ -9,10 +10,6 @@ import com.google.inject.Inject;
 
 import de.htwg.seapal.maps.views.web.hooks.MenuBarHook;
 import de.htwg.seapal.maps.views.html.web.*;
-
-import de.htwg.seapal.maps.views.html.*;
-import de.htwg.seapal.maps.views.html.content.*;
-import de.htwg.seapal.maps.views.web.hooks.TableHook;
 
 public class PlayMapsController extends Controller {
   
@@ -27,8 +24,7 @@ public class PlayMapsController extends Controller {
     }
   
     public Result test() {
-    	//web.index.render("HELP PAGE", tableHooks)
-        return ok();
+    	return ok(index.render("TEST PAGE", tableHooks));
     }
     
     public Result seamap(){
@@ -45,5 +41,5 @@ public class PlayMapsController extends Controller {
 	    	de.htwg.seapal.maps.controllers.routes.javascript.PlayMapsController.test()
 	      )
 	    );
-	  }
+	}
 }
