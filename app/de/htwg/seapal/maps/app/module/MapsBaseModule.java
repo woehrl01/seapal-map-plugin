@@ -8,7 +8,7 @@ import de.htwg.seapal.maps.views.web.hooks.HtmlRenderHook;
 import de.htwg.seapal.maps.views.web.hooks.MenuBarHook;
 import de.htwg.seapal.maps.views.web.hooks.impl.ExampleHtmlRenderHook;
 import de.htwg.seapal.maps.views.web.hooks.impl.ExampleMenuBarHook;
-//import de.htwg.seapal.trip.views.web.hooks.impl.TripMenuBarHook;
+import de.htwg.seapal.trip.views.web.hooks.impl.TripMenuBarHook;
 
 /**
  * Mock Google Guice module description of the maps module.
@@ -31,6 +31,6 @@ public class MapsBaseModule extends AbstractModule {
 	private void configureMenuBarHooks() {
 		Multibinder<MenuBarHook> plugins = Multibinder.newSetBinder(binder(), MenuBarHook.class);
 		plugins.addBinding().to(ExampleMenuBarHook.class);
-		//plugins.addBinding().to(TripMenuBarHook.class);
+		plugins.addBinding().to(TripMenuBarHook.class);
 	}
 }
