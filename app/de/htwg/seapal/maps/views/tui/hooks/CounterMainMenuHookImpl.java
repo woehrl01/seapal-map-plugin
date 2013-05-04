@@ -8,9 +8,8 @@ public class CounterMainMenuHookImpl implements MainMenuHook {
 	private int hookCount = 0;
 	
 	@Override
-	public void print(String entryName) {
-		System.out.print("counter hook:"+(++hookCount));
-
+	public String getText(String entryName) {
+		return "counter hook:"+(++hookCount);
 	}
 
 }

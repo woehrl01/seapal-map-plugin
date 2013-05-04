@@ -8,6 +8,7 @@ import play.mvc.Result;
 
 import com.google.inject.Inject;
 
+import de.htwg.seapal.maps.views.web.hooks.HtmlRenderHook;
 import de.htwg.seapal.maps.views.web.hooks.MenuBarHook;
 import de.htwg.seapal.maps.views.html.web.*;
 
@@ -17,18 +18,21 @@ public class PlayMapsController extends Controller {
 	private IMapsController mapsController;
 	
 	@Inject
-	private Set<MenuBarHook> tableHooks;
+	private Set<MenuBarHook> menuBarHooks;
+	
+	@Inject
+	private Set<HtmlRenderHook> htmlRenderHooks;
 	
     public Result index() {
-    	return ok(index.render(mapsController.getTestString(), tableHooks));
+    	return ok(index.render(mapsController.getTestString(), htmlRenderHooks));
     }
   
     public Result test() {
-    	return ok(index.render("TEST PAGE", tableHooks));
+    	return ok(index.render("TEST PAGE", htmlRenderHooks));
     }
     
     public Result seamap(){
-		return ok(seamap.render());
+		return ok(seamap.render("Seamaps", menuBarHooks));
 	}
     
     public static Result javascriptRoutes() {

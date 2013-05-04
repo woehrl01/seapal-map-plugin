@@ -6,8 +6,8 @@ import de.devsurf.injection.guice.annotations.Bind;
 public class MainMenuHookImpl implements MainMenuHook {
 
 	@Override
-	public void print(String entryName) {
-		System.out.print("hook for " + entryName);
+	public String getText(String entryName) {
+		return "hook for " + entryName;
 	}
 
 }

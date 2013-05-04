@@ -1,3 +1,5 @@
+@(title: String, hooks: Set[de.htwg.seapal.maps.views.web.hooks.MenuBarHook])
+
 @import de.htwg.seapal.maps.views.html._
 
 @scripts = {
@@ -9,10 +11,24 @@
 	<link type="text/css" rel="stylesheet" href="@routes.Assets.at("stylesheets/seamap.css")" />
 }
 
-@main("SeaPal - Seamap", scripts, bodyClass = "withsubnavi googlemaps", contentClass = "container-fluid") {
+@main(title, scripts, bodyClass = "withsubnavi googlemaps", contentClass = "container-fluid") {
 	<div class="row-fluid" style="width:100%;">
 		<div class="span12" style="width:100%;">
 			<div id="map_canvas" class="span12" style="width:100%;"></div>
 		</div>
+	</div>
+	<ul>
+	</ul>
+	<div class="navbar  navbar-fixed-bottom">
+		<div class="navbar-inner">
+	    	<a class="brand" href="#">MenuBar</a>
+	    	<ul class="nav">
+	    		@for(hook <- hooks) {
+		      		<li class="divider-vertical">
+		      			<a href="@hook.getUrl()">@hook.getMenuTitle()</a>
+		      		</li>
+	      		}
+	    	</ul>
+	  	</div>
 	</div>
 }

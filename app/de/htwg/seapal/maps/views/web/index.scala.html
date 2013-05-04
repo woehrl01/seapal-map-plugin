@@ -1,15 +1,15 @@
-@(message: String, hooks: Set[de.htwg.seapal.maps.views.web.hooks.MenuBarHook])
+@(title: String, hooks: Set[de.htwg.seapal.maps.views.web.hooks.HtmlRenderHook])
 
 @import de.htwg.seapal.maps.views.html._
 
-@main("MAPS INDEX") {
+@main(title) {
     <div class="container">
 		<div class="row">
 			<div class="span12">
 				<div class="round">
 				<ul>
 					@for(hook <- hooks) {
-				  			<li>@(hook.print())</li>
+				  			<li>@(hook.getHtml())</li>
 					}
 				</ul>
 			</div>

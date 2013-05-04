@@ -4,9 +4,10 @@ import com.google.inject.AbstractModule;
 import com.google.inject.multibindings.Multibinder;
 
 import de.htwg.seapal.maps.controllers.IMapsController;
+import de.htwg.seapal.maps.views.web.hooks.HtmlRenderHook;
 import de.htwg.seapal.maps.views.web.hooks.MenuBarHook;
-import de.htwg.seapal.maps.views.web.hooks.impl.AnotherConcreteTableHook;
-import de.htwg.seapal.maps.views.web.hooks.impl.ConcreteTableHook;
+import de.htwg.seapal.maps.views.web.hooks.impl.ExampleHtmlRenderHook;
+import de.htwg.seapal.maps.views.web.hooks.impl.ExampleMenuBarHook;
 
 /**
  * Mock Google Guice module description of the maps module.
@@ -15,14 +16,19 @@ import de.htwg.seapal.maps.views.web.hooks.impl.ConcreteTableHook;
 public class MapsBaseModule extends AbstractModule {
 	@Override
 	protected void configure() {	    
+		configureHtmlRenderHooks();
 		configureMenuBarHooks();
 		
 	    bind(IMapsController.class).to(de.htwg.seapal.maps.controllers.MapsController.class);
 	}
 	
+	private void configureHtmlRenderHooks() {
+		Multibinder<HtmlRenderHook> plugins = Multibinder.newSetBinder(binder(), HtmlRenderHook.class);
+		plugins.addBinding().to(ExampleHtmlRenderHook.class);
+	}
+	
 	private void configureMenuBarHooks() {
 		Multibinder<MenuBarHook> plugins = Multibinder.newSetBinder(binder(), MenuBarHook.class);
-		plugins.addBinding().to(ConcreteTableHook.class);
-		plugins.addBinding().to(AnotherConcreteTableHook.class);
+		plugins.addBinding().to(ExampleMenuBarHook.class);
 	}
 }

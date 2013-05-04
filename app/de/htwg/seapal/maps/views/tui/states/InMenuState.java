@@ -40,7 +40,7 @@ public class InMenuState implements TuiState {
 			System.out.print(entry.getValue());
 			for(MainMenuHook hook : hooks){
 				System.out.print("\t| ");
-				hook.print(entry.getValue());
+				System.out.print(hook.getText(entry.getValue()));
 			}
 			System.out.println("");
 		}
