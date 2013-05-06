@@ -37,9 +37,7 @@ public class MapsTuiModule extends AbstractModule {
 	
 	private void configureTUI() {
 		Multibinder<Plugin> plugins = Multibinder.newSetBinder(binder(), Plugin.class);
-		//plugins.addBinding().to(TripTUI.class);
 		plugins.addBinding().to(BoatTUI.class);
-		plugins.addBinding().to(PersonTUI.class);
 	}
 	
 	private void configureStates() {

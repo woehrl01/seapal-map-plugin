@@ -9,20 +9,17 @@ import com.google.inject.Inject;
 import de.htwg.seapal.common.plugin.Plugin;
 import de.htwg.seapal.common.views.tui.StateContext;
 import de.htwg.seapal.common.views.tui.TuiState;
-import de.htwg.seapal.maps.views.tui.hooks.MainMenuHook;
 
 
 public class InMenuState implements TuiState {
 	
 	private Set<Plugin> plugins;
-	private Set<MainMenuHook> hooks;
 	
 	private InPluginStateFactory pluginStateFactory;
 	
 	@Inject
-	public InMenuState(InPluginStateFactory pluginStateFactory, Set<Plugin> plugins, Set<MainMenuHook> hooks){
+	public InMenuState(InPluginStateFactory pluginStateFactory, Set<Plugin> plugins){
 		this.plugins = plugins;
-		this.hooks = hooks;
 		this.pluginStateFactory = pluginStateFactory;
 	}
 
@@ -38,10 +35,6 @@ public class InMenuState implements TuiState {
 		for(Map.Entry<Character, String> entry : menuMap.entrySet()){
 			System.out.print(entry.getKey() + " - ");
 			System.out.print(entry.getValue());
-			for(MainMenuHook hook : hooks){
-				System.out.print("\t| ");
-				System.out.print(hook.getText(entry.getValue()));
-			}
 			System.out.println("");
 		}
 

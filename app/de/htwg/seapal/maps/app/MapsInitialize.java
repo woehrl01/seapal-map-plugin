@@ -41,6 +41,5 @@ public class MapsInitialize implements Initializable {
 				return new Html(builder);
 			}
 		});
-		System.out.println("registered hooks");
 	}
 }

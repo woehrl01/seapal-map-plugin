@@ -34,7 +34,7 @@ class MapsMain {
 		Play.start(play);
 
 		try{
-			Injector injector = MapsGlobal.createInjector().createChildInjector(new MapsTuiModule());
+			Injector injector = MapsGlobal.createInjector();
 			
 			MapsTUI tui = injector.getInstance(MapsTUI.class);
 

@@ -30,16 +30,12 @@ public class MapsBaseModule extends AbstractModule {
 		configureMenuBarHooks();
 		
 		bind(HookRegistry.class);
-	    bind(IMapsController.class).to(de.htwg.seapal.maps.controllers.MapsController.class);
-	    
 	    bind(AppInitilizer.class);
 	    
+	    bind(IMapsController.class).to(de.htwg.seapal.maps.controllers.MapsController.class);
 	    
 	    Multibinder<Initializable> hooks = Multibinder.newSetBinder(binder(), Initializable.class);
 	    hooks.addBinding().to(MapsInitialize.class);
-	    
-	    hooks = Multibinder.newSetBinder(binder(), Initializable.class);
-	    hooks.addBinding().to(TripGlobal.class);
 	}
 	
 	private void configureHtmlRenderHooks() {
