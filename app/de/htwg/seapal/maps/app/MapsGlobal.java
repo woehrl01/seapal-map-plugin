@@ -51,21 +51,21 @@ public class MapsGlobal extends GlobalSettings implements Initializable {
 	
 	@Override
 	public void initHooks(HookRegistry registry) {
-		registry.registerHook("menu.show", new HookHandler<Html, Object>(){
+		registry.registerHook("menu.show", new HookHandler<Html, Object>(Html.class, Object.class){
 
 			@Override
 			public Html execute(Object nothing) {
-				StringBuilder builder = new StringBuilder();
+				final StringBuilder builder = new StringBuilder();
 				builder.append("test");
 
 				return new Html(builder);
 			}
 		});
 		
-		registry.registerHook("menu.show", new HookHandler<Integer, Integer>(){
+		registry.registerHook("menu.show", new HookHandler<Integer, Object>(Integer.class, Object.class){
 
 			@Override
-			public Integer execute(Integer nothing) {
+			public Integer execute(Object nothing) {
 
 
 				return 34343;
