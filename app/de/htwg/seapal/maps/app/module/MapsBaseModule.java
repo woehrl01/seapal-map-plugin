@@ -3,6 +3,7 @@ package de.htwg.seapal.maps.app.module;
 import com.google.inject.AbstractModule;
 import com.google.inject.multibindings.Multibinder;
 
+import de.htwg.seapal.common.plugin.HookRegistry;
 import de.htwg.seapal.maps.controllers.IMapsController;
 import de.htwg.seapal.maps.views.web.hooks.HtmlRenderHook;
 import de.htwg.seapal.maps.views.web.hooks.MenuBarHook;
@@ -20,6 +21,7 @@ public class MapsBaseModule extends AbstractModule {
 		configureHtmlRenderHooks();
 		configureMenuBarHooks();
 		
+		bind(HookRegistry.class);
 	    bind(IMapsController.class).to(de.htwg.seapal.maps.controllers.MapsController.class);
 	}
 	
@@ -29,8 +31,8 @@ public class MapsBaseModule extends AbstractModule {
 	}
 	
 	private void configureMenuBarHooks() {
-		Multibinder<MenuBarHook> plugins = Multibinder.newSetBinder(binder(), MenuBarHook.class);
+		Multibinder<de.htwg.seapal.maps.views.web.hooks.MenuBarHook> plugins = Multibinder.newSetBinder(binder(), de.htwg.seapal.maps.views.web.hooks.MenuBarHook.class);
 		plugins.addBinding().to(ExampleMenuBarHook.class);
-		plugins.addBinding().to(TripMenuBarHook.class);
+		//plugins.addBinding().to(TripMenuBarHook.class);
 	}
 }
