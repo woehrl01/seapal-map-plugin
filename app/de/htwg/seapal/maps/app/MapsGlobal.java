@@ -1,6 +1,8 @@
 package de.htwg.seapal.maps.app;
 
 
+import java.util.Set;
+
 import play.Application;
 import play.GlobalSettings;
 import play.Logger;
@@ -19,13 +21,14 @@ import de.htwg.seapal.maps.app.module.MapsImplModule;
 import de.htwg.seapal.person.app.PersonDemoImplModule;
 import de.htwg.seapal.trip.app.TripDemoImplModule;
 
-public class MapsGlobal extends GlobalSettings implements Initializable {
+public class MapsGlobal extends GlobalSettings{
 
 	private static Injector INJECTOR = createInjector();
 	private static HookRegistry registry = INJECTOR.getInstance(HookRegistry.class);
-
+	
+	
 	public static Injector createInjector() {
-		return Guice.createInjector(new ReflectionModule(),
+		return Guice.createInjector(
 				new MapsImplModule(), new PersonDemoImplModule(),
 				new BoatMockModule(), new TripDemoImplModule());
 	}
@@ -44,35 +47,18 @@ public class MapsGlobal extends GlobalSettings implements Initializable {
 		TestActor.startUp(message);
 		CouchDBActor.startUp();
 		
-		initHooks(registry);
+		initComponents();
 
 		Logger.info("Maps app has started");
 	}
 	
-	@Override
-	public void initHooks(HookRegistry registry) {
-		registry.registerHook("menu.show", new HookHandler<Html, Object>(Html.class, Object.class){
-
-			@Override
-			public Html execute(Object nothing) {
-				final StringBuilder builder = new StringBuilder();
-				builder.append("test");
-
-				return new Html(builder);
-			}
-		});
+	private void initComponents() {
+		AppInitilizer starter = INJECTOR.getInstance(AppInitilizer.class);
 		
-		registry.registerHook("menu.show", new HookHandler<Integer, Object>(Integer.class, Object.class){
-
-			@Override
-			public Integer execute(Object nothing) {
-
-
-				return 34343;
-			}
-		});
-		System.out.println("registered hooks");
+		starter.init();
 	}
+
+	
 
 
 	@Override

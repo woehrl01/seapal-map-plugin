@@ -1,14 +1,22 @@
 package de.htwg.seapal.maps.app.module;
 
+import org.apache.commons.lang3.AnnotationUtils;
+
 import com.google.inject.AbstractModule;
+import com.google.inject.Key;
 import com.google.inject.multibindings.Multibinder;
+import com.google.inject.name.Names;
 
 import de.htwg.seapal.common.plugin.HookRegistry;
+import de.htwg.seapal.common.plugin.Initializable;
+import de.htwg.seapal.maps.app.AppInitilizer;
+import de.htwg.seapal.maps.app.MapsInitialize;
 import de.htwg.seapal.maps.controllers.IMapsController;
 import de.htwg.seapal.maps.views.web.hooks.HtmlRenderHook;
 import de.htwg.seapal.maps.views.web.hooks.MenuBarHook;
 import de.htwg.seapal.maps.views.web.hooks.impl.ExampleHtmlRenderHook;
 import de.htwg.seapal.maps.views.web.hooks.impl.ExampleMenuBarHook;
+import de.htwg.seapal.trip.app.TripGlobal;
 import de.htwg.seapal.trip.views.web.hooks.impl.TripMenuBarHook;
 
 /**
@@ -23,6 +31,15 @@ public class MapsBaseModule extends AbstractModule {
 		
 		bind(HookRegistry.class);
 	    bind(IMapsController.class).to(de.htwg.seapal.maps.controllers.MapsController.class);
+	    
+	    bind(AppInitilizer.class);
+	    
+	    
+	    Multibinder<Initializable> hooks = Multibinder.newSetBinder(binder(), Initializable.class);
+	    hooks.addBinding().to(MapsInitialize.class);
+	    
+	    hooks = Multibinder.newSetBinder(binder(), Initializable.class);
+	    hooks.addBinding().to(TripGlobal.class);
 	}
 	
 	private void configureHtmlRenderHooks() {

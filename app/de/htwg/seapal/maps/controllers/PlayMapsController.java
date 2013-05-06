@@ -39,8 +39,10 @@ public class PlayMapsController extends Controller {
     }
     
     public Result seamap(){
-    	List<HookHandler<Html, Object>> hooks = hookRegistry.getHooks("menu.show", Html.class, Object.class);
-   	
+    	Set<HookHandler<Html, Object>> hooks = hookRegistry.getHooks("menu.show", Html.class, Object.class);
+
+    	
+    	
 		return ok(seamap.render("Seamaps", hooks));
 	}
     
