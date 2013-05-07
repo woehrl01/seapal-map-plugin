@@ -13,9 +13,8 @@ import com.google.inject.util.Modules;
 
 import de.devsurf.injection.guice.annotations.Bind;
 import de.htwg.seapal.maps.views.tui.states.InMenuState;
-import de.htwg.seapal.maps.views.tui.states.InMenuStateFactory;
 import de.htwg.seapal.maps.views.tui.states.InPluginState;
-import de.htwg.seapal.maps.views.tui.states.InPluginStateFactory;
+import de.htwg.seapal.maps.views.tui.states.StateFactory;
 import de.htwg.seapal.maps.views.web.hooks.MenuBarHook;
 import de.htwg.seapal.maps.views.web.hooks.impl.ExampleHtmlRenderHook;
 import de.htwg.seapal.person.views.tui.PersonTUI;
@@ -44,11 +43,8 @@ public class MapsTuiModule extends AbstractModule {
 		bind(TuiState.class).annotatedWith(Names.named("Initial")).to(InMenuState.class);
 		
 	    install(new FactoryModuleBuilder()
-	    	.implement(InMenuState.class, InMenuState.class)
-	    	.build(InMenuStateFactory.class));
-	    
-	    install(new FactoryModuleBuilder()
 	    	.implement(InPluginState.class, InPluginState.class)
-	    	.build(InPluginStateFactory.class)); 
+	    	.implement(InMenuState.class, InMenuState.class)
+	    	.build(StateFactory.class)); 
 	}
 }

@@ -10,12 +10,12 @@ import de.htwg.seapal.common.views.tui.TuiState;
 public class InPluginState implements TuiState {
 
 	private Plugin plugin;
-	private InMenuStateFactory menuStateFactory;
+	private StateFactory stateFactory;
 	
 	@Inject
-	public InPluginState(InMenuStateFactory menuStateFactory, @Assisted Plugin plugin){
+	public InPluginState(StateFactory stateFactory, @Assisted Plugin plugin){
 		this.plugin = plugin;
-		this.menuStateFactory = menuStateFactory;
+		this.stateFactory = stateFactory;
 	}
 	
 	@Override
@@ -28,7 +28,7 @@ public class InPluginState implements TuiState {
 		if(plugin.processInputLine(input)){
 			return true;
 		}else if(input.equalsIgnoreCase("q")){
-			context.setState(menuStateFactory.create());
+			context.setState(stateFactory.createInMenu());
 			return true;
 		}
 		
