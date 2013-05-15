@@ -23,7 +23,7 @@ import de.htwg.seapal.person.controllers.IPersonController;
  * @author Benjamin
  */
 @Singleton
-public class MapsController extends Observable implements IMapsController {
+public class MapsRemoteController extends Observable implements IMapsRemoteController {
 
 	private IMaps maps;
 	private IMapsDatabase database;
@@ -32,7 +32,7 @@ public class MapsController extends Observable implements IMapsController {
 	private MapsFactory mapsFactory;
 	
 	@Inject
-	public MapsController(MapsFactory mapsFactory, IMapsDatabase db, IBoatController boatController, IPersonController personController) {
+	public MapsRemoteController(Injector inject, MapsFactory mapsFactory, IMapsDatabase db, IBoatController boatController, IPersonController personController) {
 		this.database = db;
 		this.mapsFactory = mapsFactory;
 		this.maps = db.load();
@@ -44,6 +44,15 @@ public class MapsController extends Observable implements IMapsController {
 		
 		this.boatController = boatController;
 		this.personController = personController;
+		
+		try {
+			Registry reg = LocateRegistry.createRegistry(Registry.REGISTRY_PORT);
+			IMapsRemoteController stub = (IMapsRemoteController)UnicastRemoteObject.exportObject(inject.getInstance(MapsRemoteController.class), 0);
+			reg.rebind("de.htwg.seapal.maps", stub);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	@Override

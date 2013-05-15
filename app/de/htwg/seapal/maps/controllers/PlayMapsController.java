@@ -1,5 +1,6 @@
 package de.htwg.seapal.maps.controllers;
 
+import java.rmi.RemoteException;
 import java.util.List;
 import java.util.Set;
 
@@ -31,7 +32,13 @@ public class PlayMapsController extends Controller {
 	private HookRegistry hookRegistry;
 	
     public Result index() {
-    	return ok(index.render(mapsController.getTestString(), htmlRenderHooks));
+    	try {
+			return ok(index.render(mapsController.getTestString(), htmlRenderHooks));
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	return badRequest("ERROR");
     }
   
     public Result test() {
@@ -47,11 +54,11 @@ public class PlayMapsController extends Controller {
     public static Result javascriptRoutes() {
 	    response().setContentType("text/javascript");
 	    return ok(
-	      Routes.javascriptRouter("jsRoutes",
+	      Routes.javascriptRouter("jsRoutes"
 	        // Routes
 	    	// Application
-	    	de.htwg.seapal.maps.controllers.routes.javascript.PlayMapsController.index(),
-	    	de.htwg.seapal.maps.controllers.routes.javascript.PlayMapsController.test()
+	    	//de.htwg.seapal.maps.controllers.routes.javascript.PlayMapsController.index(),
+	    	//de.htwg.seapal.maps.controllers.routes.javascript.PlayMapsController.test()
 	      )
 	    );
 	}

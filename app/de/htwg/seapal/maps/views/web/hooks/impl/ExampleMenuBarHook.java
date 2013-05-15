@@ -11,7 +11,8 @@ public class ExampleMenuBarHook implements MenuBarHook {
 
 	@Override
 	public String getUrl() {
-		return de.htwg.seapal.maps.controllers.routes.PlayMapsController.test().url();
+		//return de.htwg.seapal.maps.controllers.routes.PlayMapsController.test().url();
+		return "www.idontknow.de";
 	}
 
 }

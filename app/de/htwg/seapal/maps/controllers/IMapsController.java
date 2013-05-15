@@ -1,12 +1,11 @@
 package de.htwg.seapal.maps.controllers;
 
 import java.awt.Point;
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 import de.htwg.seapal.common.observer.IObservable;
 
-public interface IMapsController extends IObservable, Remote {
+public interface IMapsController extends IObservable {
 	
 	/**
 	 * Simple test method just for verification that the controller is injected and works.
