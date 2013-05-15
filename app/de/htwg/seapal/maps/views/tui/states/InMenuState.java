@@ -27,6 +27,7 @@ public class InMenuState implements TuiState {
 	public void print() {
 		Map<Character, String> menuMap = new LinkedHashMap<Character, String>();
 		menuMap.put('q', "Quit");
+		menuMap.put('z', "Person RMI state");
 		
 		for (Plugin plugin : plugins) {
 			menuMap.put(plugin.getMenuKey(), plugin.getMenuEntry());
@@ -44,7 +45,9 @@ public class InMenuState implements TuiState {
 	public boolean process(StateContext context, String input) {
 		if(input.equalsIgnoreCase("q")){
 			return false;
-		}else{
+		} else if (input.equalsIgnoreCase("z")) {
+			context.setState(stateFactory.createInRmiState());
+		} else {
 			for (Plugin plugin : plugins) {
 				if (input.toLowerCase().charAt(0) == plugin.getMenuKey()) {
 					context.setState(stateFactory.createInPlugin(plugin));

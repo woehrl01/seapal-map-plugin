@@ -5,4 +5,5 @@ import de.htwg.seapal.common.plugin.Plugin;
 public interface StateFactory {
 	InMenuState createInMenu();
 	InPluginState createInPlugin(Plugin plugin);
+	InRmiState createInRmiState();
 }

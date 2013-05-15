@@ -1,6 +1,10 @@
 package de.htwg.seapal.maps.controllers;
 
 import java.awt.Point;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 
 import play.Logger;
 
@@ -28,7 +32,7 @@ public class MapsController extends Observable implements IMapsController {
 	private MapsFactory mapsFactory;
 	
 	@Inject
-	public MapsController(MapsFactory mapsFactory, IMapsDatabase db, IBoatController boatController, IPersonController personController) {
+	public MapsController(Injector inject, MapsFactory mapsFactory, IMapsDatabase db, IBoatController boatController, IPersonController personController) {
 		this.database = db;
 		this.mapsFactory = mapsFactory;
 		this.maps = db.load();
@@ -40,6 +44,15 @@ public class MapsController extends Observable implements IMapsController {
 		
 		this.boatController = boatController;
 		this.personController = personController;
+		
+		try {
+			Registry reg = LocateRegistry.createRegistry(Registry.REGISTRY_PORT);
+			IMapsController stub = (IMapsController)UnicastRemoteObject.exportObject(inject.getInstance(MapsController.class), 0);
+			reg.rebind("de.htwg.seapal.maps", stub);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	@Override
