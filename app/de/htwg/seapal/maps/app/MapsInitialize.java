@@ -13,7 +13,8 @@ public class MapsInitialize implements Initializable {
 		registry.registerHook("menu.show", new HookHandler<Html, Object>(Html.class, Object.class){
 
 			@Override
-			public Html execute(Object nothing) {
+			public Html
+			execute(Object nothing) {
 				final StringBuilder builder = new StringBuilder();
 				builder.append("<a href=\"\">test</a>");
 

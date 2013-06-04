@@ -31,16 +31,6 @@ public interface IMaps {
 	void setMenuVisible( boolean visible );
 	
 	/**
-	 * Hides the maps menu.
-	 */
-	void hideMenu();
-	
-	/**
-	 * Shows the maps menu.
-	 */
-	void showMenu();
-	
-	/**
 	 * Gets the maps position state.
 	 * @return The maps position state.
 	 */

@@ -1,5 +1,6 @@
 package de.htwg.seapal.maps.controllers;
 
+import java.rmi.RemoteException;
 import java.util.List;
 import java.util.Set;
 
@@ -7,6 +8,7 @@ import play.Routes;
 import play.api.templates.Html;
 import play.mvc.Controller;
 import play.mvc.Result;
+import views.html.defaultpages.error;
 
 import com.google.inject.Inject;
 
@@ -31,7 +33,11 @@ public class PlayMapsController extends Controller {
 	private HookRegistry hookRegistry;
 	
     public Result index() {
-    	return ok(index.render(mapsController.getTestString(), htmlRenderHooks));
+    	try {
+			return ok(index.render(mapsController.getType().toString(), htmlRenderHooks));
+		} catch (RemoteException e) {
+			return badRequest(e.getMessage());
+		}
     }
   
     public Result test() {

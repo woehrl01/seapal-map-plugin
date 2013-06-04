@@ -16,8 +16,6 @@ import de.htwg.seapal.maps.views.web.hooks.HtmlRenderHook;
 import de.htwg.seapal.maps.views.web.hooks.MenuBarHook;
 import de.htwg.seapal.maps.views.web.hooks.impl.ExampleHtmlRenderHook;
 import de.htwg.seapal.maps.views.web.hooks.impl.ExampleMenuBarHook;
-import de.htwg.seapal.trip.app.TripGlobal;
-import de.htwg.seapal.trip.views.web.hooks.impl.TripMenuBarHook;
 
 /**
  * Mock Google Guice module description of the maps module.

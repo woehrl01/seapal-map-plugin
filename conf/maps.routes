@@ -15,7 +15,7 @@ GET     /socket/             		de.htwg.seapal.maps.controllers.SocketController.
 GET     /socket/send/:data   		de.htwg.seapal.maps.controllers.SocketController.sendToClients(data: String)
 GET     /socket/open      			de.htwg.seapal.maps.controllers.SocketController.open()
 
-->      /trip                   	trip.Routes 
+#->      /trip                   	trip.Routes 
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file     			controllers.Assets.at(path="/public", file)

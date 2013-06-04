@@ -62,16 +62,6 @@ public class Maps implements IMaps {
 	}
 
 	@Override
-	public void hideMenu() {
-		this.isMenuVisible = false;
-	}
-
-	@Override
-	public void showMenu() {
-		this.isMenuVisible = true;
-	}
-
-	@Override
 	public MapsMenuPositionState getMenuPositionState() {
 		return this.menuPositionState;
 	}

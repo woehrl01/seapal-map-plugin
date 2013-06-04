@@ -17,9 +17,6 @@ import de.htwg.seapal.maps.views.tui.states.InPluginState;
 import de.htwg.seapal.maps.views.tui.states.StateFactory;
 import de.htwg.seapal.maps.views.web.hooks.MenuBarHook;
 import de.htwg.seapal.maps.views.web.hooks.impl.ExampleHtmlRenderHook;
-import de.htwg.seapal.person.views.tui.PersonTUI;
-import de.htwg.seapal.trip.views.tui.TripTUI;
-import de.htwg.seapal.boat.views.tui.BoatTUI;
 import de.htwg.seapal.common.plugin.Plugin;
 import de.htwg.seapal.common.views.tui.TuiState;
 
@@ -36,7 +33,7 @@ public class MapsTuiModule extends AbstractModule {
 	
 	private void configureTUI() {
 		Multibinder<Plugin> plugins = Multibinder.newSetBinder(binder(), Plugin.class);
-		plugins.addBinding().to(BoatTUI.class);
+		//plugins.addBinding().to(BoatTUI.class);
 	}
 	
 	private void configureStates() {

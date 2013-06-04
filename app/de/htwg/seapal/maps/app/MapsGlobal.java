@@ -12,15 +12,12 @@ import scala.collection.mutable.StringBuilder;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
-import de.htwg.seapal.boat.app.BoatMockModule;
 import de.htwg.seapal.common.modules.ReflectionModule;
 import de.htwg.seapal.common.plugin.HookHandler;
 import de.htwg.seapal.common.plugin.HookRegistry;
 import de.htwg.seapal.common.plugin.Initializable;
 import de.htwg.seapal.maps.app.module.MapsImplModule;
 import de.htwg.seapal.maps.app.module.MapsTuiModule;
-import de.htwg.seapal.person.app.PersonDemoImplModule;
-import de.htwg.seapal.trip.app.TripDemoImplModule;
 
 public class MapsGlobal extends GlobalSettings{
 
@@ -30,8 +27,10 @@ public class MapsGlobal extends GlobalSettings{
 	
 	public static Injector createInjector() {
 		return Guice.createInjector(
-				new MapsImplModule(), new PersonDemoImplModule(),
-				new BoatMockModule(), new TripDemoImplModule(),
+				new MapsImplModule(),
+				//new PersonDemoImplModule(),
+				//new BoatMockModule(),
+				//new TripDemoImplModule(),
 				new MapsTuiModule());
 	}
 	

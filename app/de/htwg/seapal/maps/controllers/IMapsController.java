@@ -1,32 +1,79 @@
 package de.htwg.seapal.maps.controllers;
 
 import java.awt.Point;
-import de.htwg.seapal.common.observer.IObservable;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 
-public interface IMapsController extends IObservable {
+import de.htwg.seapal.common.observer.IObservable;
+import de.htwg.seapal.maps.models.MapsMenuPositionState;
+import de.htwg.seapal.maps.models.MapsPositionState;
+import de.htwg.seapal.maps.models.MapsType;
+
+public interface IMapsController extends IObservable, Remote {
 	
 	/**
-	 * Simple test method just for verification that the controller is injected and works.
-	 * TODO: remove this method
-	 * @return Returns a test string.
+	 * Gets whether the menu is visible.
+	 * @return TRUE, if the menu is visible
+	 * @throws RemoteException
 	 */
-	String getTestString();
+	boolean getMenuVisible() throws RemoteException;
 	
 	/**
-	 * Adds a waypoint at the specified position.
-	 * @param position The waypoint position.
+	 * Hides the maps menu.
 	 */
-	void addWaypoint(Point position);
+	void hideMenu() throws RemoteException;
 	
 	/**
-	 * Sets the position of the displayed boat.
-	 * @param position The boat position.
+	 * Shows the maps menu.
 	 */
-	void setBoatPosition(Point position);
+	void showMenu() throws RemoteException;
 	
-	boolean getMenuVisible();
+	/**
+	 * Gets the maps position state.
+	 * @return The maps position state.
+	 */
+	MapsMenuPositionState getMenuPositionState() throws RemoteException;
 	
-	void showMenu();
+	/**
+	 * Sets the position state of the menu.
+	 * @param menuPositionState The menu position state.
+	 */
+	void setMenuPositionState(MapsMenuPositionState menuPositionState) throws RemoteException;
 	
-	void hideMenu();
+	/**
+	 * Gets the position state of the map.
+	 * @return The maps position state.
+	 */
+	MapsPositionState getPositionState() throws RemoteException;
+	
+	/**
+	 * Sets the maps position state.
+	 * @param positionState The maps position state.
+	 */
+	void setPositionState(MapsPositionState positionState) throws RemoteException;
+	
+	/**
+	 * Gets the maps center position.
+	 * @return
+	 */
+	Point getPosition() throws RemoteException;
+	
+	/**
+	 * Sets the maps center position
+	 * @param position The position where the maps center should be located.
+	 * @throws IllegalStateException If getPositionState() is not MapsPositionState.FIXED.
+	 */
+	void setPosition(Point position) throws IllegalStateException, RemoteException;
+	
+	/**
+	 * Gets the maps type.
+	 * @return The current maps type.
+	 */
+	MapsType getType() throws RemoteException;
+	
+	/**
+	 * Sets the preferred maps type.
+	 * @param type The maps type.
+	 */
+	void setType(MapsType type) throws RemoteException;
 }

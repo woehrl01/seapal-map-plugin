@@ -22,7 +22,7 @@ public class MapsTest {
 
 	@Test
 	public void testShowMenu() {
-		maps.showMenu();
+		maps.setMenuVisible(true);
 		
 		boolean expected = true;
 		boolean actual = maps.getMenuVisible();
@@ -32,7 +32,7 @@ public class MapsTest {
 	
 	@Test
 	public void testHideMenu() {
-		maps.hideMenu();
+		maps.setMenuVisible(false);
 		
 		boolean expected = false;
 		boolean actual = maps.getMenuVisible();
