@@ -4,8 +4,9 @@
 
 # Home page
 GET     /              				@de.htwg.seapal.maps.controllers.PlayMapsController.index()
-GET     /test              			@de.htwg.seapal.maps.controllers.PlayMapsController.test()
 GET		/seamap						@de.htwg.seapal.maps.controllers.PlayMapsController.seamap()
+GET		/seamapsettings				@de.htwg.seapal.maps.controllers.PlayMapsController.seamapSettings()
+POST	/seamapsettings				@de.htwg.seapal.maps.controllers.PlayMapsController.saveSeamapSettings()
 
 # Javascript routing
 GET    /assets/javascripts/routes   de.htwg.seapal.maps.controllers.PlayMapsController.javascriptRoutes()

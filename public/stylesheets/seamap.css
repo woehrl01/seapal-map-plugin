@@ -92,3 +92,7 @@ body.googlemaps
 .seamapsidebar div.buttons_bottom div {
 	padding:10px;
 }
+
+.container-fluid {
+	margin-top: -60px;	
+}

@@ -15,24 +15,7 @@ create table maps (
   constraint pk_maps primary key (id))
 ;
 
-create table trip (
-  id                        bigint not null,
-  name                      varchar(255),
-  start_location            varchar(255),
-  end_location              varchar(255),
-  skipper                   varchar(255),
-  start_time                timestamp,
-  end_time                  timestamp,
-  duration                  bigint,
-  motor                     integer,
-  fuel                      double,
-  notes                     varchar(255),
-  constraint pk_trip primary key (id))
-;
-
 create sequence maps_seq;
-
-create sequence trip_seq;
 
 
 
@@ -43,11 +26,7 @@ SET REFERENTIAL_INTEGRITY FALSE;
 
 drop table if exists maps;
 
-drop table if exists trip;
-
 SET REFERENTIAL_INTEGRITY TRUE;
 
 drop sequence if exists maps_seq;
-
-drop sequence if exists trip_seq;
 

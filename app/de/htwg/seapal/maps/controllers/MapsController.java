@@ -6,8 +6,6 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
-import play.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import de.htwg.seapal.common.observer.Observable;
@@ -23,7 +21,7 @@ import de.htwg.seapal.maps.models.MapsType;
  * @author Benjamin
  */
 @Singleton
-public class MapsController extends Observable implements IMapsController {
+public class MapsController implements IMapsController {
 
 	private IMapsDatabase database;
 	private MapsFactory mapsFactory;
@@ -32,8 +30,17 @@ public class MapsController extends Observable implements IMapsController {
 	public MapsController(MapsFactory mapsFactory, IMapsDatabase db) throws RemoteException {
 		this.database = db;
 		this.mapsFactory = mapsFactory;
+		
+		// RMI export
+		Registry reg = LocateRegistry.createRegistry(Registry.REGISTRY_PORT);
+		IMapsController stub = (IMapsController)UnicastRemoteObject.exportObject(this, 0);
+		reg.rebind("de.htwg.seapal.maps", stub);
 	}
-	
+
+	@Override
+	public IMaps getMapsSettings() throws RemoteException {
+		return database.load();
+	}
 
 	@Override
 	public boolean getMenuVisible() throws RemoteException {
@@ -46,7 +53,6 @@ public class MapsController extends Observable implements IMapsController {
 		IMaps maps = database.load();
 		maps.setMenuVisible(true);
 		database.save(maps);
-		notifyObservers();
 	}
 
 	@Override
@@ -54,7 +60,6 @@ public class MapsController extends Observable implements IMapsController {
 		IMaps maps = database.load();
 		maps.setMenuVisible(false);
 		database.save(maps);
-		notifyObservers();
 	}
 
 
@@ -71,7 +76,6 @@ public class MapsController extends Observable implements IMapsController {
 		IMaps maps = database.load();
 		maps.setMenuPositionState(menuPositionState);
 		database.save(maps);
-		notifyObservers();
 	}
 
 
@@ -88,7 +92,6 @@ public class MapsController extends Observable implements IMapsController {
 		IMaps maps = database.load();
 		maps.setPositionState(positionState);
 		database.save(maps);
-		notifyObservers();
 	}
 
 
@@ -105,7 +108,6 @@ public class MapsController extends Observable implements IMapsController {
 		IMaps maps = database.load();
 		maps.setPosition(position);
 		database.save(maps);
-		notifyObservers();
 	}
 
 
@@ -121,6 +123,5 @@ public class MapsController extends Observable implements IMapsController {
 		IMaps maps = database.load();
 		maps.setType(type);
 		database.save(maps);
-		notifyObservers();
 	}
 }

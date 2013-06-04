@@ -23,11 +23,17 @@ public class MapsEbeanDatabase implements IMapsDatabase {
 
 	@Override
 	public IMaps load() {
+		IMaps maps = null;
 		try{
-			return Ebean.find(Maps.class, 0);
+			maps = Ebean.find(Maps.class, 0);
 		}catch(PersistenceException e){
-			return null;
+			System.out.println(e.getMessage());
 		}
+		if (maps == null) {
+			maps = new Maps();
+		}
+			
+		return maps;
 	}
 
 	@Override

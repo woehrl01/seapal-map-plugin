@@ -2,11 +2,13 @@ package de.htwg.seapal.maps.database.impl;
 
 import java.util.List;
 
+import com.db4o.Db4o;
 import com.db4o.Db4oEmbedded;
 import com.db4o.ObjectContainer;
 
 import de.htwg.seapal.maps.database.IMapsDatabase;
 import de.htwg.seapal.maps.models.IMaps;
+import de.htwg.seapal.maps.models.impl.Maps;
 
 public class MapsDb4oDatabase implements IMapsDatabase {
 
@@ -34,7 +36,7 @@ public class MapsDb4oDatabase implements IMapsDatabase {
 		List<IMaps> maps = db.query(IMaps.class);
 		
 		if (maps.size() == 0) {
-			return null;
+			return new Maps();
 		}
 		
 		return maps.get(0);
