@@ -53,11 +53,11 @@ public class PlayMapsController extends Controller {
     public static Result javascriptRoutes() {
 	    response().setContentType("text/javascript");
 	    return ok(
-	      Routes.javascriptRouter("jsRoutes",
+	      Routes.javascriptRouter("jsRoutes"
 	        // Routes
 	    	// Application
-	    	de.htwg.seapal.maps.controllers.routes.javascript.PlayMapsController.index(),
-	    	de.htwg.seapal.maps.controllers.routes.javascript.PlayMapsController.test()
+	    	//de.htwg.seapal.maps.controllers.routes.javascript.PlayMapsController.index(),
+	    	//de.htwg.seapal.maps.controllers.routes.javascript.PlayMapsController.test()
 	      )
 	    );
 	}

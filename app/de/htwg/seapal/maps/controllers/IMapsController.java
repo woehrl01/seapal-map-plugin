@@ -3,6 +3,8 @@ package de.htwg.seapal.maps.controllers;
 import java.awt.Point;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.rmi.RemoteException;
+
 
 import de.htwg.seapal.common.observer.IObservable;
 import de.htwg.seapal.maps.models.MapsMenuPositionState;
@@ -17,24 +19,29 @@ public interface IMapsController extends IObservable, Remote {
 	 * @throws RemoteException
 	 */
 	boolean getMenuVisible() throws RemoteException;
+	String getTestString() throws RemoteException;
 	
 	/**
 	 * Hides the maps menu.
 	 */
 	void hideMenu() throws RemoteException;
+	void addWaypoint(Point position) throws RemoteException;
 	
 	/**
 	 * Shows the maps menu.
 	 */
 	void showMenu() throws RemoteException;
+	void setBoatPosition(Point position) throws RemoteException;
 	
 	/**
+	boolean getMenuVisible() throws RemoteException;
 	 * Gets the maps position state.
 	 * @return The maps position state.
 	 */
 	MapsMenuPositionState getMenuPositionState() throws RemoteException;
 	
 	/**
+	void showMenu() throws RemoteException;
 	 * Sets the position state of the menu.
 	 * @param menuPositionState The menu position state.
 	 */
