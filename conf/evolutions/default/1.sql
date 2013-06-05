@@ -5,7 +5,7 @@
 
 create table maps (
   id                        bigint not null,
-  is_menu_visible           boolean,
+  menu_visible              boolean,
   menu_position_state       integer,
   position_state            integer,
   type                      integer,

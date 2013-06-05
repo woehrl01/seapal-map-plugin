@@ -1,16 +1,26 @@
 package de.htwg.seapal.maps.controllers;
 
+import java.awt.Point;
 import java.rmi.RemoteException;
+
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
+
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.node.ObjectNode;
 
 import play.Routes;
 import play.api.templates.Html;
 import play.data.Form;
+import play.data.format.Formatters;
+import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.Logger;
 import scala.Function1;
 import scala.Function2;
 import scala.Option;
@@ -91,7 +101,23 @@ public class PlayMapsController extends Controller {
 		return ok(seamap.render("Seamaps", hooks));
 	}
     
+    public Result seamapSettingsAsJson() throws RemoteException{
+    	IMaps mapsSettings = mapsController.getMapsSettings();
+    	ObjectNode result = Json.newObject();
+    	result.put("id", mapsSettings.getId());
+	    result.put("isMenuVisible", mapsSettings.getMenuVisible());
+	    result.put("menuPositionState", mapsSettings.getMenuPositionState().toString());
+	    result.put("positionState", mapsSettings.getPositionState().toString());
+	    result.put("type", mapsSettings.getType().toString());
+	    ObjectNode pos = Json.newObject();
+	    pos.put("x", mapsSettings.getPosition().x);
+	    pos.put("y", mapsSettings.getPosition().y);
+	    result.put("position", pos);
+	    return ok(result);
+    }
+    
     public Result seamapSettings() throws RemoteException{
+    	
     	IMaps mapsSettings = mapsController.getMapsSettings();
     	
     	List<String> menuPositionStates = new ArrayList<String>();
@@ -109,13 +135,84 @@ public class PlayMapsController extends Controller {
     		mapsTypes.add(value.toString());
     	}
     	
-    	return ok(seamapsettings.render(mapsSettings, mapsForm, menuPositionStates, positionStates, mapsTypes));
+    	return ok(seamapsettings.render(mapsSettings, mapsForm.fill((Maps) mapsSettings), menuPositionStates, positionStates, mapsTypes));
     }
     
-    public Result saveSeamapSettings() {
+    public Result saveSeamapSettings() throws RemoteException {
+    	
+    	Logger.info("Call: saveSeamapSettings");
     	Form<Maps> filledForm = mapsForm.bindFromRequest();
-    	//return ok(seamapsettings.render(mapsSettings));
-    	return ok();
+    	if (filledForm.hasErrors()) {
+    		Logger.error(filledForm.errorsAsJson().toString());
+    	}
+    	
+    	//save settings here
+    	Maps mapsData = filledForm.get();
+    	mapsController.setMapsSettings(mapsData);
+    	
+    	//return ok(index.render(filledForm.get().getPositionState().toString(), htmlRenderHooks));
+    	return redirect(de.htwg.seapal.maps.controllers.routes.PlayMapsController.seamapSettings());
+    }
+    
+    public Result saveSeamapSettingsFromJson() throws RemoteException {
+    	boolean hasErrors = false;
+    	JsonNode json = request().body().asJson();
+    	ObjectNode result = Json.newObject();
+    	
+    	JsonNode menuVisible = json.findPath("isMenuVisible");
+    	if (menuVisible != null) {
+    		if (menuVisible.getBooleanValue()) {
+    			mapsController.showMenu();
+    		} else {
+    			mapsController.hideMenu();
+    		}
+    	}
+    	
+    	JsonNode menuPositionState = json.findPath("menuPositionState");
+    	if (menuPositionState != null) {
+    		MapsMenuPositionState state = MapsMenuPositionState.valueOf(menuPositionState.getTextValue());
+    		if (state != null) {
+    			mapsController.setMenuPositionState(state);
+    		} else {
+    			hasErrors = true;
+    		}
+    	}
+    	
+    	JsonNode positionState = json.findPath("positionState");
+    	if (positionState != null) {
+    		MapsPositionState state = MapsPositionState.valueOf(positionState.getTextValue());
+    		if (state != null) {
+    			mapsController.setPositionState(state);
+    		} else {
+    			hasErrors = true;
+    		}
+    	}
+    	
+    	JsonNode type = json.findPath("type");
+    	if (type != null) {
+    		MapsType t = MapsType.valueOf(type.getTextValue());
+    		if (t != null) {
+    			mapsController.setType(t);
+    		} else {
+    			hasErrors = true;
+    		}
+    	}
+    	
+    	JsonNode position = json.findPath("position");
+    	if (position != null) {
+    		Point newPos = new Point();
+    		newPos.x = position.findPath("x").getIntValue();
+    		newPos.y = position.findPath("x").getIntValue();
+    		mapsController.setPosition(newPos);
+    	}
+    	
+    	if(hasErrors) {
+    	    result.put("status", "error");
+    	    return badRequest(result);
+    	} else {
+    	    result.put("status", "ok");
+    	    return ok(result);
+    	}
     }
     
     public static Result javascriptRoutes() {
@@ -127,6 +224,8 @@ public class PlayMapsController extends Controller {
 	    	de.htwg.seapal.maps.controllers.routes.javascript.PlayMapsController.index(),
 	    	de.htwg.seapal.maps.controllers.routes.javascript.PlayMapsController.seamap(),
 	    	de.htwg.seapal.maps.controllers.routes.javascript.PlayMapsController.seamapSettings(),
+	    	de.htwg.seapal.maps.controllers.routes.javascript.PlayMapsController.seamapSettingsAsJson(),
+	    	de.htwg.seapal.maps.controllers.routes.javascript.PlayMapsController.saveSeamapSettingsFromJson(),
 	    	de.htwg.seapal.maps.controllers.routes.javascript.PlayMapsController.saveSeamapSettings()
 	      )
 	    );

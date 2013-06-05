@@ -2,12 +2,16 @@
 menuPositionTypes: List[String], positionTypes: List[String], mapsTypes: List[String])
 
 @import de.htwg.seapal.maps.views.html._
+@import de.htwg.seapal.maps.models._
+
+
 
 @scripts = {
 	<script type="text/javascript" src="@de.htwg.seapal.maps.controllers.routes.PlayMapsController.javascriptRoutes"></script>
 }
 
 @main("Boat Info", scripts, "withsubnavi") {
+
 	@helper.form(action = de.htwg.seapal.maps.controllers.routes.PlayMapsController.saveSeamapSettings(), 'id -> "form") {
 		<input type="hidden" id="idField" name="id" value="-1" />
 		<div class="content-wrapper">
@@ -27,8 +31,7 @@ menuPositionTypes: List[String], positionTypes: List[String], mapsTypes: List[St
 				<div class="input-wrapper" id="boat_input">
 					<div class="row">
 						<div class="span4">
-							<label for="menu_visible">Menu visible</label> 
-							<input type="checkbox" name="menu_visible" value="visible" @if(mapsSettings.getMenuVisible()) {checked}><br>
+							@helper.checkbox(myForm("menuVisible"))
 						</div>
 					</div>
 					<div class="row">
@@ -38,12 +41,12 @@ menuPositionTypes: List[String], positionTypes: List[String], mapsTypes: List[St
 					</div>
 					<div class="row">
 						<div class="span4">
-							@helper.select(myForm("mapsPositionState"), helper.options(positionTypes))
+							@helper.select(myForm("positionState"), helper.options(positionTypes))
 						</div>
 					</div>
 					<div class="row">
 						<div class="span4">
-							@helper.select(myForm("mapsType"), helper.options(mapsTypes))
+							@helper.select(myForm("type"), helper.options(mapsTypes))
 						</div>
 					</div>
 				</div>

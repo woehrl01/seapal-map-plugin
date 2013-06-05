@@ -15,6 +15,7 @@ import de.htwg.seapal.maps.models.MapsFactory;
 import de.htwg.seapal.maps.models.MapsMenuPositionState;
 import de.htwg.seapal.maps.models.MapsPositionState;
 import de.htwg.seapal.maps.models.MapsType;
+import de.htwg.seapal.maps.models.impl.Maps;
 
 /**
  * The controller of the maps component.
@@ -32,14 +33,28 @@ public class MapsController implements IMapsController {
 		this.mapsFactory = mapsFactory;
 		
 		// RMI export
-		Registry reg = LocateRegistry.createRegistry(Registry.REGISTRY_PORT);
-		IMapsController stub = (IMapsController)UnicastRemoteObject.exportObject(this, 0);
-		reg.rebind("de.htwg.seapal.maps", stub);
+		Registry reg = LocateRegistry.getRegistry(Registry.REGISTRY_PORT);
+		if ( reg == null){
+			reg = LocateRegistry.createRegistry(Registry.REGISTRY_PORT);
+		
+			IMapsController stub = (IMapsController)UnicastRemoteObject.exportObject(this, 0);
+		
+			reg.rebind("de.htwg.seapal.maps", stub);
+		}
 	}
 
 	@Override
 	public IMaps getMapsSettings() throws RemoteException {
-		return database.load();
+		IMaps map = database.load();
+		if(map == null){
+			map = new Maps();
+		}
+		return map;
+	}
+	
+	@Override
+	public void setMapsSettings(IMaps settings) throws RemoteException {
+		database.save(settings);
 	}
 
 	@Override

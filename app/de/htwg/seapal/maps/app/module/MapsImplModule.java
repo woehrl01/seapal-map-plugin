@@ -20,6 +20,6 @@ public class MapsImplModule extends MapsBaseModule {
     		.implement(IMaps.class, de.htwg.seapal.maps.models.impl.Maps.class)
     		.build(MapsFactory.class));   
 
-	    bind(IMapsDatabase.class).to(de.htwg.seapal.maps.database.impl.MapsDb4oDatabase.class);	
+	    bind(IMapsDatabase.class).to(de.htwg.seapal.maps.database.impl.MapsEbeanDatabase.class);	
 	}
 }

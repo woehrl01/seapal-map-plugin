@@ -2,6 +2,8 @@ package de.htwg.seapal.maps.database.impl;
 
 import javax.persistence.PersistenceException;
 
+import play.Logger;
+
 import com.avaje.ebean.Ebean;
 
 import de.htwg.seapal.maps.database.IMapsDatabase;
@@ -12,12 +14,11 @@ public class MapsEbeanDatabase implements IMapsDatabase {
 
 	@Override
 	public void save(IMaps maps) {
-		IMaps loadedMaps = load();
 		
-		if (loadedMaps != null) {
-			Ebean.delete(loadedMaps);
+		IMaps map = load();
+		if(map != null){
+			Ebean.delete(map);
 		}
-		
 		Ebean.save(maps);
 	}
 
@@ -25,13 +26,11 @@ public class MapsEbeanDatabase implements IMapsDatabase {
 	public IMaps load() {
 		IMaps maps = null;
 		try{
-			maps = Ebean.find(Maps.class, 0);
+			maps = Ebean.find(Maps.class).findUnique();
 		}catch(PersistenceException e){
 			System.out.println(e.getMessage());
 		}
-		if (maps == null) {
-			maps = new Maps();
-		}
+		Logger.info("Maps from Database is: " + maps);
 			
 		return maps;
 	}

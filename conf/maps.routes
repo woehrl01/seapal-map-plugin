@@ -8,6 +8,10 @@ GET		/seamap						@de.htwg.seapal.maps.controllers.PlayMapsController.seamap()
 GET		/seamapsettings				@de.htwg.seapal.maps.controllers.PlayMapsController.seamapSettings()
 POST	/seamapsettings				@de.htwg.seapal.maps.controllers.PlayMapsController.saveSeamapSettings()
 
+# REST interface for the maps settings
+GET		/seamapsettings/json		@de.htwg.seapal.maps.controllers.PlayMapsController.seamapSettingsAsJson()
+POST	/seamapsettings/json		@de.htwg.seapal.maps.controllers.PlayMapsController.saveSeamapSettingsFromJson()
+
 # Javascript routing
 GET    /assets/javascripts/routes   de.htwg.seapal.maps.controllers.PlayMapsController.javascriptRoutes()
 

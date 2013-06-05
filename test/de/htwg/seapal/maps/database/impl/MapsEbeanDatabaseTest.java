@@ -19,6 +19,8 @@ import play.api.Play;
 import de.htwg.seapal.maps.controllers.impl.MapsControllerTest;
 import de.htwg.seapal.maps.database.IMapsDatabase;
 import de.htwg.seapal.maps.models.IMaps;
+import de.htwg.seapal.maps.models.MapsPositionState;
+import de.htwg.seapal.maps.models.impl.Maps;
 
 public class MapsEbeanDatabaseTest {
 
@@ -47,13 +49,15 @@ public class MapsEbeanDatabaseTest {
 	}
 
 	@Test
-	public void loadModifyAndSave() {
+	public void saveAndLoad() {
 		Point expected = new Point(99,99);
-		
-		IMaps maps = database.load();
+		IMaps maps = new Maps();
+		maps.setPositionState(MapsPositionState.FIXED);
 		maps.setPosition(expected);
 		database.save(maps);
+		IMaps loadedMaps = database.load();
 		
-		assertEquals(expected, database.load().getPosition());
+		assertNotNull(maps);
+		assertEquals(expected, maps.getPosition());
 	}
 }

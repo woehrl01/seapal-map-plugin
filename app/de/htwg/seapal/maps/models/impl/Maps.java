@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import play.data.validation.Constraints.Required;
+
 import de.htwg.seapal.maps.models.IMaps;
 import de.htwg.seapal.maps.models.MapsMenuPositionState;
 import de.htwg.seapal.maps.models.MapsPositionState;
@@ -19,10 +21,14 @@ import de.htwg.seapal.maps.models.MapsType;
 @Entity
 public class Maps implements IMaps {
 
-	private boolean isMenuVisible = true;
-	private MapsMenuPositionState menuPositionState = MapsMenuPositionState.LEFT;
-	private MapsPositionState positionState = MapsPositionState.FIXED;
+	@Required
+	private boolean menuVisible;
+	@Required
+	private MapsMenuPositionState menuPositionState;// = MapsMenuPositionState.LEFT;
+	@Required
+	private MapsPositionState positionState;// = MapsPositionState.FIXED;
 	private Point position = new Point();
+	@Required
 	private MapsType type = MapsType.CARD;
 
 	@Id
@@ -53,17 +59,17 @@ public class Maps implements IMaps {
 	
 	@Override
 	public boolean getMenuVisible() {
-		return this.isMenuVisible;
+		return this.menuVisible;
 	}
 	
 	@Override
 	public void setMenuVisible( boolean visible ) {
-		this.isMenuVisible = visible;
+		this.menuVisible = visible;
 	}
 
 	@Override
 	public MapsMenuPositionState getMenuPositionState() {
-		return this.menuPositionState;
+		return this.menuPositionState != null ? this.menuPositionState : MapsMenuPositionState.LEFT;
 	}
 
 	@Override
@@ -73,7 +79,7 @@ public class Maps implements IMaps {
 
 	@Override
 	public MapsPositionState getPositionState() {
-		return this.positionState;
+		return this.positionState != null ? this.positionState : MapsPositionState.BOAT_POSITION;
 	}
 
 	@Override

@@ -15,6 +15,8 @@ public interface IMapsController extends Remote {
 	
 	IMaps getMapsSettings() throws RemoteException;
 	
+	void setMapsSettings(IMaps settings) throws RemoteException;
+	
 	/**
 	 * Gets whether the menu is visible.
 	 * @return TRUE, if the menu is visible
