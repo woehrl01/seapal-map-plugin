@@ -1,10 +1,14 @@
 package de.htwg.seapal.maps.models.impl;
 
-import java.awt.Point;
+import java.io.Serializable;
+import java.util.UUID;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+
+import org.codehaus.jackson.annotate.JsonProperty;
+import org.ektorp.support.CouchDbDocument;
 
 import play.data.validation.Constraints.Required;
 
@@ -21,41 +25,48 @@ import de.htwg.seapal.maps.models.MapsType;
 @Entity
 public class Maps implements IMaps {
 
-	@Required
-	private boolean menuVisible;
-	@Required
-	private MapsMenuPositionState menuPositionState;// = MapsMenuPositionState.LEFT;
-	@Required
-	private MapsPositionState positionState;// = MapsPositionState.FIXED;
-	private Point position = new Point();
-	@Required
-	private MapsType type = MapsType.CARD;
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue
-	private Long id;
+	private String id;
+	
+	private String rev;
+	
+	@Required
+	private boolean menuVisible;
+	@Required
+	private MapsMenuPositionState menuPositionState;
+	@Required
+	private MapsPositionState positionState;
+	private String position = "0.0,0.0";
+	@Required
+	private MapsType type;
 	
 	@Override
-	public Long getId() {
-		return id;
-	}
-
-	@Override
-	public void setId(Long id) {
+	@JsonProperty("_id")
+	public void setId(String id) {
 		this.id = id;
 	}
 	
-	/*private String revision;
-	@JsonProperty("_rev")
-    public String getRevision() {
-            return revision;
-    }
+	@Override
+	@JsonProperty("_id")
+	public String getId() {
+		//return this.id;
+		return "978c2d55-a7c5-485f-9584-f16f0c9ee25f";
+	}
 
-    @JsonProperty("_rev")
-    public void setRevision(String s) {
-            revision = s;
-    }*/
-	
+	@Override
+	@JsonProperty("_rev")
+	public String getRevision() {
+		return this.rev;
+	}
+
+	@Override
+	@JsonProperty("_rev")
+	public void setRevision(String rev) {
+		this.rev = rev;
+	}
 	
 	@Override
 	public boolean getMenuVisible() {
@@ -88,12 +99,12 @@ public class Maps implements IMaps {
 	}
 
 	@Override
-	public Point getPosition() {
+	public String getPosition() {
 		return this.position;
 	}
 
 	@Override
-	public void setPosition(Point position) throws IllegalStateException {
+	public void setPosition(String position) throws IllegalStateException {
 		if (getPositionState() != MapsPositionState.FIXED) {
 			throw new IllegalStateException(
 					"It is not allowed to set the maps position"
@@ -105,7 +116,7 @@ public class Maps implements IMaps {
 
 	@Override
 	public MapsType getType() {
-		return this.type;
+		return this.type != null ? this.type : MapsType.CARD;
 	}
 
 	@Override

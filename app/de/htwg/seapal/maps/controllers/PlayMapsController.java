@@ -1,13 +1,9 @@
 package de.htwg.seapal.maps.controllers;
 
-import java.awt.Point;
 import java.rmi.RemoteException;
 
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
 
 import org.codehaus.jackson.JsonNode;
@@ -16,47 +12,10 @@ import org.codehaus.jackson.node.ObjectNode;
 import play.Routes;
 import play.api.templates.Html;
 import play.data.Form;
-import play.data.format.Formatters;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.Logger;
-import scala.Function1;
-import scala.Function2;
-import scala.Option;
-import scala.PartialFunction;
-import scala.Tuple2;
-import scala.Tuple3;
-import scala.Predef.$less$colon$less;
-import scala.collection.GenIterable;
-import scala.collection.GenSeq;
-import scala.collection.GenTraversable;
-import scala.collection.GenTraversableOnce;
-import scala.collection.Iterable;
-import scala.collection.Iterator;
-import scala.collection.Seq;
-import scala.collection.Traversable;
-import scala.collection.TraversableOnce;
-import scala.collection.TraversableView;
-import scala.collection.generic.CanBuildFrom;
-import scala.collection.generic.FilterMonadic;
-import scala.collection.generic.GenericCompanion;
-import scala.collection.immutable.IndexedSeq;
-import scala.collection.immutable.Map;
-import scala.collection.immutable.Range;
-import scala.collection.immutable.Stream;
-import scala.collection.immutable.Vector;
-import scala.collection.mutable.Buffer;
-import scala.collection.mutable.Builder;
-import scala.collection.mutable.StringBuilder;
-import scala.collection.parallel.Combiner;
-import scala.collection.parallel.ParIterable;
-import scala.math.Numeric;
-import scala.math.Ordering;
-import scala.reflect.ClassTag;
-import scala.runtime.BoxedUnit;
-import scala.runtime.Nothing$;
-import views.html.defaultpages.error;
 
 import com.google.inject.Inject;
 
@@ -109,10 +68,7 @@ public class PlayMapsController extends Controller {
 	    result.put("menuPositionState", mapsSettings.getMenuPositionState().toString());
 	    result.put("positionState", mapsSettings.getPositionState().toString());
 	    result.put("type", mapsSettings.getType().toString());
-	    ObjectNode pos = Json.newObject();
-	    pos.put("x", mapsSettings.getPosition().x);
-	    pos.put("y", mapsSettings.getPosition().y);
-	    result.put("position", pos);
+	    result.put("position", mapsSettings.getPosition());
 	    return ok(result);
     }
     
@@ -210,10 +166,10 @@ public class PlayMapsController extends Controller {
     	
     	JsonNode position = json.findPath("position");
     	if (!position.isMissingNode()) {
-    		Point newPos = new Point();
-    		newPos.x = position.findPath("x").getIntValue();
-    		newPos.y = position.findPath("x").getIntValue();
-    		mapsController.setPosition(newPos);
+    		String pos = position.getTextValue();
+    		if (pos != null) {
+    			mapsController.setPosition(pos);
+    		}
     	}
     	
     	if(hasErrors) {

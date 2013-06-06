@@ -36,7 +36,7 @@ public class MapsDb4oDatabaseTest {
 
 	@Test
 	public void loadModifyAndSave() {
-		Point expected = new Point(99,99);
+		String expected = "44.44,55.55";
 		
 		IMaps maps = database.load();
 		maps.setPosition(expected);
@@ -47,7 +47,7 @@ public class MapsDb4oDatabaseTest {
 
 	@Test
 	public void multipleSave() {
-		Point expected = new Point(99,99);
+		String expected = "44.44,55.55";
 		
 		IMaps maps = database.load();
 		maps.setPosition(expected);
@@ -60,7 +60,7 @@ public class MapsDb4oDatabaseTest {
 	
 	@Test
 	public void multipleLoad() {
-		Point expected = new Point(99,99);
+		String expected = "44.44,55.55";
 		
 		IMaps maps = database.load();
 		maps = database.load();

@@ -1,23 +1,38 @@
 package de.htwg.seapal.maps.models;
 
-import java.awt.Point;
+import java.io.Serializable;
 
-public interface IMaps {
+import org.codehaus.jackson.annotate.JsonProperty;
+
+public interface IMaps extends Serializable {
 	
 	/**
 	 * Gets the ID.
-	 * @return The ID of the maps settings.
+	 * @return The ID.
 	 */
-	Long getId();
-
+	@JsonProperty("_id")
+    String getId();
+	 
+    /**
+     * Sets the ID.
+     * @param id The ID.
+     */
+	@JsonProperty("_id")
+    void setId(String id);
+    
 	/**
-	 * Sets the ID.
-	 * <p>
-	 * Note: Neccessary for Ebean.
-	 * </p>
-	 * @param id The new ID of the maps settings.
+	 * Gets the revision.
+	 * @return The revision.
 	 */
-	void setId(Long id);
+    @JsonProperty("_rev")
+    String getRevision();
+    
+    /**
+     * Sets the revision.
+     * @param rev The revision.
+     */
+    @JsonProperty("_rev")
+    void setRevision(String rev);
 	
 	/**
 	 * Indicates whether the menu of the maps menu is visible or not.
@@ -56,16 +71,16 @@ public interface IMaps {
 	
 	/**
 	 * Gets the maps center position.
-	 * @return
+	 * @return The position in form: lat,lng
 	 */
-	Point getPosition();
+	String getPosition();
 	
 	/**
 	 * Sets the maps center position
-	 * @param position The position where the maps center should be located.
+	 * @param position The position where the maps center should be located (lat,lng).
 	 * @throws IllegalStateException If getPositionState() is not MapsPositionState.FIXED.
 	 */
-	void setPosition(Point position) throws IllegalStateException;
+	void setPosition(String position) throws IllegalStateException;
 	
 	/**
 	 * Gets the maps type.

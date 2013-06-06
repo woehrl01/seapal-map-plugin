@@ -1,6 +1,5 @@
 package de.htwg.seapal.maps.views.tui.states;
 
-import java.awt.Point;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,8 +53,8 @@ public class InMapsSettingsState implements TuiState {
 						System.out.printf("menuPositionState: %s%n", settings.getMenuPositionState().toString());
 						System.out.printf("positionState: %s%n", settings.getPositionState().toString());
 						System.out.printf("type: %s%n", settings.getType().toString());
-						Point pos = settings.getPosition();
-						System.out.printf("position: (%d, %d)%n", pos.x, pos.y);
+						String pos = settings.getPosition();
+						System.out.printf("position: %s%n", pos);
 					} else {
 						System.out.println("No settings available");
 					}
@@ -125,16 +124,10 @@ public class InMapsSettingsState implements TuiState {
 		commands.add(new RelayCommand('x', "Set position [value: x,y]") {
 			@Override
 			public void execute(String input){
-				String[] splitted = input.split(",");
-				if (splitted.length >= 2) {
-					try {
-						Point p = new Point();
-						p.x = Integer.parseInt(splitted[0]);
-						p.y = Integer.parseInt(splitted[1]);
-						mapsController.setPosition(p);
-					} catch (RemoteException e) {
-						e.printStackTrace();
-					}
+				try {
+					mapsController.setPosition(input);
+				} catch (RemoteException e) {
+					e.printStackTrace();
 				}
 			}
 		});

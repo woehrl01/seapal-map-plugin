@@ -53,7 +53,7 @@ public class MapsControllerTest {
 
 	@Test
 	public void modifyPosition() throws IllegalStateException, RemoteException {
-		Point expected = new Point(99, 99);
+		String expected = "44.44,55.55";
 		
 		controller.setPositionState(MapsPositionState.FIXED);
 		controller.setPosition(expected);

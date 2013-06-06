@@ -21,7 +21,7 @@ public class MapsDatabase implements IMapsDatabase {
 		Maps maps = new Maps();
 		maps.setMenuPositionState(MapsMenuPositionState.LEFT);
 		maps.setPositionState(MapsPositionState.FIXED);
-		maps.setPosition(new Point());
+		maps.setPosition("44.44,55.55");
 		maps.setType(MapsType.CARD);
 		return maps;
 	}

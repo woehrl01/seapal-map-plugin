@@ -1,6 +1,9 @@
 package de.htwg.seapal.maps.models.mock;
 
-import java.awt.Point;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+import org.codehaus.jackson.annotate.JsonProperty;
 
 import de.htwg.seapal.maps.models.IMaps;
 import de.htwg.seapal.maps.models.MapsMenuPositionState;
@@ -13,14 +16,36 @@ import de.htwg.seapal.maps.models.MapsType;
  */
 public class Maps implements IMaps {
 	
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@GeneratedValue
+	private String id;
+	
+	private String rev;
+	
 	@Override
-	public Long getId() {
-		return 0L;
+	@JsonProperty("_id")
+	public String getId() {
+		return this.id;
 	}
 
 	@Override
-	public void setId(Long id) {
-		
+	@JsonProperty("_id")
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	@Override
+	@JsonProperty("_rev")
+	public String getRevision() {
+		return this.rev;
+	}
+
+	@Override
+	@JsonProperty("_rev")
+	public void setRevision(String rev) {
+		this.rev = rev;
 	}
 	
 	@Override
@@ -39,8 +64,8 @@ public class Maps implements IMaps {
 	}
 
 	@Override
-	public Point getPosition() {
-		return new Point();
+	public String getPosition() {
+		return "44.44,55.55";
 	}
 
 	@Override
@@ -64,7 +89,7 @@ public class Maps implements IMaps {
 	}
 
 	@Override
-	public void setPosition(Point position) throws IllegalStateException {
+	public void setPosition(String position) throws IllegalStateException {
 		
 	}
 

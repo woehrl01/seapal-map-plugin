@@ -50,14 +50,14 @@ public class MapsEbeanDatabaseTest {
 
 	@Test
 	public void saveAndLoad() {
-		Point expected = new Point(99,99);
+		String expected = "44.44,55.55";
 		IMaps maps = new Maps();
 		maps.setPositionState(MapsPositionState.FIXED);
 		maps.setPosition(expected);
 		database.save(maps);
 		IMaps loadedMaps = database.load();
 		
-		assertNotNull(maps);
-		assertEquals(expected, maps.getPosition());
+		assertNotNull(loadedMaps);
+		assertEquals(expected, loadedMaps.getPosition());
 	}
 }

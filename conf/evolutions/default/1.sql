@@ -4,10 +4,12 @@
 # --- !Ups
 
 create table maps (
-  id                        bigint not null,
+  id                        varchar(255) not null,
+  rev                       varchar(255),
   menu_visible              boolean,
   menu_position_state       integer,
   position_state            integer,
+  position                  varchar(255),
   type                      integer,
   constraint ck_maps_menu_position_state check (menu_position_state in (0,1)),
   constraint ck_maps_position_state check (position_state in (0,1)),

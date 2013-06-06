@@ -82,10 +82,9 @@ public class MapsTest {
 	
 	@Test(expected=IllegalStateException.class)
 	public void testMapsPositionExpectException() {
-		Point expected = new Point();
-		expected.x = 99;
-		expected.y = 99;
+		String expected = "44.44,55.55";
 		
+		maps.setPositionState(MapsPositionState.BOAT_POSITION);
 		maps.setPosition(expected);
 		
 		assertEquals(expected, maps.getPosition());
@@ -93,9 +92,7 @@ public class MapsTest {
 	
 	@Test
 	public void testMapsPosition() {
-		Point expected = new Point();
-		expected.x = 99;
-		expected.y = 99;
+		String expected = "44.44,55.55";
 		
 		maps.setPositionState(MapsPositionState.FIXED); // position state must be fixed to set the position
 		maps.setPosition(expected);

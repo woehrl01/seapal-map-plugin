@@ -1,9 +1,7 @@
 package de.htwg.seapal.maps.controllers;
 
-import java.awt.Point;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-
 
 import de.htwg.seapal.common.observer.IObservable;
 import de.htwg.seapal.maps.models.IMaps;
@@ -64,14 +62,14 @@ public interface IMapsController extends Remote {
 	 * Gets the maps center position.
 	 * @return
 	 */
-	Point getPosition() throws RemoteException;
+	String getPosition() throws RemoteException;
 	
 	/**
 	 * Sets the maps center position
 	 * @param position The position where the maps center should be located.
 	 * @throws IllegalStateException If getPositionState() is not MapsPositionState.FIXED.
 	 */
-	void setPosition(Point position) throws IllegalStateException, RemoteException;
+	void setPosition(String position) throws IllegalStateException, RemoteException;
 	
 	/**
 	 * Gets the maps type.

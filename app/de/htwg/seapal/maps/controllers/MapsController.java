@@ -1,6 +1,5 @@
 package de.htwg.seapal.maps.controllers;
 
-import java.awt.Point;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -107,14 +106,14 @@ public class MapsController implements IMapsController {
 
 
 	@Override
-	public Point getPosition() throws RemoteException {
+	public String getPosition() throws RemoteException {
 		IMaps maps = loadFromDatabaseOrDefault();
 		return maps.getPosition();
 	}
 
 
 	@Override
-	public void setPosition(Point position) throws IllegalStateException,
+	public void setPosition(String position) throws IllegalStateException,
 			RemoteException {
 		IMaps maps = loadFromDatabaseOrDefault();
 		maps.setPosition(position);

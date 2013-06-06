@@ -46,8 +46,8 @@ public class MapsTest {
 	
 	@Test
 	public void testGetPosition() {
-		Point expected = new Point();
-		Point actual = maps.getPosition();
+		String expected = "44.44,55.55";
+		String actual = maps.getPosition();
 		
 		assertEquals(expected, actual);
 	}

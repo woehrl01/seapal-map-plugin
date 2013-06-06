@@ -46,6 +46,11 @@ menuPositionTypes: List[String], positionTypes: List[String], mapsTypes: List[St
 					</div>
 					<div class="row">
 						<div class="span4">
+							@helper.inputText(myForm("position"))
+						</div>
+					</div>
+					<div class="row">
+						<div class="span4">
 							@helper.select(myForm("type"), helper.options(mapsTypes))
 						</div>
 					</div>
