@@ -45,11 +45,7 @@ public class MapsController implements IMapsController {
 
 	@Override
 	public IMaps getMapsSettings() throws RemoteException {
-		IMaps map = database.load();
-		if(map == null){
-			map = new Maps();
-		}
-		return map;
+		return loadFromDatabaseOrDefault();
 	}
 	
 	@Override
@@ -59,20 +55,20 @@ public class MapsController implements IMapsController {
 
 	@Override
 	public boolean getMenuVisible() throws RemoteException {
-		IMaps maps = database.load();
+		IMaps maps = loadFromDatabaseOrDefault();
 		return maps.getMenuVisible();
 	}
 
 	@Override
 	public void showMenu() throws RemoteException {
-		IMaps maps = database.load();
+		IMaps maps = loadFromDatabaseOrDefault();
 		maps.setMenuVisible(true);
 		database.save(maps);
 	}
 
 	@Override
 	public void hideMenu() throws RemoteException {
-		IMaps maps = database.load();
+		IMaps maps = loadFromDatabaseOrDefault();
 		maps.setMenuVisible(false);
 		database.save(maps);
 	}
@@ -80,7 +76,7 @@ public class MapsController implements IMapsController {
 
 	@Override
 	public MapsMenuPositionState getMenuPositionState() throws RemoteException{
-		IMaps maps = database.load();
+		IMaps maps = loadFromDatabaseOrDefault();
 		return maps.getMenuPositionState();
 	}
 
@@ -88,7 +84,7 @@ public class MapsController implements IMapsController {
 	@Override
 	public void setMenuPositionState(MapsMenuPositionState menuPositionState)
 			throws RemoteException {
-		IMaps maps = database.load();
+		IMaps maps = loadFromDatabaseOrDefault();
 		maps.setMenuPositionState(menuPositionState);
 		database.save(maps);
 	}
@@ -96,7 +92,7 @@ public class MapsController implements IMapsController {
 
 	@Override
 	public MapsPositionState getPositionState() throws RemoteException {
-		IMaps maps = database.load();
+		IMaps maps = loadFromDatabaseOrDefault();
 		return maps.getPositionState();
 	}
 
@@ -104,7 +100,7 @@ public class MapsController implements IMapsController {
 	@Override
 	public void setPositionState(MapsPositionState positionState)
 			throws RemoteException {
-		IMaps maps = database.load();
+		IMaps maps = loadFromDatabaseOrDefault();
 		maps.setPositionState(positionState);
 		database.save(maps);
 	}
@@ -112,7 +108,7 @@ public class MapsController implements IMapsController {
 
 	@Override
 	public Point getPosition() throws RemoteException {
-		IMaps maps = database.load();
+		IMaps maps = loadFromDatabaseOrDefault();
 		return maps.getPosition();
 	}
 
@@ -120,7 +116,7 @@ public class MapsController implements IMapsController {
 	@Override
 	public void setPosition(Point position) throws IllegalStateException,
 			RemoteException {
-		IMaps maps = database.load();
+		IMaps maps = loadFromDatabaseOrDefault();
 		maps.setPosition(position);
 		database.save(maps);
 	}
@@ -128,15 +124,23 @@ public class MapsController implements IMapsController {
 
 	@Override
 	public MapsType getType() throws RemoteException {
-		IMaps maps = database.load();
+		IMaps maps = loadFromDatabaseOrDefault();
 		return maps.getType();
 	}
 
 
 	@Override
 	public void setType(MapsType type) throws RemoteException {
-		IMaps maps = database.load();
+		IMaps maps = loadFromDatabaseOrDefault();
 		maps.setType(type);
 		database.save(maps);
+	}
+	
+	private IMaps loadFromDatabaseOrDefault() {
+		IMaps map = database.load();
+		if(map == null){
+			map = new Maps();
+		}
+		return map;
 	}
 }

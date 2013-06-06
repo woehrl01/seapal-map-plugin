@@ -80,14 +80,27 @@ public class MapsTest {
 		assertEquals(expected, actual);
 	}
 	
+	@Test(expected=IllegalStateException.class)
+	public void testMapsPositionExpectException() {
+		Point expected = new Point();
+		expected.x = 99;
+		expected.y = 99;
+		
+		maps.setPosition(expected);
+		
+		assertEquals(expected, maps.getPosition());
+	}
+	
 	@Test
 	public void testMapsPosition() {
-		maps.setPosition(new Point());
-		
 		Point expected = new Point();
-		Point actual = maps.getPosition();
+		expected.x = 99;
+		expected.y = 99;
 		
-		assertEquals(expected, actual);
+		maps.setPositionState(MapsPositionState.FIXED); // position state must be fixed to set the position
+		maps.setPosition(expected);
+		
+		assertEquals(expected, maps.getPosition());
 	}
 	
 	@Test

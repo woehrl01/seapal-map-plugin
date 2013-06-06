@@ -79,7 +79,7 @@ public class Maps implements IMaps {
 
 	@Override
 	public MapsPositionState getPositionState() {
-		return this.positionState != null ? this.positionState : MapsPositionState.BOAT_POSITION;
+		return this.positionState != null ? this.positionState : MapsPositionState.FIXED;
 	}
 
 	@Override

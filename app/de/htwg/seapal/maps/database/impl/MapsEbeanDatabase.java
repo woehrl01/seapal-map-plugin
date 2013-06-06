@@ -13,12 +13,12 @@ import de.htwg.seapal.maps.models.impl.Maps;
 public class MapsEbeanDatabase implements IMapsDatabase {
 
 	@Override
-	public void save(IMaps maps) {
-		
+	public void save(IMaps maps) {	
 		IMaps map = load();
 		if(map != null){
 			Ebean.delete(map);
 		}
+		
 		Ebean.save(maps);
 	}
 

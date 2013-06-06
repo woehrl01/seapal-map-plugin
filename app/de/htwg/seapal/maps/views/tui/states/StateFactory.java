@@ -6,4 +6,5 @@ public interface StateFactory {
 	InMenuState createInMenu();
 	InPluginState createInPlugin(Plugin plugin);
 	InRmiState createInRmiState();
+	InMapsSettingsState createMapsSettingsState();
 }

@@ -12,6 +12,7 @@ import com.google.inject.name.Names;
 import com.google.inject.util.Modules;
 
 import de.devsurf.injection.guice.annotations.Bind;
+import de.htwg.seapal.maps.views.tui.states.InMapsSettingsState;
 import de.htwg.seapal.maps.views.tui.states.InMenuState;
 import de.htwg.seapal.maps.views.tui.states.InPluginState;
 import de.htwg.seapal.maps.views.tui.states.StateFactory;
@@ -42,6 +43,7 @@ public class MapsTuiModule extends AbstractModule {
 	    install(new FactoryModuleBuilder()
 	    	.implement(InPluginState.class, InPluginState.class)
 	    	.implement(InMenuState.class, InMenuState.class)
+	    	.implement(InMapsSettingsState.class, InMapsSettingsState.class)
 	    	.build(StateFactory.class)); 
 	}
 }

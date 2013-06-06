@@ -105,7 +105,7 @@ public class PlayMapsController extends Controller {
     	IMaps mapsSettings = mapsController.getMapsSettings();
     	ObjectNode result = Json.newObject();
     	result.put("id", mapsSettings.getId());
-	    result.put("isMenuVisible", mapsSettings.getMenuVisible());
+	    result.put("menuVisible", mapsSettings.getMenuVisible());
 	    result.put("menuPositionState", mapsSettings.getMenuPositionState().toString());
 	    result.put("positionState", mapsSettings.getPositionState().toString());
 	    result.put("type", mapsSettings.getType().toString());
@@ -154,13 +154,21 @@ public class PlayMapsController extends Controller {
     	return redirect(de.htwg.seapal.maps.controllers.routes.PlayMapsController.seamapSettings());
     }
     
+    /**
+     * REST API to set the settings value.
+     * <p>
+     * curl -X POST 127.0.0.1:9000/seamapsettings/json -H "application/json" -d '{\"menuVisible\":true,\"positionState\":\"FIXED\"}'
+     * </p>
+     * @return The result as Json.
+     * @throws RemoteException RMI exception
+     */
     public Result saveSeamapSettingsFromJson() throws RemoteException {
     	boolean hasErrors = false;
     	JsonNode json = request().body().asJson();
     	ObjectNode result = Json.newObject();
     	
-    	JsonNode menuVisible = json.findPath("isMenuVisible");
-    	if (menuVisible != null) {
+    	JsonNode menuVisible = json.findPath("menuVisible");
+    	if (!menuVisible.isMissingNode()) {
     		if (menuVisible.getBooleanValue()) {
     			mapsController.showMenu();
     		} else {
@@ -169,7 +177,8 @@ public class PlayMapsController extends Controller {
     	}
     	
     	JsonNode menuPositionState = json.findPath("menuPositionState");
-    	if (menuPositionState != null) {
+    	
+    	if (!menuPositionState.isMissingNode()) {
     		MapsMenuPositionState state = MapsMenuPositionState.valueOf(menuPositionState.getTextValue());
     		if (state != null) {
     			mapsController.setMenuPositionState(state);
@@ -179,7 +188,7 @@ public class PlayMapsController extends Controller {
     	}
     	
     	JsonNode positionState = json.findPath("positionState");
-    	if (positionState != null) {
+    	if (!positionState.isMissingNode()) {
     		MapsPositionState state = MapsPositionState.valueOf(positionState.getTextValue());
     		if (state != null) {
     			mapsController.setPositionState(state);
@@ -189,9 +198,10 @@ public class PlayMapsController extends Controller {
     	}
     	
     	JsonNode type = json.findPath("type");
-    	if (type != null) {
+    	if (!type.isMissingNode()) {
     		MapsType t = MapsType.valueOf(type.getTextValue());
     		if (t != null) {
+    			Logger.info("SET TYPE: "+ t.toString());
     			mapsController.setType(t);
     		} else {
     			hasErrors = true;
@@ -199,7 +209,7 @@ public class PlayMapsController extends Controller {
     	}
     	
     	JsonNode position = json.findPath("position");
-    	if (position != null) {
+    	if (!position.isMissingNode()) {
     		Point newPos = new Point();
     		newPos.x = position.findPath("x").getIntValue();
     		newPos.y = position.findPath("x").getIntValue();

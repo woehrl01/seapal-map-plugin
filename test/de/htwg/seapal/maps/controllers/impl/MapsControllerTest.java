@@ -30,6 +30,18 @@ public class MapsControllerTest {
 	
 	IMapsController controller;
 	
+	@BeforeClass
+	public static void setup() {
+		Application play = new DefaultApplication(new File("."),
+				MapsControllerTest.class.getClassLoader(), null, Mode.Dev());
+		Play.start(play);
+	}
+	
+	@AfterClass
+	public static void shutdown() {
+		Play.stop();
+	}
+	
 	@Before
 	public void setUp() throws Exception {
 		controller = INJECTOR.getInstance(IMapsController.class);
