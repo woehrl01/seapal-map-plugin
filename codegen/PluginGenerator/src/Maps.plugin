@@ -1,0 +1,42 @@
+package de.htwg.seapal.maps {
+	model Maps {
+		property menuVisible: boolean
+		property position: String
+		property menuPositionState: MapsMenuPositionState
+		property positionState: MapsPositionState
+		property type: MapsType
+	}
+	
+	controller MapsController {
+		method getSettings(): Maps
+		method setSettings(Maps maps): void
+		method showMenu(): void
+		method hideMenu(): void
+		method getMenuPositionState(): MapsMenuPositionState
+		method setMenuPositionState(MapsMenuPositionState state): void
+		method getPositionState(): MapsPositionState
+		method setPositionState(MapsPositionState state): void
+		method getPosition(): String
+		method setPosition(String position): void
+		method getType(): MapsType
+		method setType(MapsType type): void
+	}
+	
+	database MapsDatabase {
+		method save(Maps maps): void
+		method load(): Maps
+		method close(): boolean
+	}
+	
+	enum MapsMenuPositionState {
+		LEFT, RIGHT
+	}
+	
+	enum MapsPositionState {
+		FIXED, BOAT_POSITION
+	}
+	
+	enum MapsType {
+		CARD, SATELITE
+	}
+}

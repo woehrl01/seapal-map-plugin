@@ -1,0 +1,58 @@
+grammar org.xtext.de.htwg.Plugin with org.eclipse.xtext.xbase.Xbase
+
+generate plugin "http://www.xtext.org/de/htwg/Plugin"
+
+Plugin:
+	importSection=XImportSection?
+	elements+=AbstractElement*
+;
+
+AbstractElement:
+	PackageDeclaration | Model | Controller | Database | Enumeration
+;
+
+PackageDeclaration:
+	'package' name=QualifiedName '{'
+		elements+=AbstractElement*
+	'}'
+;
+
+Model:
+	'model' name=ValidID ('extends' superType=JvmTypeReference)? '{'
+		features+=Feature*
+	'}'
+;
+
+Controller:
+	'controller' name=ValidID ('extends' superType=JvmTypeReference)? '{'
+		features+=Feature*
+	'}'
+;
+
+Database:
+	'database' name=ValidID ('extends' superType=JvmTypeReference)? '{'
+		features+=Feature*
+	'}'
+;
+
+Feature:
+	Property | Method
+;
+
+Enumeration:
+	'enum' name=ValidID '{'
+		(enumValues += ID
+			(',' enumValues += ID)?)+
+	'}'
+;
+
+Property:
+	'property' name=ValidID ':' type=JvmTypeReference
+;
+
+Method:
+	'method' name=ValidID 
+		'('(params+=FullJvmFormalParameter 
+			(',' params+=FullJvmFormalParameter)*)?')'
+		':' type=JvmTypeReference
+;
