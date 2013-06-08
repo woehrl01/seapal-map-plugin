@@ -6,6 +6,14 @@ package org.xtext.de.htwg.generator
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.xtext.generator.IGenerator
 import org.eclipse.xtext.generator.IFileSystemAccess
+import org.xtext.de.htwg.plugin.Model
+import com.google.inject.Inject
+import org.eclipse.xtext.naming.IQualifiedNameProvider
+import org.eclipse.xtext.common.types.JvmTypeReference
+import org.xtext.de.htwg.plugin.Method
+import org.xtext.de.htwg.plugin.Controller
+import org.xtext.de.htwg.plugin.Database
+import org.xtext.de.htwg.plugin.Enumeration
 
 /**
  * Generates code from your model files on save.
@@ -14,11 +22,169 @@ import org.eclipse.xtext.generator.IFileSystemAccess
  */
 class PluginGenerator implements IGenerator {
 	
+	@Inject extension IQualifiedNameProvider
+	
 	override void doGenerate(Resource resource, IFileSystemAccess fsa) {
-//		fsa.generateFile('greetings.txt', 'People to greet: ' + 
-//			resource.allContents
-//				.filter(typeof(Greeting))
-//				.map[name]
-//				.join(', '))
+		// Generate models
+		for (e: resource.allContents.toIterable.filter(typeof(Model))) {
+			fsa.generateFile(
+				e.fullyQualifiedName.toString("/") + ".java",
+				e.compile)
+		}
+		
+		// Generate controllers
+		for (e: resource.allContents.toIterable.filter(typeof(Controller))) {
+			fsa.generateFile(
+				e.fullyQualifiedName.toString("/") + ".java",
+				e.compile)
+		}
+		
+		// Generate database
+		for (e: resource.allContents.toIterable.filter(typeof(Database))) {
+			fsa.generateFile(
+				e.fullyQualifiedName.toString("/") + ".java",
+				e.compile)
+		}
+		
+		// Generate Enumerations
+		for (e: resource.allContents.toIterable.filter(typeof(Enumeration))) {
+			fsa.generateFile(
+				e.fullyQualifiedName.toString("/") + ".java",
+				e.compile)
+		}
 	}
+	
+	def compile(Model model)'''
+		«IF model.eContainer != null»
+			package «model.eContainer.fullyQualifiedName».models;
+		«ENDIF»
+
+		/**
+		 * Generated model class «model.name».
+		 * @author TODO
+		 * @version TODO
+		 */
+		public class «model.name» «IF model.superType != null »extends «model.superType.fullyQualifiedName» «ENDIF»{
+			/* Members */
+			«FOR p:model.properties»
+				«IF p != null »
+					«p.compilePropertyMember»
+				«ENDIF»
+			«ENDFOR»
+			
+			/* Getters/Setters */
+			«FOR p:model.properties»
+				«p.compilePropertyGetterSetter»
+			«ENDFOR»
+			
+			/* Methods */
+			«FOR m:model.methods»
+				«m.compileMethod»
+			«ENDFOR»
+		}
+	'''
+	
+	def compile(Controller controller)'''
+		«IF controller.eContainer != null»
+			package «controller.eContainer.fullyQualifiedName».controllers;
+		«ENDIF»
+
+		/**
+		 * Generated controller class «controller.name».
+		 * @author TODO
+		 * @version TODO
+		 */
+		public class «controller.name» «IF controller.superType != null »extends «controller.superType.fullyQualifiedName» «ENDIF»{
+			/* Methods */
+			«FOR m:controller.methods»
+				«m.compileMethod»
+			«ENDFOR»
+		}
+	'''
+	
+	def compile(Database db)'''
+		«IF db.eContainer != null»
+			package «db.eContainer.fullyQualifiedName».database;
+		«ENDIF»
+
+		/**
+		 * Generated database class «db.name».
+		 * @author TODO
+		 * @version TODO
+		 */
+		public class «db.name» «IF db.superType != null »extends «db.superType.fullyQualifiedName» «ENDIF»{
+			/*Methods*/
+			«FOR m:db.methods»
+				«m.compileMethod»
+			«ENDFOR»
+		}
+	'''
+	
+	def compile(Enumeration enumeration)'''
+		«IF enumeration.eContainer != null»
+			package «enumeration.eContainer.fullyQualifiedName»;
+		«ENDIF»
+
+		/**
+		 * Generated enumeration «enumeration.name».
+		 * @author TODO
+		 * @version TODO
+		 */
+		public enum «enumeration.name» {
+			«FOR e:enumeration.enumValues»
+				«e.toFirstUpper», 
+			«ENDFOR»
+		}
+	'''
+	
+	def compilePropertyMember(org.xtext.de.htwg.plugin.Property p) '''
+
+		/**
+		 * The «p.name» member.
+		 */
+		private «p.type.fullyQualifiedName» «p.name»;
+	'''
+	
+	def compilePropertyGetterSetter(org.xtext.de.htwg.plugin.Property p) '''
+
+		/**
+		 * Gets the «p.name».
+		 * @return The «p.name».
+		 */
+		public «p.type.fullyQualifiedName» getGet«p.name.toFirstUpper»() {
+			return «p.name»;
+		}
+
+		/**
+		 * Sets the «p.name».
+		 * @param «p.name» The «p.name» value.
+		 */
+		public void set«p.name.toFirstUpper»(«p.type.fullyQualifiedName» «p.name») {
+			this.«p.name» = «p.name»;
+		}
+	'''
+	
+	/*def compileMethod(Method p) '''
+
+		/**
+		 * TODO: Method description...
+		 * «IF p.params != null»@param TODO: describle all parameters...«ENDIF»
+		 * «IF !p.type.fullyQualifiedName.toString.equals("void")»@return TODO: Return value description...«ENDIF»
+		 */
+		/*public «p.type.fullyQualifiedName» «p.name.toFirstLower»(«FOR prm:p.params»«prm.parameterType.fullyQualifiedName» «prm.name», «ENDFOR») {
+			//TODO: implement method
+		}
+	'''*/
+	
+	def compileMethod(Method p) '''
+
+		/**
+		 * TODO: Method description...
+		 * «IF p.params != null»@param TODO: describle all parameters...«ENDIF»
+		 * «IF !p.type.fullyQualifiedName.toString.equals("void")»@return TODO: Return value description...«ENDIF»
+		 */
+		public «p.type.fullyQualifiedName» «p.name.toFirstLower»(«FOR prm:p.params»«prm.type» «prm.name», «ENDFOR») {
+			//TODO: implement method
+		}
+	'''
 }

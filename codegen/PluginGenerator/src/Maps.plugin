@@ -1,4 +1,4 @@
-package de.htwg.seapal.maps {
+/*base-package de.htwg.seapal.maps {
 	model Maps {
 		property menuVisible: boolean
 		property position: String
@@ -26,6 +26,61 @@ package de.htwg.seapal.maps {
 		method save(Maps maps): void
 		method load(): Maps
 		method close(): boolean
+	}
+	
+	enum MapsMenuPositionState {
+		LEFT, RIGHT
+	}
+	
+	enum MapsPositionState {
+		FIXED, BOAT_POSITION
+	}
+	
+	enum MapsType {
+		CARD, SATELITE
+	}
+}*/
+
+basic-types java {
+	type boolean
+	type void
+	type int
+}
+
+package java.lang {
+	type String
+}
+
+package de.htwg.seapal.maps {
+	import java.lang.*
+	
+	model Maps {
+		property menuVisible: String
+		property position: String
+		property menuPositionState: MapsMenuPositionState
+		property positionState: MapsPositionState
+		property mapType: MapsType
+	}
+	
+	controller MapsController {
+		method getSettings(): Maps
+		//method setSettings(map: Maps): void
+		//method showMenu(): void
+		//method hideMenu(): void
+		method getMenuPositionState(): MapsMenuPositionState
+		//method setMenuPositionState(state: MapsMenuPositionState): void
+		method getPositionState(): MapsPositionState
+		//method setPositionState(state: MapsPositionState): void
+		method getPosition(): String
+		//method setPosition(position: String): void
+		method getType(): MapsType
+		//method setType(mapType: MapsType): void
+	}
+	
+	database MapsDatabase {
+		//method save(map: Maps): void
+		method load(): Maps
+		//method close(): boolean
 	}
 	
 	enum MapsMenuPositionState {

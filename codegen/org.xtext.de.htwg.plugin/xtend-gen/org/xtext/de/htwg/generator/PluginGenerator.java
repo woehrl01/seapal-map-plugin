@@ -3,9 +3,29 @@
  */
 package org.xtext.de.htwg.generator;
 
+import com.google.common.base.Objects;
+import com.google.common.collect.Iterables;
+import com.google.inject.Inject;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.generator.IFileSystemAccess;
 import org.eclipse.xtext.generator.IGenerator;
+import org.eclipse.xtext.naming.IQualifiedNameProvider;
+import org.eclipse.xtext.naming.QualifiedName;
+import org.eclipse.xtext.xbase.lib.Extension;
+import org.eclipse.xtext.xbase.lib.IteratorExtensions;
+import org.eclipse.xtext.xbase.lib.StringExtensions;
+import org.xtext.de.htwg.plugin.Controller;
+import org.xtext.de.htwg.plugin.Database;
+import org.xtext.de.htwg.plugin.Enumeration;
+import org.xtext.de.htwg.plugin.Method;
+import org.xtext.de.htwg.plugin.Model;
+import org.xtext.de.htwg.plugin.Parameter;
+import org.xtext.de.htwg.plugin.Property;
+import org.xtext.de.htwg.plugin.Type;
 
 /**
  * Generates code from your model files on save.
@@ -14,6 +34,515 @@ import org.eclipse.xtext.generator.IGenerator;
  */
 @SuppressWarnings("all")
 public class PluginGenerator implements IGenerator {
+  @Inject
+  @Extension
+  private IQualifiedNameProvider _iQualifiedNameProvider;
+  
   public void doGenerate(final Resource resource, final IFileSystemAccess fsa) {
+    TreeIterator<EObject> _allContents = resource.getAllContents();
+    Iterable<EObject> _iterable = IteratorExtensions.<EObject>toIterable(_allContents);
+    Iterable<Model> _filter = Iterables.<Model>filter(_iterable, Model.class);
+    for (final Model e : _filter) {
+      QualifiedName _fullyQualifiedName = this._iQualifiedNameProvider.getFullyQualifiedName(e);
+      String _string = _fullyQualifiedName.toString("/");
+      String _plus = (_string + ".java");
+      CharSequence _compile = this.compile(e);
+      fsa.generateFile(_plus, _compile);
+    }
+    TreeIterator<EObject> _allContents_1 = resource.getAllContents();
+    Iterable<EObject> _iterable_1 = IteratorExtensions.<EObject>toIterable(_allContents_1);
+    Iterable<Controller> _filter_1 = Iterables.<Controller>filter(_iterable_1, Controller.class);
+    for (final Controller e_1 : _filter_1) {
+      QualifiedName _fullyQualifiedName_1 = this._iQualifiedNameProvider.getFullyQualifiedName(e_1);
+      String _string_1 = _fullyQualifiedName_1.toString("/");
+      String _plus_1 = (_string_1 + ".java");
+      CharSequence _compile_1 = this.compile(e_1);
+      fsa.generateFile(_plus_1, _compile_1);
+    }
+    TreeIterator<EObject> _allContents_2 = resource.getAllContents();
+    Iterable<EObject> _iterable_2 = IteratorExtensions.<EObject>toIterable(_allContents_2);
+    Iterable<Database> _filter_2 = Iterables.<Database>filter(_iterable_2, Database.class);
+    for (final Database e_2 : _filter_2) {
+      QualifiedName _fullyQualifiedName_2 = this._iQualifiedNameProvider.getFullyQualifiedName(e_2);
+      String _string_2 = _fullyQualifiedName_2.toString("/");
+      String _plus_2 = (_string_2 + ".java");
+      CharSequence _compile_2 = this.compile(e_2);
+      fsa.generateFile(_plus_2, _compile_2);
+    }
+    TreeIterator<EObject> _allContents_3 = resource.getAllContents();
+    Iterable<EObject> _iterable_3 = IteratorExtensions.<EObject>toIterable(_allContents_3);
+    Iterable<Enumeration> _filter_3 = Iterables.<Enumeration>filter(_iterable_3, Enumeration.class);
+    for (final Enumeration e_3 : _filter_3) {
+      QualifiedName _fullyQualifiedName_3 = this._iQualifiedNameProvider.getFullyQualifiedName(e_3);
+      String _string_3 = _fullyQualifiedName_3.toString("/");
+      String _plus_3 = (_string_3 + ".java");
+      CharSequence _compile_3 = this.compile(e_3);
+      fsa.generateFile(_plus_3, _compile_3);
+    }
+  }
+  
+  public CharSequence compile(final Model model) {
+    StringConcatenation _builder = new StringConcatenation();
+    {
+      EObject _eContainer = model.eContainer();
+      boolean _notEquals = (!Objects.equal(_eContainer, null));
+      if (_notEquals) {
+        _builder.append("package ");
+        EObject _eContainer_1 = model.eContainer();
+        QualifiedName _fullyQualifiedName = this._iQualifiedNameProvider.getFullyQualifiedName(_eContainer_1);
+        _builder.append(_fullyQualifiedName, "");
+        _builder.append(".models;");
+        _builder.newLineIfNotEmpty();
+      }
+    }
+    _builder.newLine();
+    _builder.append("/**");
+    _builder.newLine();
+    _builder.append(" ");
+    _builder.append("* Generated model class ");
+    String _name = model.getName();
+    _builder.append(_name, " ");
+    _builder.append(".");
+    _builder.newLineIfNotEmpty();
+    _builder.append(" ");
+    _builder.append("* @author TODO");
+    _builder.newLine();
+    _builder.append(" ");
+    _builder.append("* @version TODO");
+    _builder.newLine();
+    _builder.append(" ");
+    _builder.append("*/");
+    _builder.newLine();
+    _builder.append("public class ");
+    String _name_1 = model.getName();
+    _builder.append(_name_1, "");
+    _builder.append(" ");
+    {
+      Model _superType = model.getSuperType();
+      boolean _notEquals_1 = (!Objects.equal(_superType, null));
+      if (_notEquals_1) {
+        _builder.append("extends ");
+        Model _superType_1 = model.getSuperType();
+        QualifiedName _fullyQualifiedName_1 = this._iQualifiedNameProvider.getFullyQualifiedName(_superType_1);
+        _builder.append(_fullyQualifiedName_1, "");
+        _builder.append(" ");
+      }
+    }
+    _builder.append("{");
+    _builder.newLineIfNotEmpty();
+    _builder.append("\t");
+    _builder.append("/* Members */");
+    _builder.newLine();
+    {
+      EList<Property> _properties = model.getProperties();
+      for(final Property p : _properties) {
+        {
+          boolean _notEquals_2 = (!Objects.equal(p, null));
+          if (_notEquals_2) {
+            _builder.append("\t");
+            CharSequence _compilePropertyMember = this.compilePropertyMember(p);
+            _builder.append(_compilePropertyMember, "	");
+            _builder.newLineIfNotEmpty();
+          }
+        }
+      }
+    }
+    _builder.append("\t");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("/* Getters/Setters */");
+    _builder.newLine();
+    {
+      EList<Property> _properties_1 = model.getProperties();
+      for(final Property p_1 : _properties_1) {
+        _builder.append("\t");
+        CharSequence _compilePropertyGetterSetter = this.compilePropertyGetterSetter(p_1);
+        _builder.append(_compilePropertyGetterSetter, "	");
+        _builder.newLineIfNotEmpty();
+      }
+    }
+    _builder.append("\t");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("/* Methods */");
+    _builder.newLine();
+    {
+      EList<Method> _methods = model.getMethods();
+      for(final Method m : _methods) {
+        _builder.append("\t");
+        CharSequence _compileMethod = this.compileMethod(m);
+        _builder.append(_compileMethod, "	");
+        _builder.newLineIfNotEmpty();
+      }
+    }
+    _builder.append("}");
+    _builder.newLine();
+    return _builder;
+  }
+  
+  public CharSequence compile(final Controller controller) {
+    StringConcatenation _builder = new StringConcatenation();
+    {
+      EObject _eContainer = controller.eContainer();
+      boolean _notEquals = (!Objects.equal(_eContainer, null));
+      if (_notEquals) {
+        _builder.append("package ");
+        EObject _eContainer_1 = controller.eContainer();
+        QualifiedName _fullyQualifiedName = this._iQualifiedNameProvider.getFullyQualifiedName(_eContainer_1);
+        _builder.append(_fullyQualifiedName, "");
+        _builder.append(".controllers;");
+        _builder.newLineIfNotEmpty();
+      }
+    }
+    _builder.newLine();
+    _builder.append("/**");
+    _builder.newLine();
+    _builder.append(" ");
+    _builder.append("* Generated controller class ");
+    String _name = controller.getName();
+    _builder.append(_name, " ");
+    _builder.append(".");
+    _builder.newLineIfNotEmpty();
+    _builder.append(" ");
+    _builder.append("* @author TODO");
+    _builder.newLine();
+    _builder.append(" ");
+    _builder.append("* @version TODO");
+    _builder.newLine();
+    _builder.append(" ");
+    _builder.append("*/");
+    _builder.newLine();
+    _builder.append("public class ");
+    String _name_1 = controller.getName();
+    _builder.append(_name_1, "");
+    _builder.append(" ");
+    {
+      Controller _superType = controller.getSuperType();
+      boolean _notEquals_1 = (!Objects.equal(_superType, null));
+      if (_notEquals_1) {
+        _builder.append("extends ");
+        Controller _superType_1 = controller.getSuperType();
+        QualifiedName _fullyQualifiedName_1 = this._iQualifiedNameProvider.getFullyQualifiedName(_superType_1);
+        _builder.append(_fullyQualifiedName_1, "");
+        _builder.append(" ");
+      }
+    }
+    _builder.append("{");
+    _builder.newLineIfNotEmpty();
+    _builder.append("\t");
+    _builder.append("/* Methods */");
+    _builder.newLine();
+    {
+      EList<Method> _methods = controller.getMethods();
+      for(final Method m : _methods) {
+        _builder.append("\t");
+        CharSequence _compileMethod = this.compileMethod(m);
+        _builder.append(_compileMethod, "	");
+        _builder.newLineIfNotEmpty();
+      }
+    }
+    _builder.append("}");
+    _builder.newLine();
+    return _builder;
+  }
+  
+  public CharSequence compile(final Database db) {
+    StringConcatenation _builder = new StringConcatenation();
+    {
+      EObject _eContainer = db.eContainer();
+      boolean _notEquals = (!Objects.equal(_eContainer, null));
+      if (_notEquals) {
+        _builder.append("package ");
+        EObject _eContainer_1 = db.eContainer();
+        QualifiedName _fullyQualifiedName = this._iQualifiedNameProvider.getFullyQualifiedName(_eContainer_1);
+        _builder.append(_fullyQualifiedName, "");
+        _builder.append(".database;");
+        _builder.newLineIfNotEmpty();
+      }
+    }
+    _builder.newLine();
+    _builder.append("/**");
+    _builder.newLine();
+    _builder.append(" ");
+    _builder.append("* Generated database class ");
+    String _name = db.getName();
+    _builder.append(_name, " ");
+    _builder.append(".");
+    _builder.newLineIfNotEmpty();
+    _builder.append(" ");
+    _builder.append("* @author TODO");
+    _builder.newLine();
+    _builder.append(" ");
+    _builder.append("* @version TODO");
+    _builder.newLine();
+    _builder.append(" ");
+    _builder.append("*/");
+    _builder.newLine();
+    _builder.append("public class ");
+    String _name_1 = db.getName();
+    _builder.append(_name_1, "");
+    _builder.append(" ");
+    {
+      Database _superType = db.getSuperType();
+      boolean _notEquals_1 = (!Objects.equal(_superType, null));
+      if (_notEquals_1) {
+        _builder.append("extends ");
+        Database _superType_1 = db.getSuperType();
+        QualifiedName _fullyQualifiedName_1 = this._iQualifiedNameProvider.getFullyQualifiedName(_superType_1);
+        _builder.append(_fullyQualifiedName_1, "");
+        _builder.append(" ");
+      }
+    }
+    _builder.append("{");
+    _builder.newLineIfNotEmpty();
+    _builder.append("\t");
+    _builder.append("/*Methods*/");
+    _builder.newLine();
+    {
+      EList<Method> _methods = db.getMethods();
+      for(final Method m : _methods) {
+        _builder.append("\t");
+        CharSequence _compileMethod = this.compileMethod(m);
+        _builder.append(_compileMethod, "	");
+        _builder.newLineIfNotEmpty();
+      }
+    }
+    _builder.append("}");
+    _builder.newLine();
+    return _builder;
+  }
+  
+  public CharSequence compile(final Enumeration enumeration) {
+    StringConcatenation _builder = new StringConcatenation();
+    {
+      EObject _eContainer = enumeration.eContainer();
+      boolean _notEquals = (!Objects.equal(_eContainer, null));
+      if (_notEquals) {
+        _builder.append("package ");
+        EObject _eContainer_1 = enumeration.eContainer();
+        QualifiedName _fullyQualifiedName = this._iQualifiedNameProvider.getFullyQualifiedName(_eContainer_1);
+        _builder.append(_fullyQualifiedName, "");
+        _builder.append(";");
+        _builder.newLineIfNotEmpty();
+      }
+    }
+    _builder.newLine();
+    _builder.append("/**");
+    _builder.newLine();
+    _builder.append(" ");
+    _builder.append("* Generated enumeration ");
+    String _name = enumeration.getName();
+    _builder.append(_name, " ");
+    _builder.append(".");
+    _builder.newLineIfNotEmpty();
+    _builder.append(" ");
+    _builder.append("* @author TODO");
+    _builder.newLine();
+    _builder.append(" ");
+    _builder.append("* @version TODO");
+    _builder.newLine();
+    _builder.append(" ");
+    _builder.append("*/");
+    _builder.newLine();
+    _builder.append("public enum ");
+    String _name_1 = enumeration.getName();
+    _builder.append(_name_1, "");
+    _builder.append(" {");
+    _builder.newLineIfNotEmpty();
+    {
+      EList<String> _enumValues = enumeration.getEnumValues();
+      for(final String e : _enumValues) {
+        _builder.append("\t");
+        String _firstUpper = StringExtensions.toFirstUpper(e);
+        _builder.append(_firstUpper, "	");
+        _builder.append(", ");
+        _builder.newLineIfNotEmpty();
+      }
+    }
+    _builder.append("}");
+    _builder.newLine();
+    return _builder;
+  }
+  
+  public CharSequence compilePropertyMember(final Property p) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.newLine();
+    _builder.append("/**");
+    _builder.newLine();
+    _builder.append(" ");
+    _builder.append("* The ");
+    String _name = p.getName();
+    _builder.append(_name, " ");
+    _builder.append(" member.");
+    _builder.newLineIfNotEmpty();
+    _builder.append(" ");
+    _builder.append("*/");
+    _builder.newLine();
+    _builder.append("private ");
+    Type _type = p.getType();
+    QualifiedName _fullyQualifiedName = this._iQualifiedNameProvider.getFullyQualifiedName(_type);
+    _builder.append(_fullyQualifiedName, "");
+    _builder.append(" ");
+    String _name_1 = p.getName();
+    _builder.append(_name_1, "");
+    _builder.append(";");
+    _builder.newLineIfNotEmpty();
+    return _builder;
+  }
+  
+  public CharSequence compilePropertyGetterSetter(final Property p) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.newLine();
+    _builder.append("/**");
+    _builder.newLine();
+    _builder.append(" ");
+    _builder.append("* Gets the ");
+    String _name = p.getName();
+    _builder.append(_name, " ");
+    _builder.append(".");
+    _builder.newLineIfNotEmpty();
+    _builder.append(" ");
+    _builder.append("* @return The ");
+    String _name_1 = p.getName();
+    _builder.append(_name_1, " ");
+    _builder.append(".");
+    _builder.newLineIfNotEmpty();
+    _builder.append(" ");
+    _builder.append("*/");
+    _builder.newLine();
+    _builder.append("public ");
+    Type _type = p.getType();
+    QualifiedName _fullyQualifiedName = this._iQualifiedNameProvider.getFullyQualifiedName(_type);
+    _builder.append(_fullyQualifiedName, "");
+    _builder.append(" getGet");
+    String _name_2 = p.getName();
+    String _firstUpper = StringExtensions.toFirstUpper(_name_2);
+    _builder.append(_firstUpper, "");
+    _builder.append("() {");
+    _builder.newLineIfNotEmpty();
+    _builder.append("\t");
+    _builder.append("return ");
+    String _name_3 = p.getName();
+    _builder.append(_name_3, "	");
+    _builder.append(";");
+    _builder.newLineIfNotEmpty();
+    _builder.append("}");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("/**");
+    _builder.newLine();
+    _builder.append(" ");
+    _builder.append("* Sets the ");
+    String _name_4 = p.getName();
+    _builder.append(_name_4, " ");
+    _builder.append(".");
+    _builder.newLineIfNotEmpty();
+    _builder.append(" ");
+    _builder.append("* @param ");
+    String _name_5 = p.getName();
+    _builder.append(_name_5, " ");
+    _builder.append(" The ");
+    String _name_6 = p.getName();
+    _builder.append(_name_6, " ");
+    _builder.append(" value.");
+    _builder.newLineIfNotEmpty();
+    _builder.append(" ");
+    _builder.append("*/");
+    _builder.newLine();
+    _builder.append("public void set");
+    String _name_7 = p.getName();
+    String _firstUpper_1 = StringExtensions.toFirstUpper(_name_7);
+    _builder.append(_firstUpper_1, "");
+    _builder.append("(");
+    Type _type_1 = p.getType();
+    QualifiedName _fullyQualifiedName_1 = this._iQualifiedNameProvider.getFullyQualifiedName(_type_1);
+    _builder.append(_fullyQualifiedName_1, "");
+    _builder.append(" ");
+    String _name_8 = p.getName();
+    _builder.append(_name_8, "");
+    _builder.append(") {");
+    _builder.newLineIfNotEmpty();
+    _builder.append("\t");
+    _builder.append("this.");
+    String _name_9 = p.getName();
+    _builder.append(_name_9, "	");
+    _builder.append(" = ");
+    String _name_10 = p.getName();
+    _builder.append(_name_10, "	");
+    _builder.append(";");
+    _builder.newLineIfNotEmpty();
+    _builder.append("}");
+    _builder.newLine();
+    return _builder;
+  }
+  
+  /**
+   * public «p.type.fullyQualifiedName» «p.name.toFirstLower»(«FOR prm:p.params»«prm.parameterType.fullyQualifiedName» «prm.name», «ENDFOR») {
+   * //TODO: implement method
+   * }
+   * '''
+   */
+  public CharSequence compileMethod(final Method p) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.newLine();
+    _builder.append("/**");
+    _builder.newLine();
+    _builder.append(" ");
+    _builder.append("* TODO: Method description...");
+    _builder.newLine();
+    _builder.append(" ");
+    _builder.append("* ");
+    {
+      EList<Parameter> _params = p.getParams();
+      boolean _notEquals = (!Objects.equal(_params, null));
+      if (_notEquals) {
+        _builder.append("@param TODO: describle all parameters...");
+      }
+    }
+    _builder.newLineIfNotEmpty();
+    _builder.append(" ");
+    _builder.append("* ");
+    {
+      Type _type = p.getType();
+      QualifiedName _fullyQualifiedName = this._iQualifiedNameProvider.getFullyQualifiedName(_type);
+      String _string = _fullyQualifiedName.toString();
+      boolean _equals = _string.equals("void");
+      boolean _not = (!_equals);
+      if (_not) {
+        _builder.append("@return TODO: Return value description...");
+      }
+    }
+    _builder.newLineIfNotEmpty();
+    _builder.append(" ");
+    _builder.append("*/");
+    _builder.newLine();
+    _builder.append("public ");
+    Type _type_1 = p.getType();
+    QualifiedName _fullyQualifiedName_1 = this._iQualifiedNameProvider.getFullyQualifiedName(_type_1);
+    _builder.append(_fullyQualifiedName_1, "");
+    _builder.append(" ");
+    String _name = p.getName();
+    String _firstLower = StringExtensions.toFirstLower(_name);
+    _builder.append(_firstLower, "");
+    _builder.append("(");
+    {
+      EList<Parameter> _params_1 = p.getParams();
+      for(final Parameter prm : _params_1) {
+        Type _type_2 = prm.getType();
+        _builder.append(_type_2, "");
+        _builder.append(" ");
+        String _name_1 = prm.getName();
+        _builder.append(_name_1, "");
+        _builder.append(", ");
+      }
+    }
+    _builder.append(") {");
+    _builder.newLineIfNotEmpty();
+    _builder.append("\t");
+    _builder.append("//TODO: implement method");
+    _builder.newLine();
+    _builder.append("}");
+    _builder.newLine();
+    return _builder;
   }
 }
