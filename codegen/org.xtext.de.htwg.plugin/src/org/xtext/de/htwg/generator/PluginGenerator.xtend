@@ -13,6 +13,7 @@ import org.xtext.de.htwg.plugin.Method
 import org.xtext.de.htwg.plugin.Controller
 import org.xtext.de.htwg.plugin.Database
 import org.xtext.de.htwg.plugin.Enumeration
+import org.xtext.de.htwg.plugin.MyProperty
 
 /**
  * Generates code from your model files on save.
@@ -23,49 +24,73 @@ class PluginGenerator implements IGenerator {
 	
 	@Inject extension IQualifiedNameProvider
 	
+	val modelSubpackageName = "models"
+	val controllerSubpackageName = "controllers"
+	val databaseSubpackageName = "database"
+	
 	override void doGenerate(Resource resource, IFileSystemAccess fsa) {
 		// Generate models
 		for (e: resource.allContents.toIterable.filter(typeof(Model))) {
 			fsa.generateFile(
-				e.fullyQualifiedName.skipLast(1).toString("/") + "/models/" + e.fullyQualifiedName.lastSegment + ".java",
-				e.compileInterface)
+				e.fullyQualifiedName.skipLast(1).toString("/") + "/" + modelSubpackageName + "/I" + e.fullyQualifiedName.lastSegment + ".java",
+				e.compileInterface(modelSubpackageName))
 		}
 		for (e: resource.allContents.toIterable.filter(typeof(Model))) {
 			fsa.generateFile(
-				e.fullyQualifiedName.skipLast(1).toString("/") + "/models/impl/" + e.fullyQualifiedName.lastSegment + ".java",
-				e.compile)
+				e.fullyQualifiedName.skipLast(1).toString("/") + "/" + modelSubpackageName + "/impl/" + e.fullyQualifiedName.lastSegment + ".java",
+				e.compile(modelSubpackageName + ".impl"))
 		}
 		for (e: resource.allContents.toIterable.filter(typeof(Model))) {
 			fsa.generateFile(
-				e.fullyQualifiedName.skipLast(1).toString("/") + "/models/mock/" + e.fullyQualifiedName.lastSegment + ".java",
-				e.compile)
+				e.fullyQualifiedName.skipLast(1).toString("/") + "/" + modelSubpackageName + "/mock/" + e.fullyQualifiedName.lastSegment + ".java",
+				e.compile(modelSubpackageName + ".mock"))
 		}
 		
 		// Generate controllers
 		for (e: resource.allContents.toIterable.filter(typeof(Controller))) {
 			fsa.generateFile(
-				e.fullyQualifiedName.toString("/") + ".java",
-				e.compile)
+				e.fullyQualifiedName.skipLast(1).toString("/") + "/" + controllerSubpackageName + "/I" + e.fullyQualifiedName.lastSegment + ".java",
+				e.compileInterface(controllerSubpackageName))
+		}
+		for (e: resource.allContents.toIterable.filter(typeof(Controller))) {
+			fsa.generateFile(
+				e.fullyQualifiedName.skipLast(1).toString("/") + "/" + controllerSubpackageName + "/impl/" + e.fullyQualifiedName.lastSegment + ".java",
+				e.compile(controllerSubpackageName + ".impl"))
+		}
+		for (e: resource.allContents.toIterable.filter(typeof(Controller))) {
+			fsa.generateFile(
+				e.fullyQualifiedName.skipLast(1).toString("/") + "/" + controllerSubpackageName + "/mock/" + e.fullyQualifiedName.lastSegment + ".java",
+				e.compile(controllerSubpackageName + ".mock"))
 		}
 		
 		// Generate database
 		for (e: resource.allContents.toIterable.filter(typeof(Database))) {
 			fsa.generateFile(
-				e.fullyQualifiedName.toString("/") + ".java",
-				e.compile)
+				e.fullyQualifiedName.skipLast(1).toString("/") + "/" + databaseSubpackageName + "/I" + e.fullyQualifiedName.lastSegment + ".java",
+				e.compileInterface(databaseSubpackageName))
+		}
+		for (e: resource.allContents.toIterable.filter(typeof(Database))) {
+			fsa.generateFile(
+				e.fullyQualifiedName.skipLast(1).toString("/") + "/" + databaseSubpackageName + "/impl/" + e.fullyQualifiedName.lastSegment + ".java",
+				e.compile(databaseSubpackageName + ".impl"))
+		}
+		for (e: resource.allContents.toIterable.filter(typeof(Database))) {
+			fsa.generateFile(
+				e.fullyQualifiedName.skipLast(1).toString("/") + "/" + databaseSubpackageName + "/mock/" + e.fullyQualifiedName.lastSegment + ".java",
+				e.compile(databaseSubpackageName + ".mock"))
 		}
 		
 		// Generate Enumerations
 		for (e: resource.allContents.toIterable.filter(typeof(Enumeration))) {
 			fsa.generateFile(
-				e.fullyQualifiedName.toString("/") + ".java",
-				e.compile)
+				e.fullyQualifiedName.skipLast(1).toString("/") + "/" + modelSubpackageName + "/" + e.fullyQualifiedName.lastSegment + ".java",
+				e.compile(modelSubpackageName))
 		}
 	}
 	
-	def compileInterface(Model model)'''
+	def compileInterface(Model model, String packageExtension)'''
 		«IF model.eContainer != null»
-			package «model.eContainer.fullyQualifiedName».models;
+			package «model.eContainer.fullyQualifiedName».«packageExtension»;
 		«ENDIF»
 
 		/**
@@ -74,23 +99,19 @@ class PluginGenerator implements IGenerator {
 		 * @version TODO
 		 */
 		public interface «model.name» {
-			/* Members */
-			
-			/* Getters/Setters */
 			«FOR p:model.properties»
 				«p.compilePropertyGetterSetterInterface»
 			«ENDFOR»
 			
-			/* Methods */
 			«FOR m:model.methods»
 				«m.compileMethodInterface»
 			«ENDFOR»
 		}
 	'''
 	
-	def compile(Model model)'''
+	def compile(Model model, String packageExtension)'''
 		«IF model.eContainer != null»
-			package «model.eContainer.fullyQualifiedName».models;
+			package «model.eContainer.fullyQualifiedName».«modelSubpackageName».«packageExtension»;
 		«ENDIF»
 
 		/**
@@ -98,29 +119,43 @@ class PluginGenerator implements IGenerator {
 		 * @author TODO
 		 * @version TODO
 		 */
-		public class «model.name» «IF model.superType != null »extends «model.superType.fullyQualifiedName» «ENDIF» implements I«model.name»{
-			/* Members */
+		public class «model.name» «IF model.superType != null »extends «model.superType.fullyQualifiedName» «ENDIF» implements I«model.name» {
 			«FOR p:model.properties»
 				«IF p != null »
 					«p.compilePropertyMember»
 				«ENDIF»
 			«ENDFOR»
 			
-			/* Getters/Setters */
 			«FOR p:model.properties»
 				«p.compilePropertyGetterSetter»
 			«ENDFOR»
 			
-			/* Methods */
 			«FOR m:model.methods»
 				«m.compileMethod»
 			«ENDFOR»
 		}
 	'''
 	
-	def compile(Controller controller)'''
+	def compileInterface(Controller controller, String packageExtension)'''
 		«IF controller.eContainer != null»
-			package «controller.eContainer.fullyQualifiedName».controllers;
+			package «controller.eContainer.fullyQualifiedName».«packageExtension»;
+		«ENDIF»
+
+		/**
+		 * Generated interface class I«controller.name».
+		 * @author TODO
+		 * @version TODO
+		 */
+		public interface I«controller.name» {
+			«FOR m:controller.methods»
+				«m.compileMethodInterface»
+			«ENDFOR»
+		}
+	'''
+	
+	def compile(Controller controller, String packageExtension)'''
+		«IF controller.eContainer != null»
+			package «controller.eContainer.fullyQualifiedName».«packageExtension»;
 		«ENDIF»
 
 		/**
@@ -128,17 +163,33 @@ class PluginGenerator implements IGenerator {
 		 * @author TODO
 		 * @version TODO
 		 */
-		public class «controller.name» «IF controller.superType != null »extends «controller.superType.fullyQualifiedName» «ENDIF»{
-			/* Methods */
+		public class «controller.name» «IF controller.superType != null »extends «controller.superType.fullyQualifiedName» «ENDIF» implements I«controller.name» {
 			«FOR m:controller.methods»
 				«m.compileMethod»
 			«ENDFOR»
 		}
 	'''
 	
-	def compile(Database db)'''
+	def compileInterface(Database db, String packageExtension)'''
 		«IF db.eContainer != null»
-			package «db.eContainer.fullyQualifiedName».database;
+			package «db.eContainer.fullyQualifiedName».«packageExtension»;
+		«ENDIF»
+
+		/**
+		 * Generated interface class I«db.name».
+		 * @author TODO
+		 * @version TODO
+		 */
+		public interface I«db.name» {
+			«FOR m:db.methods»
+				«m.compileMethodInterface»
+			«ENDFOR»
+		}
+	'''
+	
+	def compile(Database db, String packageExtension)'''
+		«IF db.eContainer != null»
+			package «db.eContainer.fullyQualifiedName».«packageExtension»;
 		«ENDIF»
 
 		/**
@@ -146,17 +197,16 @@ class PluginGenerator implements IGenerator {
 		 * @author TODO
 		 * @version TODO
 		 */
-		public class «db.name» «IF db.superType != null »extends «db.superType.fullyQualifiedName» «ENDIF»{
-			/*Methods*/
+		public class «db.name» «IF db.superType != null »extends «db.superType.fullyQualifiedName» «ENDIF» implements I«db.name» {
 			«FOR m:db.methods»
 				«m.compileMethod»
 			«ENDFOR»
 		}
 	'''
 	
-	def compile(Enumeration enumeration)'''
+	def compile(Enumeration enumeration, String packageExtension)'''
 		«IF enumeration.eContainer != null»
-			package «enumeration.eContainer.fullyQualifiedName»;
+			package «enumeration.eContainer.fullyQualifiedName».«packageExtension»;
 		«ENDIF»
 
 		/**
@@ -165,13 +215,13 @@ class PluginGenerator implements IGenerator {
 		 * @version TODO
 		 */
 		public enum «enumeration.name» {
-			«FOR e:enumeration.enumValues»
-				«e.toFirstUpper», 
+			«FOR e:enumeration.enumValues SEPARATOR ", "»
+				«e.toFirstUpper»
 			«ENDFOR»
 		}
 	'''
 	
-	def compilePropertyMember(org.xtext.de.htwg.plugin.Property p) '''
+	def compilePropertyMember(MyProperty p) '''
 
 		/**
 		 * The «p.name» member.
@@ -179,7 +229,7 @@ class PluginGenerator implements IGenerator {
 		private «p.type.fullyQualifiedName» «p.name»;
 	'''
 	
-	def compilePropertyGetterSetter(org.xtext.de.htwg.plugin.Property p) '''
+	def compilePropertyGetterSetter(MyProperty p) '''
 
 		@Override
 		public «p.type.fullyQualifiedName» get«p.name.toFirstUpper»() {
@@ -192,7 +242,7 @@ class PluginGenerator implements IGenerator {
 		}
 	'''
 	
-	def compilePropertyGetterSetterInterface(org.xtext.de.htwg.plugin.Property p) '''
+	def compilePropertyGetterSetterInterface(MyProperty p) '''
 
 		/**
 		 * Gets the «p.name».
@@ -210,7 +260,7 @@ class PluginGenerator implements IGenerator {
 	def compileMethod(Method p) '''
 
 		@Override
-		public «p.type.fullyQualifiedName» «p.name.toFirstLower»(«FOR prm:p.params»«prm.type» «prm.name», «ENDFOR») {
+		public «p.type.fullyQualifiedName» «p.name.toFirstLower»(«FOR prm:p.params SEPARATOR ", "»«prm.type.fullyQualifiedName» «prm.name»«ENDFOR») {
 			//TODO: implement method
 		}
 	'''
@@ -222,6 +272,6 @@ class PluginGenerator implements IGenerator {
 		 * «IF p.params != null»@param TODO: describle all parameters...«ENDIF»
 		 * «IF !p.type.fullyQualifiedName.toString.equals("void")»@return TODO: Return value description...«ENDIF»
 		 */
-		public «p.type.fullyQualifiedName» «p.name.toFirstLower»(«FOR prm:p.params»«prm.type» «prm.name», «ENDFOR»);
+		public «p.type.fullyQualifiedName» «p.name.toFirstLower»(«FOR prm:p.params SEPARATOR ", "»«prm.type.fullyQualifiedName» «prm.name»«ENDFOR»);
 	'''
 }

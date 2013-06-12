@@ -1,16 +1,18 @@
-package java.lang {
+type void
+type int
+type boolean
+type String
+
+/*package java.lang {
 	type String
-	type Integer
-	type Boolean
-	type void
-}
+}*/
 
 package de.htwg.seapal.maps {
-	import java.lang.*
+	//import java.lang.*
 	
 	model Maps {
 		property menuVisible: String
-		property abcdef: Integer
+		property abc: int
 		property position: String
 		property menuPositionState: MapsMenuPositionState
 		property positionState: MapsPositionState
@@ -35,7 +37,7 @@ package de.htwg.seapal.maps {
 	database MapsDatabase {
 		method save(map: Maps): void
 		method load(): Maps
-		method close(): Boolean
+		method close(): boolean
 	}
 	
 	enum MapsMenuPositionState {

@@ -1,59 +1,3 @@
-/*grammar org.xtext.de.htwg.Plugin with org.eclipse.xtext.xbase.Xbase
-
-generate plugin "http://www.xtext.org/de/htwg/Plugin"
-
-Plugin:
-	importSection=XImportSection?
-	elements+=AbstractElement*
-;
-
-AbstractElement:
-	PackageDeclaration | Model | Controller | Database | Enumeration
-;
-
-PackageDeclaration:
-	'package' name=QualifiedName '{'
-		elements+=AbstractElement*
-	'}'
-;
-
-Model:
-	'model' name=ValidID ('extends' superType=JvmTypeReference)? '{'
-		properties+=Property*
-		methods+=Method*
-	'}'
-;
-
-Controller:
-	'controller' name=ValidID ('extends' superType=JvmTypeReference)? '{'
-		methods+=Method*
-	'}'
-;
-
-Database:
-	'database' name=ValidID ('extends' superType=JvmTypeReference)? '{'
-		methods+=Method*
-	'}'
-;
-
-Enumeration:
-	'enum' name=ValidID '{'
-		(enumValues += ID
-			(',' enumValues += ID)?)+
-	'}'
-;
-
-Property:
-	'property' name=ValidID ':' type=JvmTypeReference
-;
-
-Method:
-	'method' name=ValidID 
-		'('(params+=FullJvmFormalParameter 
-			(',' params+=FullJvmFormalParameter)*)?')'
-		':' type=JvmTypeReference
-;*/
-
 grammar org.xtext.de.htwg.Plugin with org.eclipse.xtext.common.Terminals
 
 generate plugin "http://www.xtext.org/de/htwg/Plugin"
@@ -75,14 +19,8 @@ QualifiedNameWithWildcard:
 ;
 
 Type:
-	Typedef | Model | Controller | Database | Enumeration //| JavaPrim
+	Typedef | Model | Controller | Database | Enumeration
 ;
-
-//JavaPrim:
-	//{JavaPrim}name=('void' | 'int' | 'boolean' | 'char' | 'float' | 'long' | 'double')
-	//name=ID
-	//{JavaPrim} (ID | '*')+
-//;
 
 Typedef:
 	'type' name=ID
@@ -100,7 +38,7 @@ Import:
 
 Model:
 	'model' name=ID ('extends' superType=[Model | QualifiedName])? '{'
-		properties+=Property*
+		properties+=MyProperty*
 		methods+=Method*
 	'}'
 ;
@@ -124,7 +62,7 @@ Enumeration:
 	'}'
 ;
 
-Property:
+MyProperty:
 	'property' name=ID ':' type= [Type | QualifiedName]
 ;
 
