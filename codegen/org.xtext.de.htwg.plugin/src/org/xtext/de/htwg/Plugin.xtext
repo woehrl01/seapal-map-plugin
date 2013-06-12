@@ -75,12 +75,14 @@ QualifiedNameWithWildcard:
 ;
 
 Type:
-	Typedef | Model | Controller | Database | Enumeration | JavaPrim;
-
-JavaPrim:
-	{JavaPrim} ('void' | 'int' | 'boolean' | 'char' | 'float' | 'long' | 'double')
-	//type=ID
+	Typedef | Model | Controller | Database | Enumeration //| JavaPrim
 ;
+
+//JavaPrim:
+	//{JavaPrim}name=('void' | 'int' | 'boolean' | 'char' | 'float' | 'long' | 'double')
+	//name=ID
+	//{JavaPrim} (ID | '*')+
+//;
 
 Typedef:
 	'type' name=ID

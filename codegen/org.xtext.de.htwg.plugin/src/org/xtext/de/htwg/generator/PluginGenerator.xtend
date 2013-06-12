@@ -28,7 +28,7 @@ class PluginGenerator implements IGenerator {
 		// Generate models
 		for (e: resource.allContents.toIterable.filter(typeof(Model))) {
 			fsa.generateFile(
-				e.fullyQualifiedName.toString("/") + ".java",
+				e.fullyQualifiedName.toString("/") + ".java", 
 				e.compile)
 		}
 		
