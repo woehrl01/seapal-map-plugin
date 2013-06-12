@@ -41,11 +41,11 @@
 	}
 }*/
 
-basic-types java {
+/*basic-types java {
 	type boolean
 	type void
 	type int
-}
+}*/
 
 package java.lang {
 	type String
@@ -56,6 +56,7 @@ package de.htwg.seapal.maps {
 	
 	model Maps {
 		property menuVisible: String
+		property abc: int
 		property position: String
 		property menuPositionState: MapsMenuPositionState
 		property positionState: MapsPositionState
@@ -64,7 +65,7 @@ package de.htwg.seapal.maps {
 	
 	controller MapsController {
 		method getSettings(): Maps
-		//method setSettings(map: Maps): void
+		method setSettings(map: Maps): void
 		//method showMenu(): void
 		//method hideMenu(): void
 		method getMenuPositionState(): MapsMenuPositionState
@@ -78,9 +79,9 @@ package de.htwg.seapal.maps {
 	}
 	
 	database MapsDatabase {
-		//method save(map: Maps): void
+		method save(map: Maps): void
 		method load(): Maps
-		//method close(): boolean
+		method close(): boolean
 	}
 	
 	enum MapsMenuPositionState {
