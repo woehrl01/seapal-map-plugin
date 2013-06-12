@@ -1,43 +1,17 @@
+PACKAGE de.htwg.seapal.maps
+
 type void
-type int
 type boolean
 type String
 
-/*package java.lang {
-	type String
-}*/
-
-package de.htwg.seapal.maps {
-	//import java.lang.*
+package model {
 	
-	model Maps {
+	interface IMaps {
 		property menuVisible: String
-		property abc: int
 		property position: String
 		property menuPositionState: MapsMenuPositionState
 		property positionState: MapsPositionState
 		property mapType: MapsType
-	}
-	
-	controller MapsController {
-		method getSettings(): Maps
-		method setSettings(map: Maps): void
-		method showMenu(): void
-		method hideMenu(): void
-		method getMenuPositionState(): MapsMenuPositionState
-		method setMenuPositionState(state: MapsMenuPositionState): void
-		method getPositionState(): MapsPositionState
-		method setPositionState(state: MapsPositionState): void
-		method getPosition(): String
-		method setPosition(position: String): void
-		method getType(): MapsType
-		method setType(mapType: MapsType): void
-	}
-	
-	database MapsDatabase {
-		method save(map: Maps): void
-		method load(): Maps
-		method close(): boolean
 	}
 	
 	enum MapsMenuPositionState {
@@ -50,5 +24,34 @@ package de.htwg.seapal.maps {
 	
 	enum MapsType {
 		CARD, SATELITE
+	}
+}
+
+package controller {
+	import de.htwg.seapal.maps.model.*
+	
+	interface IMapsController {
+		method getSettings(): IMaps
+		method setSettings(map: IMaps): void
+		method showMenu(): void
+		method hideMenu(): void
+		method getMenuPositionState(): MapsMenuPositionState
+		method setMenuPositionState(state: MapsMenuPositionState): void
+		method getPositionState(): MapsPositionState
+		method setPositionState(state: MapsPositionState): void
+		method getPosition(): String
+		method setPosition(position: String): void
+		method getType(): MapsType
+		method setType(mapType: MapsType): void
+	}
+}
+
+package database {
+	import de.htwg.seapal.maps.model.IMaps
+	
+	interface IMapsDatabase {
+		method save(map: IMaps): void
+		method load(): IMaps
+		method close(): boolean
 	}
 }

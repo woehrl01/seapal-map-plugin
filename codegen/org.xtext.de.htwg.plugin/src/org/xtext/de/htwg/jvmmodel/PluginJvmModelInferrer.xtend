@@ -2,11 +2,8 @@ package org.xtext.de.htwg.jvmmodel
 
 import com.google.inject.Inject
 import org.eclipse.xtext.naming.IQualifiedNameProvider
-import org.xtext.de.htwg.plugin.Model
 import org.xtext.de.htwg.plugin.Method
 import org.xtext.de.htwg.plugin.Enumeration
-import org.xtext.de.htwg.plugin.Database
-import org.xtext.de.htwg.plugin.Controller
 import org.eclipse.xtext.xbase.jvmmodel.AbstractModelInferrer
 import org.eclipse.xtext.xbase.jvmmodel.JvmTypesBuilder
 import org.eclipse.xtext.xbase.jvmmodel.IJvmDeclaredTypeAcceptor

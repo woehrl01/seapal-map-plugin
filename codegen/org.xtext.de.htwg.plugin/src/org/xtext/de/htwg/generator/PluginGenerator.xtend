@@ -6,14 +6,14 @@ package org.xtext.de.htwg.generator
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.xtext.generator.IGenerator
 import org.eclipse.xtext.generator.IFileSystemAccess
-import org.xtext.de.htwg.plugin.Model
-import com.google.inject.Inject
 import org.eclipse.xtext.naming.IQualifiedNameProvider
 import org.xtext.de.htwg.plugin.Method
-import org.xtext.de.htwg.plugin.Controller
-import org.xtext.de.htwg.plugin.Database
 import org.xtext.de.htwg.plugin.Enumeration
 import org.xtext.de.htwg.plugin.MyProperty
+import org.xtext.de.htwg.plugin.Interface
+import javax.inject.Inject
+import org.xtext.de.htwg.plugin.Import
+import org.xtext.de.htwg.plugin.Plugin
 
 /**
  * Generates code from your model files on save.
@@ -24,189 +24,139 @@ class PluginGenerator implements IGenerator {
 	
 	@Inject extension IQualifiedNameProvider
 	
-	val modelSubpackageName = "models"
-	val controllerSubpackageName = "controllers"
-	val databaseSubpackageName = "database"
+	val implSubpackageName = "impl"
+	val mockSubpackageName = "mock"
+	
+	val pluginTuiName = "PluginTUI"
+	val pluginImplModuleName = "PluginImplModule"
+	val pluginMockModuleName = "PluginMockModule"
+	val pluginMainName = "PluginMain"
 	
 	override void doGenerate(Resource resource, IFileSystemAccess fsa) {
-		// Generate models
-		for (e: resource.allContents.toIterable.filter(typeof(Model))) {
-			fsa.generateFile(
-				e.fullyQualifiedName.skipLast(1).toString("/") + "/" + modelSubpackageName + "/I" + e.fullyQualifiedName.lastSegment + ".java",
-				e.compileInterface(modelSubpackageName))
-		}
-		for (e: resource.allContents.toIterable.filter(typeof(Model))) {
-			fsa.generateFile(
-				e.fullyQualifiedName.skipLast(1).toString("/") + "/" + modelSubpackageName + "/impl/" + e.fullyQualifiedName.lastSegment + ".java",
-				e.compile(modelSubpackageName + ".impl"))
-		}
-		for (e: resource.allContents.toIterable.filter(typeof(Model))) {
-			fsa.generateFile(
-				e.fullyQualifiedName.skipLast(1).toString("/") + "/" + modelSubpackageName + "/mock/" + e.fullyQualifiedName.lastSegment + ".java",
-				e.compile(modelSubpackageName + ".mock"))
+		// Find root package name
+		var rootPackage = org::eclipse::xtext::naming::QualifiedName::EMPTY;
+		for (e: resource.allContents.toIterable.filter(typeof(Plugin))) {
+			rootPackage = e.fullyQualifiedName;
 		}
 		
-		// Generate controllers
-		for (e: resource.allContents.toIterable.filter(typeof(Controller))) {
+		// Generate interfaces
+		for (e: resource.allContents.toIterable.filter(typeof(Interface))) {
 			fsa.generateFile(
-				e.fullyQualifiedName.skipLast(1).toString("/") + "/" + controllerSubpackageName + "/I" + e.fullyQualifiedName.lastSegment + ".java",
-				e.compileInterface(controllerSubpackageName))
-		}
-		for (e: resource.allContents.toIterable.filter(typeof(Controller))) {
-			fsa.generateFile(
-				e.fullyQualifiedName.skipLast(1).toString("/") + "/" + controllerSubpackageName + "/impl/" + e.fullyQualifiedName.lastSegment + ".java",
-				e.compile(controllerSubpackageName + ".impl"))
-		}
-		for (e: resource.allContents.toIterable.filter(typeof(Controller))) {
-			fsa.generateFile(
-				e.fullyQualifiedName.skipLast(1).toString("/") + "/" + controllerSubpackageName + "/mock/" + e.fullyQualifiedName.lastSegment + ".java",
-				e.compile(controllerSubpackageName + ".mock"))
+				e.fullyQualifiedName.toString("/") + ".java",
+				e.compileInterface)
 		}
 		
-		// Generate database
-		for (e: resource.allContents.toIterable.filter(typeof(Database))) {
+		// Generate impl classes
+		for (e: resource.allContents.toIterable.filter(typeof(Interface))) {
 			fsa.generateFile(
-				e.fullyQualifiedName.skipLast(1).toString("/") + "/" + databaseSubpackageName + "/I" + e.fullyQualifiedName.lastSegment + ".java",
-				e.compileInterface(databaseSubpackageName))
+				e.fullyQualifiedName.skipLast(1).toString("/") + "/" + implSubpackageName + "/" + getClassName(e.fullyQualifiedName.lastSegment) + ".java",
+				e.compile(implSubpackageName))
 		}
-		for (e: resource.allContents.toIterable.filter(typeof(Database))) {
+		
+		// Generate mock classes
+		for (e: resource.allContents.toIterable.filter(typeof(Interface))) {
 			fsa.generateFile(
-				e.fullyQualifiedName.skipLast(1).toString("/") + "/" + databaseSubpackageName + "/impl/" + e.fullyQualifiedName.lastSegment + ".java",
-				e.compile(databaseSubpackageName + ".impl"))
-		}
-		for (e: resource.allContents.toIterable.filter(typeof(Database))) {
-			fsa.generateFile(
-				e.fullyQualifiedName.skipLast(1).toString("/") + "/" + databaseSubpackageName + "/mock/" + e.fullyQualifiedName.lastSegment + ".java",
-				e.compile(databaseSubpackageName + ".mock"))
+				e.fullyQualifiedName.skipLast(1).toString("/") + "/" + mockSubpackageName + "/" + getClassName(e.fullyQualifiedName.lastSegment) + ".java",
+				e.compile(mockSubpackageName))
 		}
 		
 		// Generate Enumerations
 		for (e: resource.allContents.toIterable.filter(typeof(Enumeration))) {
 			fsa.generateFile(
-				e.fullyQualifiedName.skipLast(1).toString("/") + "/" + modelSubpackageName + "/" + e.fullyQualifiedName.lastSegment + ".java",
-				e.compile(modelSubpackageName))
+				e.fullyQualifiedName.toString("/") + ".java",
+				e.compile())
 		}
+		
+		// TUI
+		fsa.generateFile(
+			rootPackage.toString("/") + "/views/tui/" + pluginTuiName + ".java",
+			compileTUI(rootPackage.toString, pluginTuiName)
+		)
+		
+		// Guice Impl Module
+		fsa.generateFile(
+			rootPackage.toString("/") + "/module/" + pluginImplModuleName + ".java",
+			compileModule(rootPackage.toString, pluginImplModuleName, implSubpackageName)
+		)
+		
+		// Guice Mock Module
+		fsa.generateFile(
+			rootPackage.toString("/") + "/module/" + pluginMockModuleName + ".java",
+			compileModule(rootPackage.toString, pluginMockModuleName, mockSubpackageName)
+		)
+		
+		// Main
+		fsa.generateFile(
+			rootPackage.toString("/") + "/" + pluginMainName + ".java",
+			compileMain(rootPackage.toString, pluginMainName, pluginTuiName, pluginImplModuleName)
+		)
 	}
 	
-	def compileInterface(Model model, String packageExtension)'''
-		«IF model.eContainer != null»
-			package «model.eContainer.fullyQualifiedName».«packageExtension»;
+	def compileInterface(Interface iface)'''
+		«IF iface.eContainer != null»
+			package «iface.eContainer.fullyQualifiedName»;
+			
+			«FOR i:iface.eContainer.eContents.filter(typeof(Import))»
+				import «i.importedNamespace»;
+			«ENDFOR»
 		«ENDIF»
-
+		
 		/**
-		 * Generated model interface I«model.name».
+		 * Generated model interface «iface.name».
 		 * @author TODO
 		 * @version TODO
 		 */
-		public interface «model.name» {
-			«FOR p:model.properties»
+		public interface «iface.name» {
+			«FOR p:iface.properties»
 				«p.compilePropertyGetterSetterInterface»
 			«ENDFOR»
 			
-			«FOR m:model.methods»
+			«FOR m:iface.methods»
 				«m.compileMethodInterface»
 			«ENDFOR»
 		}
 	'''
 	
-	def compile(Model model, String packageExtension)'''
-		«IF model.eContainer != null»
-			package «model.eContainer.fullyQualifiedName».«modelSubpackageName».«packageExtension»;
+	def compile(Interface iface, String packageExtension)'''
+		«IF iface.eContainer != null»
+			package «iface.eContainer.fullyQualifiedName».«packageExtension»;
+			
+			import «iface.eContainer.fullyQualifiedName».*;
+			
+			«FOR i:iface.eContainer.eContents.filter(typeof(Import))»
+				import «i.importedNamespace»;
+			«ENDFOR»
 		«ENDIF»
 
 		/**
-		 * Generated model class «model.name».
+		 * Generated model class «iface.name».
 		 * @author TODO
 		 * @version TODO
 		 */
-		public class «model.name» «IF model.superType != null »extends «model.superType.fullyQualifiedName» «ENDIF» implements I«model.name» {
-			«FOR p:model.properties»
+		public class « getClassName(iface.name)» implements «iface.name» {
+			«FOR p:iface.properties»
 				«IF p != null »
 					«p.compilePropertyMember»
 				«ENDIF»
 			«ENDFOR»
 			
-			«FOR p:model.properties»
+			«FOR p:iface.properties»
 				«p.compilePropertyGetterSetter»
 			«ENDFOR»
 			
-			«FOR m:model.methods»
+			«FOR m:iface.methods»
 				«m.compileMethod»
 			«ENDFOR»
 		}
 	'''
-	
-	def compileInterface(Controller controller, String packageExtension)'''
-		«IF controller.eContainer != null»
-			package «controller.eContainer.fullyQualifiedName».«packageExtension»;
-		«ENDIF»
 
-		/**
-		 * Generated interface class I«controller.name».
-		 * @author TODO
-		 * @version TODO
-		 */
-		public interface I«controller.name» {
-			«FOR m:controller.methods»
-				«m.compileMethodInterface»
-			«ENDFOR»
-		}
-	'''
-	
-	def compile(Controller controller, String packageExtension)'''
-		«IF controller.eContainer != null»
-			package «controller.eContainer.fullyQualifiedName».«packageExtension»;
-		«ENDIF»
-
-		/**
-		 * Generated controller class «controller.name».
-		 * @author TODO
-		 * @version TODO
-		 */
-		public class «controller.name» «IF controller.superType != null »extends «controller.superType.fullyQualifiedName» «ENDIF» implements I«controller.name» {
-			«FOR m:controller.methods»
-				«m.compileMethod»
-			«ENDFOR»
-		}
-	'''
-	
-	def compileInterface(Database db, String packageExtension)'''
-		«IF db.eContainer != null»
-			package «db.eContainer.fullyQualifiedName».«packageExtension»;
-		«ENDIF»
-
-		/**
-		 * Generated interface class I«db.name».
-		 * @author TODO
-		 * @version TODO
-		 */
-		public interface I«db.name» {
-			«FOR m:db.methods»
-				«m.compileMethodInterface»
-			«ENDFOR»
-		}
-	'''
-	
-	def compile(Database db, String packageExtension)'''
-		«IF db.eContainer != null»
-			package «db.eContainer.fullyQualifiedName».«packageExtension»;
-		«ENDIF»
-
-		/**
-		 * Generated database class «db.name».
-		 * @author TODO
-		 * @version TODO
-		 */
-		public class «db.name» «IF db.superType != null »extends «db.superType.fullyQualifiedName» «ENDIF» implements I«db.name» {
-			«FOR m:db.methods»
-				«m.compileMethod»
-			«ENDFOR»
-		}
-	'''
-	
-	def compile(Enumeration enumeration, String packageExtension)'''
+	def compile(Enumeration enumeration)'''
 		«IF enumeration.eContainer != null»
-			package «enumeration.eContainer.fullyQualifiedName».«packageExtension»;
+			package «enumeration.eContainer.fullyQualifiedName»;
+			
+			«FOR i:enumeration.eContainer.eContents.filter(typeof(Import))»
+				import «i.importedNamespace»;
+			«ENDFOR»
 		«ENDIF»
 
 		/**
@@ -226,18 +176,18 @@ class PluginGenerator implements IGenerator {
 		/**
 		 * The «p.name» member.
 		 */
-		private «p.type.fullyQualifiedName» «p.name»;
+		private «p.type.fullyQualifiedName.lastSegment» «p.name»;
 	'''
 	
 	def compilePropertyGetterSetter(MyProperty p) '''
 
 		@Override
-		public «p.type.fullyQualifiedName» get«p.name.toFirstUpper»() {
+		public «p.type.fullyQualifiedName.lastSegment» get«p.name.toFirstUpper»() {
 			return «p.name»;
 		}
 
 		@Override
-		public void set«p.name.toFirstUpper»(«p.type.fullyQualifiedName» «p.name») {
+		public void set«p.name.toFirstUpper»(«p.type.fullyQualifiedName.lastSegment» «p.name») {
 			this.«p.name» = «p.name»;
 		}
 	'''
@@ -248,20 +198,21 @@ class PluginGenerator implements IGenerator {
 		 * Gets the «p.name».
 		 * @return The «p.name».
 		 */
-		public «p.type.fullyQualifiedName» get«p.name.toFirstUpper»();
+		public «p.type.fullyQualifiedName.lastSegment» get«p.name.toFirstUpper»();
 
 		/**
 		 * Sets the «p.name».
 		 * @param «p.name» The «p.name» value.
 		 */
-		public void set«p.name.toFirstUpper»(«p.type.fullyQualifiedName» «p.name»);
+		public void set«p.name.toFirstUpper»(«p.type.fullyQualifiedName.lastSegment» «p.name»);
 	'''
 	
 	def compileMethod(Method p) '''
 
 		@Override
-		public «p.type.fullyQualifiedName» «p.name.toFirstLower»(«FOR prm:p.params SEPARATOR ", "»«prm.type.fullyQualifiedName» «prm.name»«ENDFOR») {
+		public «p.type.fullyQualifiedName.lastSegment» «p.name.toFirstLower»(«FOR prm:p.params SEPARATOR ", "»«prm.type.fullyQualifiedName.lastSegment» «prm.name»«ENDFOR») {
 			//TODO: implement method
+			throw new UnsupportedOperationException("Method is not implemented.");
 		}
 	'''
 	
@@ -272,6 +223,113 @@ class PluginGenerator implements IGenerator {
 		 * «IF p.params != null»@param TODO: describle all parameters...«ENDIF»
 		 * «IF !p.type.fullyQualifiedName.toString.equals("void")»@return TODO: Return value description...«ENDIF»
 		 */
-		public «p.type.fullyQualifiedName» «p.name.toFirstLower»(«FOR prm:p.params SEPARATOR ", "»«prm.type.fullyQualifiedName» «prm.name»«ENDFOR»);
+		public «p.type.fullyQualifiedName.lastSegment» «p.name.toFirstLower»(«FOR prm:p.params SEPARATOR ", "»«prm.type.fullyQualifiedName.lastSegment» «prm.name»«ENDFOR»);
 	'''
+	
+	def compileTUI(String basePackage, String className)'''
+		package «basePackage».views.tui;
+		
+		import com.google.inject.Inject;
+		
+		/**
+		 * The text user interface of the plugin.
+		 */
+		public class «className» {
+		
+			public «className»() {
+			}
+		
+			/**
+			 * updates the UI.
+			 */
+			public void update() {
+				printTUI();
+			}
+		
+			/**
+			 * Processes the input line.
+			 * @param line The input.
+			 * @return TRUE, if the input was accepted.
+			 */
+			public boolean processInputLine(String line) {
+				return true;
+			}
+		
+			/**
+			 * Prints the TUI.
+			 */
+			public void printTUI() {
+				
+			}
+		}
+	'''
+	
+	def compileModule(String basePackage, String className, String subPackage)'''
+		package «basePackage».module;
+		
+		import com.google.inject.AbstractModule;
+		
+		import «basePackage».database.IMapsDatabase;
+		import «basePackage».controller.IMapsController;
+		import «basePackage».model.IMaps;
+		
+		/**
+		 * Final Google Guice module description of the maps module.
+		 */
+		public class «className» extends AbstractModul {
+		
+			@Override
+			protected void configure() {
+		    	bind(IMapsController.class).to(«basePackage».controller.«subPackage».MapsController.class);   
+				bind(IMapsDatabase.class).to(«basePackage».database.«subPackage».MapsDatabase.class);
+			    bind(IMaps.class).to(«basePackage».model.«subPackage».Maps.class);	
+			}
+		}
+	'''
+	
+	def compileMain(String basePackage, String className, String tuiName, String implModuleName)'''
+		package «basePackage»;
+
+		import java.io.BufferedReader;
+		import java.io.File;
+		import java.io.IOException;
+		import java.io.InputStreamReader;
+		
+		import com.google.inject.Injector;
+		import com.google.inject.Guice;
+		
+		import «basePackage».module.«implModuleName»;
+		import «basePackage».views.tui.«tuiName»;
+		
+		/**
+		 * The plugins startup class.
+		 */ 
+		class «className» {
+			
+			private static Injector INJECTOR = Guice.createInjector(new «implModuleName»());
+			
+			/**
+			 * The programs main.
+			 * 
+			 * @param argsThe default program arguments.
+			 * @throws IOException 
+			 */
+			public static void main(String[] args) throws IOException {			
+				«tuiName» tui = new «tuiName»();
+
+				InputStreamReader isr = new InputStreamReader(System.in, "UTF-8");
+				BufferedReader br = new BufferedReader(isr);
+				do {
+					tui.printTUI();
+					System.out.printf("%n> ");
+				}while(tui.processInputLine(br.readLine()));
+				
+				System.out.println("exit.");
+			}
+		}
+	'''
+	
+	def getClassName(String interfaceName) {
+		interfaceName.substring(1).toFirstUpper;
+	}
 }

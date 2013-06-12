@@ -3,11 +3,16 @@ grammar org.xtext.de.htwg.Plugin with org.eclipse.xtext.common.Terminals
 generate plugin "http://www.xtext.org/de/htwg/Plugin"
 
 Plugin:
-	elements+=AbstractElement*
+	'PACKAGE' name=QualifiedName
+	elements+=RootElement*
+;
+
+RootElement:
+	PackageDeclaration | Type | Import
 ;
 
 AbstractElement:
-	PackageDeclaration | Type | Import
+	Type | Import
 ;
 
 QualifiedName:
@@ -19,7 +24,7 @@ QualifiedNameWithWildcard:
 ;
 
 Type:
-	Typedef | Model | Controller | Database | Enumeration
+	Typedef | Interface | Enumeration
 ;
 
 Typedef:
@@ -36,21 +41,9 @@ Import:
 	'import' importedNamespace = QualifiedNameWithWildcard
 ;
 
-Model:
-	'model' name=ID ('extends' superType=[Model | QualifiedName])? '{'
+Interface:
+	'interface' name=ID '{'
 		properties+=MyProperty*
-		methods+=Method*
-	'}'
-;
-
-Controller:
-	'controller' name=ID ('extends' superType=[Controller | QualifiedName])? '{'
-		methods+=Method*
-	'}'
-;
-
-Database:
-	'database' name=ID ('extends' superType=[Database | QualifiedName])? '{'
 		methods+=Method*
 	'}'
 ;
@@ -58,7 +51,7 @@ Database:
 Enumeration:
 	'enum' name=ID '{'
 		(enumValues += ID
-			(',' enumValues += ID)?)+
+			(',' enumValues += ID)?)*
 	'}'
 ;
 
