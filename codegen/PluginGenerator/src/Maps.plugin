@@ -10,7 +10,7 @@ package de.htwg.seapal.maps {
 	
 	model Maps {
 		property menuVisible: String
-		property abc: Integer
+		property abcdef: Integer
 		property position: String
 		property menuPositionState: MapsMenuPositionState
 		property positionState: MapsPositionState

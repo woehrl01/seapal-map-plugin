@@ -44,41 +44,149 @@ public class PluginGenerator implements IGenerator {
     Iterable<Model> _filter = Iterables.<Model>filter(_iterable, Model.class);
     for (final Model e : _filter) {
       QualifiedName _fullyQualifiedName = this._iQualifiedNameProvider.getFullyQualifiedName(e);
-      String _string = _fullyQualifiedName.toString("/");
-      String _plus = (_string + ".java");
-      CharSequence _compile = this.compile(e);
-      fsa.generateFile(_plus, _compile);
+      QualifiedName _skipLast = _fullyQualifiedName.skipLast(1);
+      String _string = _skipLast.toString("/");
+      String _plus = (_string + "/models/");
+      QualifiedName _fullyQualifiedName_1 = this._iQualifiedNameProvider.getFullyQualifiedName(e);
+      String _lastSegment = _fullyQualifiedName_1.getLastSegment();
+      String _plus_1 = (_plus + _lastSegment);
+      String _plus_2 = (_plus_1 + ".java");
+      CharSequence _compileInterface = this.compileInterface(e);
+      fsa.generateFile(_plus_2, _compileInterface);
     }
     TreeIterator<EObject> _allContents_1 = resource.getAllContents();
     Iterable<EObject> _iterable_1 = IteratorExtensions.<EObject>toIterable(_allContents_1);
-    Iterable<Controller> _filter_1 = Iterables.<Controller>filter(_iterable_1, Controller.class);
-    for (final Controller e_1 : _filter_1) {
-      QualifiedName _fullyQualifiedName_1 = this._iQualifiedNameProvider.getFullyQualifiedName(e_1);
-      String _string_1 = _fullyQualifiedName_1.toString("/");
-      String _plus_1 = (_string_1 + ".java");
-      CharSequence _compile_1 = this.compile(e_1);
-      fsa.generateFile(_plus_1, _compile_1);
+    Iterable<Model> _filter_1 = Iterables.<Model>filter(_iterable_1, Model.class);
+    for (final Model e_1 : _filter_1) {
+      QualifiedName _fullyQualifiedName_2 = this._iQualifiedNameProvider.getFullyQualifiedName(e_1);
+      QualifiedName _skipLast_1 = _fullyQualifiedName_2.skipLast(1);
+      String _string_1 = _skipLast_1.toString("/");
+      String _plus_3 = (_string_1 + "/models/impl/");
+      QualifiedName _fullyQualifiedName_3 = this._iQualifiedNameProvider.getFullyQualifiedName(e_1);
+      String _lastSegment_1 = _fullyQualifiedName_3.getLastSegment();
+      String _plus_4 = (_plus_3 + _lastSegment_1);
+      String _plus_5 = (_plus_4 + ".java");
+      CharSequence _compile = this.compile(e_1);
+      fsa.generateFile(_plus_5, _compile);
     }
     TreeIterator<EObject> _allContents_2 = resource.getAllContents();
     Iterable<EObject> _iterable_2 = IteratorExtensions.<EObject>toIterable(_allContents_2);
-    Iterable<Database> _filter_2 = Iterables.<Database>filter(_iterable_2, Database.class);
-    for (final Database e_2 : _filter_2) {
-      QualifiedName _fullyQualifiedName_2 = this._iQualifiedNameProvider.getFullyQualifiedName(e_2);
-      String _string_2 = _fullyQualifiedName_2.toString("/");
-      String _plus_2 = (_string_2 + ".java");
-      CharSequence _compile_2 = this.compile(e_2);
-      fsa.generateFile(_plus_2, _compile_2);
+    Iterable<Model> _filter_2 = Iterables.<Model>filter(_iterable_2, Model.class);
+    for (final Model e_2 : _filter_2) {
+      QualifiedName _fullyQualifiedName_4 = this._iQualifiedNameProvider.getFullyQualifiedName(e_2);
+      QualifiedName _skipLast_2 = _fullyQualifiedName_4.skipLast(1);
+      String _string_2 = _skipLast_2.toString("/");
+      String _plus_6 = (_string_2 + "/models/mock/");
+      QualifiedName _fullyQualifiedName_5 = this._iQualifiedNameProvider.getFullyQualifiedName(e_2);
+      String _lastSegment_2 = _fullyQualifiedName_5.getLastSegment();
+      String _plus_7 = (_plus_6 + _lastSegment_2);
+      String _plus_8 = (_plus_7 + ".java");
+      CharSequence _compile_1 = this.compile(e_2);
+      fsa.generateFile(_plus_8, _compile_1);
     }
     TreeIterator<EObject> _allContents_3 = resource.getAllContents();
     Iterable<EObject> _iterable_3 = IteratorExtensions.<EObject>toIterable(_allContents_3);
-    Iterable<Enumeration> _filter_3 = Iterables.<Enumeration>filter(_iterable_3, Enumeration.class);
-    for (final Enumeration e_3 : _filter_3) {
-      QualifiedName _fullyQualifiedName_3 = this._iQualifiedNameProvider.getFullyQualifiedName(e_3);
-      String _string_3 = _fullyQualifiedName_3.toString("/");
-      String _plus_3 = (_string_3 + ".java");
-      CharSequence _compile_3 = this.compile(e_3);
-      fsa.generateFile(_plus_3, _compile_3);
+    Iterable<Controller> _filter_3 = Iterables.<Controller>filter(_iterable_3, Controller.class);
+    for (final Controller e_3 : _filter_3) {
+      QualifiedName _fullyQualifiedName_6 = this._iQualifiedNameProvider.getFullyQualifiedName(e_3);
+      String _string_3 = _fullyQualifiedName_6.toString("/");
+      String _plus_9 = (_string_3 + ".java");
+      CharSequence _compile_2 = this.compile(e_3);
+      fsa.generateFile(_plus_9, _compile_2);
     }
+    TreeIterator<EObject> _allContents_4 = resource.getAllContents();
+    Iterable<EObject> _iterable_4 = IteratorExtensions.<EObject>toIterable(_allContents_4);
+    Iterable<Database> _filter_4 = Iterables.<Database>filter(_iterable_4, Database.class);
+    for (final Database e_4 : _filter_4) {
+      QualifiedName _fullyQualifiedName_7 = this._iQualifiedNameProvider.getFullyQualifiedName(e_4);
+      String _string_4 = _fullyQualifiedName_7.toString("/");
+      String _plus_10 = (_string_4 + ".java");
+      CharSequence _compile_3 = this.compile(e_4);
+      fsa.generateFile(_plus_10, _compile_3);
+    }
+    TreeIterator<EObject> _allContents_5 = resource.getAllContents();
+    Iterable<EObject> _iterable_5 = IteratorExtensions.<EObject>toIterable(_allContents_5);
+    Iterable<Enumeration> _filter_5 = Iterables.<Enumeration>filter(_iterable_5, Enumeration.class);
+    for (final Enumeration e_5 : _filter_5) {
+      QualifiedName _fullyQualifiedName_8 = this._iQualifiedNameProvider.getFullyQualifiedName(e_5);
+      String _string_5 = _fullyQualifiedName_8.toString("/");
+      String _plus_11 = (_string_5 + ".java");
+      CharSequence _compile_4 = this.compile(e_5);
+      fsa.generateFile(_plus_11, _compile_4);
+    }
+  }
+  
+  public CharSequence compileInterface(final Model model) {
+    StringConcatenation _builder = new StringConcatenation();
+    {
+      EObject _eContainer = model.eContainer();
+      boolean _notEquals = (!Objects.equal(_eContainer, null));
+      if (_notEquals) {
+        _builder.append("package ");
+        EObject _eContainer_1 = model.eContainer();
+        QualifiedName _fullyQualifiedName = this._iQualifiedNameProvider.getFullyQualifiedName(_eContainer_1);
+        _builder.append(_fullyQualifiedName, "");
+        _builder.append(".models;");
+        _builder.newLineIfNotEmpty();
+      }
+    }
+    _builder.newLine();
+    _builder.append("/**");
+    _builder.newLine();
+    _builder.append(" ");
+    _builder.append("* Generated model interface I");
+    String _name = model.getName();
+    _builder.append(_name, " ");
+    _builder.append(".");
+    _builder.newLineIfNotEmpty();
+    _builder.append(" ");
+    _builder.append("* @author TODO");
+    _builder.newLine();
+    _builder.append(" ");
+    _builder.append("* @version TODO");
+    _builder.newLine();
+    _builder.append(" ");
+    _builder.append("*/");
+    _builder.newLine();
+    _builder.append("public interface ");
+    String _name_1 = model.getName();
+    _builder.append(_name_1, "");
+    _builder.append(" {");
+    _builder.newLineIfNotEmpty();
+    _builder.append("\t");
+    _builder.append("/* Members */");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("/* Getters/Setters */");
+    _builder.newLine();
+    {
+      EList<Property> _properties = model.getProperties();
+      for(final Property p : _properties) {
+        _builder.append("\t");
+        CharSequence _compilePropertyGetterSetterInterface = this.compilePropertyGetterSetterInterface(p);
+        _builder.append(_compilePropertyGetterSetterInterface, "	");
+        _builder.newLineIfNotEmpty();
+      }
+    }
+    _builder.append("\t");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("/* Methods */");
+    _builder.newLine();
+    {
+      EList<Method> _methods = model.getMethods();
+      for(final Method m : _methods) {
+        _builder.append("\t");
+        CharSequence _compileMethodInterface = this.compileMethodInterface(m);
+        _builder.append(_compileMethodInterface, "	");
+        _builder.newLineIfNotEmpty();
+      }
+    }
+    _builder.append("}");
+    _builder.newLine();
+    return _builder;
   }
   
   public CharSequence compile(final Model model) {
@@ -128,6 +236,9 @@ public class PluginGenerator implements IGenerator {
         _builder.append(" ");
       }
     }
+    _builder.append(" implements I");
+    String _name_2 = model.getName();
+    _builder.append(_name_2, "");
     _builder.append("{");
     _builder.newLineIfNotEmpty();
     _builder.append("\t");
@@ -393,6 +504,59 @@ public class PluginGenerator implements IGenerator {
   public CharSequence compilePropertyGetterSetter(final Property p) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.newLine();
+    _builder.append("@Override");
+    _builder.newLine();
+    _builder.append("public ");
+    Type _type = p.getType();
+    QualifiedName _fullyQualifiedName = this._iQualifiedNameProvider.getFullyQualifiedName(_type);
+    _builder.append(_fullyQualifiedName, "");
+    _builder.append(" get");
+    String _name = p.getName();
+    String _firstUpper = StringExtensions.toFirstUpper(_name);
+    _builder.append(_firstUpper, "");
+    _builder.append("() {");
+    _builder.newLineIfNotEmpty();
+    _builder.append("\t");
+    _builder.append("return ");
+    String _name_1 = p.getName();
+    _builder.append(_name_1, "	");
+    _builder.append(";");
+    _builder.newLineIfNotEmpty();
+    _builder.append("}");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("@Override");
+    _builder.newLine();
+    _builder.append("public void set");
+    String _name_2 = p.getName();
+    String _firstUpper_1 = StringExtensions.toFirstUpper(_name_2);
+    _builder.append(_firstUpper_1, "");
+    _builder.append("(");
+    Type _type_1 = p.getType();
+    QualifiedName _fullyQualifiedName_1 = this._iQualifiedNameProvider.getFullyQualifiedName(_type_1);
+    _builder.append(_fullyQualifiedName_1, "");
+    _builder.append(" ");
+    String _name_3 = p.getName();
+    _builder.append(_name_3, "");
+    _builder.append(") {");
+    _builder.newLineIfNotEmpty();
+    _builder.append("\t");
+    _builder.append("this.");
+    String _name_4 = p.getName();
+    _builder.append(_name_4, "	");
+    _builder.append(" = ");
+    String _name_5 = p.getName();
+    _builder.append(_name_5, "	");
+    _builder.append(";");
+    _builder.newLineIfNotEmpty();
+    _builder.append("}");
+    _builder.newLine();
+    return _builder;
+  }
+  
+  public CharSequence compilePropertyGetterSetterInterface(final Property p) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.newLine();
     _builder.append("/**");
     _builder.newLine();
     _builder.append(" ");
@@ -414,75 +578,85 @@ public class PluginGenerator implements IGenerator {
     Type _type = p.getType();
     QualifiedName _fullyQualifiedName = this._iQualifiedNameProvider.getFullyQualifiedName(_type);
     _builder.append(_fullyQualifiedName, "");
-    _builder.append(" getGet");
+    _builder.append(" get");
     String _name_2 = p.getName();
     String _firstUpper = StringExtensions.toFirstUpper(_name_2);
     _builder.append(_firstUpper, "");
-    _builder.append("() {");
+    _builder.append("();");
     _builder.newLineIfNotEmpty();
-    _builder.append("\t");
-    _builder.append("return ");
-    String _name_3 = p.getName();
-    _builder.append(_name_3, "	");
-    _builder.append(";");
-    _builder.newLineIfNotEmpty();
-    _builder.append("}");
-    _builder.newLine();
     _builder.newLine();
     _builder.append("/**");
     _builder.newLine();
     _builder.append(" ");
     _builder.append("* Sets the ");
-    String _name_4 = p.getName();
-    _builder.append(_name_4, " ");
+    String _name_3 = p.getName();
+    _builder.append(_name_3, " ");
     _builder.append(".");
     _builder.newLineIfNotEmpty();
     _builder.append(" ");
     _builder.append("* @param ");
+    String _name_4 = p.getName();
+    _builder.append(_name_4, " ");
+    _builder.append(" The ");
     String _name_5 = p.getName();
     _builder.append(_name_5, " ");
-    _builder.append(" The ");
-    String _name_6 = p.getName();
-    _builder.append(_name_6, " ");
     _builder.append(" value.");
     _builder.newLineIfNotEmpty();
     _builder.append(" ");
     _builder.append("*/");
     _builder.newLine();
     _builder.append("public void set");
-    String _name_7 = p.getName();
-    String _firstUpper_1 = StringExtensions.toFirstUpper(_name_7);
+    String _name_6 = p.getName();
+    String _firstUpper_1 = StringExtensions.toFirstUpper(_name_6);
     _builder.append(_firstUpper_1, "");
     _builder.append("(");
     Type _type_1 = p.getType();
     QualifiedName _fullyQualifiedName_1 = this._iQualifiedNameProvider.getFullyQualifiedName(_type_1);
     _builder.append(_fullyQualifiedName_1, "");
     _builder.append(" ");
-    String _name_8 = p.getName();
-    _builder.append(_name_8, "");
+    String _name_7 = p.getName();
+    _builder.append(_name_7, "");
+    _builder.append(");");
+    _builder.newLineIfNotEmpty();
+    return _builder;
+  }
+  
+  public CharSequence compileMethod(final Method p) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.newLine();
+    _builder.append("@Override");
+    _builder.newLine();
+    _builder.append("public ");
+    Type _type = p.getType();
+    QualifiedName _fullyQualifiedName = this._iQualifiedNameProvider.getFullyQualifiedName(_type);
+    _builder.append(_fullyQualifiedName, "");
+    _builder.append(" ");
+    String _name = p.getName();
+    String _firstLower = StringExtensions.toFirstLower(_name);
+    _builder.append(_firstLower, "");
+    _builder.append("(");
+    {
+      EList<Parameter> _params = p.getParams();
+      for(final Parameter prm : _params) {
+        Type _type_1 = prm.getType();
+        _builder.append(_type_1, "");
+        _builder.append(" ");
+        String _name_1 = prm.getName();
+        _builder.append(_name_1, "");
+        _builder.append(", ");
+      }
+    }
     _builder.append(") {");
     _builder.newLineIfNotEmpty();
     _builder.append("\t");
-    _builder.append("this.");
-    String _name_9 = p.getName();
-    _builder.append(_name_9, "	");
-    _builder.append(" = ");
-    String _name_10 = p.getName();
-    _builder.append(_name_10, "	");
-    _builder.append(";");
-    _builder.newLineIfNotEmpty();
+    _builder.append("//TODO: implement method");
+    _builder.newLine();
     _builder.append("}");
     _builder.newLine();
     return _builder;
   }
   
-  /**
-   * public «p.type.fullyQualifiedName» «p.name.toFirstLower»(«FOR prm:p.params»«prm.parameterType.fullyQualifiedName» «prm.name», «ENDFOR») {
-   * //TODO: implement method
-   * }
-   * '''
-   */
-  public CharSequence compileMethod(final Method p) {
+  public CharSequence compileMethodInterface(final Method p) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.newLine();
     _builder.append("/**");
@@ -536,13 +710,8 @@ public class PluginGenerator implements IGenerator {
         _builder.append(", ");
       }
     }
-    _builder.append(") {");
+    _builder.append(");");
     _builder.newLineIfNotEmpty();
-    _builder.append("\t");
-    _builder.append("//TODO: implement method");
-    _builder.newLine();
-    _builder.append("}");
-    _builder.newLine();
     return _builder;
   }
 }

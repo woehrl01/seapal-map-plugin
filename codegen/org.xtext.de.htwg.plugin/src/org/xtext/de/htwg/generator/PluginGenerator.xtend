@@ -9,7 +9,6 @@ import org.eclipse.xtext.generator.IFileSystemAccess
 import org.xtext.de.htwg.plugin.Model
 import com.google.inject.Inject
 import org.eclipse.xtext.naming.IQualifiedNameProvider
-import org.eclipse.xtext.common.types.JvmTypeReference
 import org.xtext.de.htwg.plugin.Method
 import org.xtext.de.htwg.plugin.Controller
 import org.xtext.de.htwg.plugin.Database
@@ -28,7 +27,17 @@ class PluginGenerator implements IGenerator {
 		// Generate models
 		for (e: resource.allContents.toIterable.filter(typeof(Model))) {
 			fsa.generateFile(
-				e.fullyQualifiedName.toString("/") + ".java", 
+				e.fullyQualifiedName.skipLast(1).toString("/") + "/models/" + e.fullyQualifiedName.lastSegment + ".java",
+				e.compileInterface)
+		}
+		for (e: resource.allContents.toIterable.filter(typeof(Model))) {
+			fsa.generateFile(
+				e.fullyQualifiedName.skipLast(1).toString("/") + "/models/impl/" + e.fullyQualifiedName.lastSegment + ".java",
+				e.compile)
+		}
+		for (e: resource.allContents.toIterable.filter(typeof(Model))) {
+			fsa.generateFile(
+				e.fullyQualifiedName.skipLast(1).toString("/") + "/models/mock/" + e.fullyQualifiedName.lastSegment + ".java",
 				e.compile)
 		}
 		
@@ -54,6 +63,31 @@ class PluginGenerator implements IGenerator {
 		}
 	}
 	
+	def compileInterface(Model model)'''
+		«IF model.eContainer != null»
+			package «model.eContainer.fullyQualifiedName».models;
+		«ENDIF»
+
+		/**
+		 * Generated model interface I«model.name».
+		 * @author TODO
+		 * @version TODO
+		 */
+		public interface «model.name» {
+			/* Members */
+			
+			/* Getters/Setters */
+			«FOR p:model.properties»
+				«p.compilePropertyGetterSetterInterface»
+			«ENDFOR»
+			
+			/* Methods */
+			«FOR m:model.methods»
+				«m.compileMethodInterface»
+			«ENDFOR»
+		}
+	'''
+	
 	def compile(Model model)'''
 		«IF model.eContainer != null»
 			package «model.eContainer.fullyQualifiedName».models;
@@ -64,7 +98,7 @@ class PluginGenerator implements IGenerator {
 		 * @author TODO
 		 * @version TODO
 		 */
-		public class «model.name» «IF model.superType != null »extends «model.superType.fullyQualifiedName» «ENDIF»{
+		public class «model.name» «IF model.superType != null »extends «model.superType.fullyQualifiedName» «ENDIF» implements I«model.name»{
 			/* Members */
 			«FOR p:model.properties»
 				«IF p != null »
@@ -147,44 +181,47 @@ class PluginGenerator implements IGenerator {
 	
 	def compilePropertyGetterSetter(org.xtext.de.htwg.plugin.Property p) '''
 
-		/**
-		 * Gets the «p.name».
-		 * @return The «p.name».
-		 */
-		public «p.type.fullyQualifiedName» getGet«p.name.toFirstUpper»() {
+		@Override
+		public «p.type.fullyQualifiedName» get«p.name.toFirstUpper»() {
 			return «p.name»;
 		}
 
-		/**
-		 * Sets the «p.name».
-		 * @param «p.name» The «p.name» value.
-		 */
+		@Override
 		public void set«p.name.toFirstUpper»(«p.type.fullyQualifiedName» «p.name») {
 			this.«p.name» = «p.name»;
 		}
 	'''
 	
-	/*def compileMethod(Method p) '''
+	def compilePropertyGetterSetterInterface(org.xtext.de.htwg.plugin.Property p) '''
 
 		/**
-		 * TODO: Method description...
-		 * «IF p.params != null»@param TODO: describle all parameters...«ENDIF»
-		 * «IF !p.type.fullyQualifiedName.toString.equals("void")»@return TODO: Return value description...«ENDIF»
+		 * Gets the «p.name».
+		 * @return The «p.name».
 		 */
-		/*public «p.type.fullyQualifiedName» «p.name.toFirstLower»(«FOR prm:p.params»«prm.parameterType.fullyQualifiedName» «prm.name», «ENDFOR») {
-			//TODO: implement method
-		}
-	'''*/
+		public «p.type.fullyQualifiedName» get«p.name.toFirstUpper»();
+
+		/**
+		 * Sets the «p.name».
+		 * @param «p.name» The «p.name» value.
+		 */
+		public void set«p.name.toFirstUpper»(«p.type.fullyQualifiedName» «p.name»);
+	'''
 	
 	def compileMethod(Method p) '''
 
+		@Override
+		public «p.type.fullyQualifiedName» «p.name.toFirstLower»(«FOR prm:p.params»«prm.type» «prm.name», «ENDFOR») {
+			//TODO: implement method
+		}
+	'''
+	
+	def compileMethodInterface(Method p) '''
+
 		/**
 		 * TODO: Method description...
 		 * «IF p.params != null»@param TODO: describle all parameters...«ENDIF»
 		 * «IF !p.type.fullyQualifiedName.toString.equals("void")»@return TODO: Return value description...«ENDIF»
 		 */
-		public «p.type.fullyQualifiedName» «p.name.toFirstLower»(«FOR prm:p.params»«prm.type» «prm.name», «ENDFOR») {
-			//TODO: implement method
-		}
+		public «p.type.fullyQualifiedName» «p.name.toFirstLower»(«FOR prm:p.params»«prm.type» «prm.name», «ENDFOR»);
 	'''
 }
