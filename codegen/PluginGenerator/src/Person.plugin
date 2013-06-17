@@ -1,0 +1,24 @@
+PACKAGE de.htwg.seapal.person
+PLUGIN Person
+
+type void
+type String
+type boolean
+type int
+
+package model {
+	interface IPerson {
+		property name : String
+		property age: int
+		property isAlive: boolean
+	}
+}
+
+package controller {
+	import model.*
+	
+	interface IPersonController {
+		method loadPersonById(id : int) : IPerson
+		method savePerson(person : IPerson): void
+	}
+}

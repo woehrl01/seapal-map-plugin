@@ -31,12 +31,14 @@ class PluginGenerator implements IGenerator {
 	val pluginImplModuleName = "PluginImplModule"
 	val pluginMockModuleName = "PluginMockModule"
 	val pluginMainName = "PluginMain"
+	var rootPackage = org::eclipse::xtext::naming::QualifiedName::EMPTY;
+	var pluginName = ""
 	
 	override void doGenerate(Resource resource, IFileSystemAccess fsa) {
 		// Find root package name
-		var rootPackage = org::eclipse::xtext::naming::QualifiedName::EMPTY;
 		for (e: resource.allContents.toIterable.filter(typeof(Plugin))) {
 			rootPackage = e.fullyQualifiedName;
+			pluginName = e.name.toLowerCase().toFirstUpper();
 		}
 		
 		// Generate interfaces
@@ -97,7 +99,7 @@ class PluginGenerator implements IGenerator {
 			package «iface.eContainer.fullyQualifiedName»;
 			
 			«FOR i:iface.eContainer.eContents.filter(typeof(Import))»
-				import «i.importedNamespace»;
+				import «rootPackage».«i.importedNamespace»;
 			«ENDFOR»
 		«ENDIF»
 		
@@ -124,7 +126,7 @@ class PluginGenerator implements IGenerator {
 			import «iface.eContainer.fullyQualifiedName».*;
 			
 			«FOR i:iface.eContainer.eContents.filter(typeof(Import))»
-				import «i.importedNamespace»;
+				import «rootPackage».«i.importedNamespace»;
 			«ENDFOR»
 		«ENDIF»
 
@@ -155,7 +157,7 @@ class PluginGenerator implements IGenerator {
 			package «enumeration.eContainer.fullyQualifiedName»;
 			
 			«FOR i:enumeration.eContainer.eContents.filter(typeof(Import))»
-				import «i.importedNamespace»;
+				import «rootPackage».«i.importedNamespace»;
 			«ENDFOR»
 		«ENDIF»
 
@@ -269,20 +271,20 @@ class PluginGenerator implements IGenerator {
 		
 		import com.google.inject.AbstractModule;
 		
-		import «basePackage».database.IMapsDatabase;
-		import «basePackage».controller.IMapsController;
-		import «basePackage».model.IMaps;
+		import «basePackage».database.I«pluginName»Database;
+		import «basePackage».controller.I«pluginName»Controller;
+		import «basePackage».model.I«pluginName»;
 		
 		/**
-		 * Final Google Guice module description of the maps module.
+		 * Final Google Guice module description of the plugin module.
 		 */
 		public class «className» extends AbstractModul {
 		
 			@Override
 			protected void configure() {
-		    	bind(IMapsController.class).to(«basePackage».controller.«subPackage».MapsController.class);   
-				bind(IMapsDatabase.class).to(«basePackage».database.«subPackage».MapsDatabase.class);
-			    bind(IMaps.class).to(«basePackage».model.«subPackage».Maps.class);	
+		    	bind(I«pluginName»Controller.class).to(«basePackage».controller.«subPackage».«pluginName»Controller.class);   
+				bind(I«pluginName»Database.class).to(«basePackage».database.«subPackage».«pluginName»Database.class);
+			    bind(I«pluginName».class).to(«basePackage».model.«subPackage».«pluginName».class);	
 			}
 		}
 	'''

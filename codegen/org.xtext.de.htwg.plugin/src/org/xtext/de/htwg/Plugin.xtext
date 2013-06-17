@@ -4,6 +4,7 @@ generate plugin "http://www.xtext.org/de/htwg/Plugin"
 
 Plugin:
 	'PACKAGE' name=QualifiedName
+	'PLUGIN' pluginName=ID
 	elements+=RootElement*
 ;
 

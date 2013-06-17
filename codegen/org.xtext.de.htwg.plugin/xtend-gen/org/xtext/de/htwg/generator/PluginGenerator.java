@@ -50,21 +50,30 @@ public class PluginGenerator implements IGenerator {
   
   private final String pluginMainName = "PluginMain";
   
+  private QualifiedName rootPackage = QualifiedName.EMPTY;
+  
+  private String pluginName = "";
+  
   public void doGenerate(final Resource resource, final IFileSystemAccess fsa) {
-    QualifiedName rootPackage = QualifiedName.EMPTY;
     TreeIterator<EObject> _allContents = resource.getAllContents();
     Iterable<EObject> _iterable = IteratorExtensions.<EObject>toIterable(_allContents);
     Iterable<Plugin> _filter = Iterables.<Plugin>filter(_iterable, Plugin.class);
     for (final Plugin e : _filter) {
-      QualifiedName _fullyQualifiedName = this._iQualifiedNameProvider.getFullyQualifiedName(e);
-      rootPackage = _fullyQualifiedName;
+      {
+        QualifiedName _fullyQualifiedName = this._iQualifiedNameProvider.getFullyQualifiedName(e);
+        this.rootPackage = _fullyQualifiedName;
+        String _name = e.getName();
+        String _lowerCase = _name.toLowerCase();
+        String _firstUpper = StringExtensions.toFirstUpper(_lowerCase);
+        this.pluginName = _firstUpper;
+      }
     }
     TreeIterator<EObject> _allContents_1 = resource.getAllContents();
     Iterable<EObject> _iterable_1 = IteratorExtensions.<EObject>toIterable(_allContents_1);
     Iterable<Interface> _filter_1 = Iterables.<Interface>filter(_iterable_1, Interface.class);
     for (final Interface e_1 : _filter_1) {
-      QualifiedName _fullyQualifiedName_1 = this._iQualifiedNameProvider.getFullyQualifiedName(e_1);
-      String _string = _fullyQualifiedName_1.toString("/");
+      QualifiedName _fullyQualifiedName = this._iQualifiedNameProvider.getFullyQualifiedName(e_1);
+      String _string = _fullyQualifiedName.toString("/");
       String _plus = (_string + ".java");
       CharSequence _compileInterface = this.compileInterface(e_1);
       fsa.generateFile(_plus, _compileInterface);
@@ -73,14 +82,14 @@ public class PluginGenerator implements IGenerator {
     Iterable<EObject> _iterable_2 = IteratorExtensions.<EObject>toIterable(_allContents_2);
     Iterable<Interface> _filter_2 = Iterables.<Interface>filter(_iterable_2, Interface.class);
     for (final Interface e_2 : _filter_2) {
-      QualifiedName _fullyQualifiedName_2 = this._iQualifiedNameProvider.getFullyQualifiedName(e_2);
-      QualifiedName _skipLast = _fullyQualifiedName_2.skipLast(1);
+      QualifiedName _fullyQualifiedName_1 = this._iQualifiedNameProvider.getFullyQualifiedName(e_2);
+      QualifiedName _skipLast = _fullyQualifiedName_1.skipLast(1);
       String _string_1 = _skipLast.toString("/");
       String _plus_1 = (_string_1 + "/");
       String _plus_2 = (_plus_1 + this.implSubpackageName);
       String _plus_3 = (_plus_2 + "/");
-      QualifiedName _fullyQualifiedName_3 = this._iQualifiedNameProvider.getFullyQualifiedName(e_2);
-      String _lastSegment = _fullyQualifiedName_3.getLastSegment();
+      QualifiedName _fullyQualifiedName_2 = this._iQualifiedNameProvider.getFullyQualifiedName(e_2);
+      String _lastSegment = _fullyQualifiedName_2.getLastSegment();
       String _className = this.getClassName(_lastSegment);
       String _plus_4 = (_plus_3 + _className);
       String _plus_5 = (_plus_4 + ".java");
@@ -91,14 +100,14 @@ public class PluginGenerator implements IGenerator {
     Iterable<EObject> _iterable_3 = IteratorExtensions.<EObject>toIterable(_allContents_3);
     Iterable<Interface> _filter_3 = Iterables.<Interface>filter(_iterable_3, Interface.class);
     for (final Interface e_3 : _filter_3) {
-      QualifiedName _fullyQualifiedName_4 = this._iQualifiedNameProvider.getFullyQualifiedName(e_3);
-      QualifiedName _skipLast_1 = _fullyQualifiedName_4.skipLast(1);
+      QualifiedName _fullyQualifiedName_3 = this._iQualifiedNameProvider.getFullyQualifiedName(e_3);
+      QualifiedName _skipLast_1 = _fullyQualifiedName_3.skipLast(1);
       String _string_2 = _skipLast_1.toString("/");
       String _plus_6 = (_string_2 + "/");
       String _plus_7 = (_plus_6 + this.mockSubpackageName);
       String _plus_8 = (_plus_7 + "/");
-      QualifiedName _fullyQualifiedName_5 = this._iQualifiedNameProvider.getFullyQualifiedName(e_3);
-      String _lastSegment_1 = _fullyQualifiedName_5.getLastSegment();
+      QualifiedName _fullyQualifiedName_4 = this._iQualifiedNameProvider.getFullyQualifiedName(e_3);
+      String _lastSegment_1 = _fullyQualifiedName_4.getLastSegment();
       String _className_1 = this.getClassName(_lastSegment_1);
       String _plus_9 = (_plus_8 + _className_1);
       String _plus_10 = (_plus_9 + ".java");
@@ -109,38 +118,38 @@ public class PluginGenerator implements IGenerator {
     Iterable<EObject> _iterable_4 = IteratorExtensions.<EObject>toIterable(_allContents_4);
     Iterable<Enumeration> _filter_4 = Iterables.<Enumeration>filter(_iterable_4, Enumeration.class);
     for (final Enumeration e_4 : _filter_4) {
-      QualifiedName _fullyQualifiedName_6 = this._iQualifiedNameProvider.getFullyQualifiedName(e_4);
-      String _string_3 = _fullyQualifiedName_6.toString("/");
+      QualifiedName _fullyQualifiedName_5 = this._iQualifiedNameProvider.getFullyQualifiedName(e_4);
+      String _string_3 = _fullyQualifiedName_5.toString("/");
       String _plus_11 = (_string_3 + ".java");
       CharSequence _compile_2 = this.compile(e_4);
       fsa.generateFile(_plus_11, _compile_2);
     }
-    String _string_4 = rootPackage.toString("/");
+    String _string_4 = this.rootPackage.toString("/");
     String _plus_12 = (_string_4 + "/views/tui/");
     String _plus_13 = (_plus_12 + this.pluginTuiName);
     String _plus_14 = (_plus_13 + ".java");
-    String _string_5 = rootPackage.toString();
+    String _string_5 = this.rootPackage.toString();
     CharSequence _compileTUI = this.compileTUI(_string_5, this.pluginTuiName);
     fsa.generateFile(_plus_14, _compileTUI);
-    String _string_6 = rootPackage.toString("/");
+    String _string_6 = this.rootPackage.toString("/");
     String _plus_15 = (_string_6 + "/module/");
     String _plus_16 = (_plus_15 + this.pluginImplModuleName);
     String _plus_17 = (_plus_16 + ".java");
-    String _string_7 = rootPackage.toString();
+    String _string_7 = this.rootPackage.toString();
     CharSequence _compileModule = this.compileModule(_string_7, this.pluginImplModuleName, this.implSubpackageName);
     fsa.generateFile(_plus_17, _compileModule);
-    String _string_8 = rootPackage.toString("/");
+    String _string_8 = this.rootPackage.toString("/");
     String _plus_18 = (_string_8 + "/module/");
     String _plus_19 = (_plus_18 + this.pluginMockModuleName);
     String _plus_20 = (_plus_19 + ".java");
-    String _string_9 = rootPackage.toString();
+    String _string_9 = this.rootPackage.toString();
     CharSequence _compileModule_1 = this.compileModule(_string_9, this.pluginMockModuleName, this.mockSubpackageName);
     fsa.generateFile(_plus_20, _compileModule_1);
-    String _string_10 = rootPackage.toString("/");
+    String _string_10 = this.rootPackage.toString("/");
     String _plus_21 = (_string_10 + "/");
     String _plus_22 = (_plus_21 + this.pluginMainName);
     String _plus_23 = (_plus_22 + ".java");
-    String _string_11 = rootPackage.toString();
+    String _string_11 = this.rootPackage.toString();
     CharSequence _compileMain = this.compileMain(_string_11, this.pluginMainName, this.pluginTuiName, this.pluginImplModuleName);
     fsa.generateFile(_plus_23, _compileMain);
   }
@@ -164,6 +173,8 @@ public class PluginGenerator implements IGenerator {
           Iterable<Import> _filter = Iterables.<Import>filter(_eContents, Import.class);
           for(final Import i : _filter) {
             _builder.append("import ");
+            _builder.append(this.rootPackage, "");
+            _builder.append(".");
             String _importedNamespace = i.getImportedNamespace();
             _builder.append(_importedNamespace, "");
             _builder.append(";");
@@ -248,6 +259,8 @@ public class PluginGenerator implements IGenerator {
           Iterable<Import> _filter = Iterables.<Import>filter(_eContents, Import.class);
           for(final Import i : _filter) {
             _builder.append("import ");
+            _builder.append(this.rootPackage, "");
+            _builder.append(".");
             String _importedNamespace = i.getImportedNamespace();
             _builder.append(_importedNamespace, "");
             _builder.append(";");
@@ -343,6 +356,8 @@ public class PluginGenerator implements IGenerator {
           Iterable<Import> _filter = Iterables.<Import>filter(_eContents, Import.class);
           for(final Import i : _filter) {
             _builder.append("import ");
+            _builder.append(this.rootPackage, "");
+            _builder.append(".");
             String _importedNamespace = i.getImportedNamespace();
             _builder.append(_importedNamespace, "");
             _builder.append(";");
@@ -768,21 +783,27 @@ public class PluginGenerator implements IGenerator {
     _builder.newLine();
     _builder.append("import ");
     _builder.append(basePackage, "");
-    _builder.append(".database.IMapsDatabase;");
+    _builder.append(".database.I");
+    _builder.append(this.pluginName, "");
+    _builder.append("Database;");
     _builder.newLineIfNotEmpty();
     _builder.append("import ");
     _builder.append(basePackage, "");
-    _builder.append(".controller.IMapsController;");
+    _builder.append(".controller.I");
+    _builder.append(this.pluginName, "");
+    _builder.append("Controller;");
     _builder.newLineIfNotEmpty();
     _builder.append("import ");
     _builder.append(basePackage, "");
-    _builder.append(".model.IMaps;");
+    _builder.append(".model.I");
+    _builder.append(this.pluginName, "");
+    _builder.append(";");
     _builder.newLineIfNotEmpty();
     _builder.newLine();
     _builder.append("/**");
     _builder.newLine();
     _builder.append(" ");
-    _builder.append("* Final Google Guice module description of the maps module.");
+    _builder.append("* Final Google Guice module description of the plugin module.");
     _builder.newLine();
     _builder.append(" ");
     _builder.append("*/");
@@ -799,25 +820,37 @@ public class PluginGenerator implements IGenerator {
     _builder.append("protected void configure() {");
     _builder.newLine();
     _builder.append("    \t");
-    _builder.append("bind(IMapsController.class).to(");
+    _builder.append("bind(I");
+    _builder.append(this.pluginName, "    	");
+    _builder.append("Controller.class).to(");
     _builder.append(basePackage, "    	");
     _builder.append(".controller.");
     _builder.append(subPackage, "    	");
-    _builder.append(".MapsController.class);   ");
+    _builder.append(".");
+    _builder.append(this.pluginName, "    	");
+    _builder.append("Controller.class);   ");
     _builder.newLineIfNotEmpty();
     _builder.append("\t\t");
-    _builder.append("bind(IMapsDatabase.class).to(");
+    _builder.append("bind(I");
+    _builder.append(this.pluginName, "		");
+    _builder.append("Database.class).to(");
     _builder.append(basePackage, "		");
     _builder.append(".database.");
     _builder.append(subPackage, "		");
-    _builder.append(".MapsDatabase.class);");
+    _builder.append(".");
+    _builder.append(this.pluginName, "		");
+    _builder.append("Database.class);");
     _builder.newLineIfNotEmpty();
     _builder.append("\t    ");
-    _builder.append("bind(IMaps.class).to(");
+    _builder.append("bind(I");
+    _builder.append(this.pluginName, "	    ");
+    _builder.append(".class).to(");
     _builder.append(basePackage, "	    ");
     _builder.append(".model.");
     _builder.append(subPackage, "	    ");
-    _builder.append(".Maps.class);\t");
+    _builder.append(".");
+    _builder.append(this.pluginName, "	    ");
+    _builder.append(".class);\t");
     _builder.newLineIfNotEmpty();
     _builder.append("\t");
     _builder.append("}");

@@ -1,4 +1,5 @@
 PACKAGE de.htwg.seapal.maps
+PLUGIN Maps
 
 type void
 type boolean
@@ -28,7 +29,7 @@ package model {
 }
 
 package controller {
-	import de.htwg.seapal.maps.model.*
+	import model.*
 	
 	interface IMapsController {
 		method getSettings(): IMaps
@@ -47,7 +48,7 @@ package controller {
 }
 
 package database {
-	import de.htwg.seapal.maps.model.IMaps
+	import model.IMaps
 	
 	interface IMapsDatabase {
 		method save(map: IMaps): void
